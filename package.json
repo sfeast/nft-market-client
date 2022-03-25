@@ -40,8 +40,7 @@
   "dependencies": {
     "@mui/lab": "^5.0.0-alpha.73",
     "@mui/material": "^5.5.1",
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@5.4.2",
-    "@mui/styled-engine-sc": "^5.4.2",
+    "@mui/styled-engine-sc": "^5.5.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -55,8 +54,7 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "reselect": "^4.1.5",
-    "styled-components": "^5.3.3",
-    "web-vitals": "^2.1.4"
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",

@@ -1,5 +1,5 @@
 export const COLORS = {
-    BRAND_MAIN: '#FF473D',
+    BRAND_MAIN: '#FFFFFF',
     BRAND_MAIN_TEXT: '#3F3F3F'
 };
 

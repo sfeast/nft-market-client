@@ -1,0 +1,8 @@
+.root {
+    height: var(--header-height);
+    width: 100%;
+    background-color: var(--main-bg-color);
+    position: fixed;
+    z-index: 1;
+    top: 0;
+}
