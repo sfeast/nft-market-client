@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 
-import classes from 'components/Header/index.module.css';
+import { StyledHeader } from 'components/Header/styled';
 
 const Header = () => {
     return (
-        <div className={classes.root}>
+        <StyledHeader>
             <Link to="/">homepage</Link>
             <br />
             <Link to="/items">items</Link>
@@ -12,7 +12,7 @@ const Header = () => {
             <Link to="/items/123">item</Link>
             <br />
             <Link to="/itemhh">404</Link>
-        </div>
+        </StyledHeader>
     );
 };
 

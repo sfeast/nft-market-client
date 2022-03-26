@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { ThemeProvider as SCThemeProvider } from 'styled-components';
 import CssBaseline from '@mui/material/CssBaseline';
-import muiTheme from 'services/mui';
+import { theme, SCGlobalStyles } from 'services/styles';
 
 import App from './App';
-import './index.css';
 
 ReactDOM.render(
     <React.StrictMode>
         <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={muiTheme}>
+            <MuiThemeProvider theme={theme}>
                 <CssBaseline />
-                <App />
-            </ThemeProvider>
+                <SCThemeProvider theme={theme}>
+                    <SCGlobalStyles />
+                    <App />
+                </SCThemeProvider>
+            </MuiThemeProvider>
         </StyledEngineProvider>
     </React.StrictMode>,
     document.getElementById('root')

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import classes from 'components/shared/Page/index.module.css';
+import { StyledPage } from 'components/shared/Page/styled';
 
 const Page = ({ children }) => {
     useEffect(() => {
@@ -9,11 +9,11 @@ const Page = ({ children }) => {
         window.scrollTo(0, 0);
     }, []);
 
-    return <div className={classes.root}>{children}</div>;
+    return <StyledPage>{children}</StyledPage>;
 };
 
 Page.propTypes = {
-    children: PropTypes.element
+    children: PropTypes.element.isRequired
 };
 
 export default Page;
