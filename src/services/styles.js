@@ -1,23 +1,28 @@
 import { createTheme } from '@mui/material/styles';
 import { createGlobalStyle } from 'styled-components';
 
-import { COLORS, SIZES } from 'constants/styles';
-
 export const theme = createTheme({
     palette: {
         primary: {
-            main: COLORS.primary
+            main: '#FF473D'
         },
         text: {
-            primary: COLORS.text
+            primary: '#3F3F3F'
         },
         background: {
-            primary: COLORS.background
+            primary: '#FFFFFF'
         }
     },
     sizes: {
         header: {
-            height: `${SIZES.headerHeight}px`
+            height: '100px'
+        },
+        page: {
+            padding: '0 10px'
+        },
+        itemCard: {
+            maxWidth: '600px',
+            minWidth: '300px'
         }
     }
 });
@@ -31,5 +36,11 @@ export const SCGlobalStyles = createGlobalStyle`
 
     background-color: ${({ theme }) => theme.palette.background.primary};
     color: ${({ theme }) => theme.palette.text.primary}
+  }
+  
+  #root {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
   }
 `;
