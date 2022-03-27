@@ -14,11 +14,11 @@ export const theme = createTheme({
         }
     },
     sizes: {
+        app: {
+            maxWidth: '1500px'
+        },
         header: {
             height: '100px'
-        },
-        page: {
-            padding: '0 10px'
         },
         itemCard: {
             maxWidth: '600px',

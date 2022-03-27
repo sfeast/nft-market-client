@@ -1,7 +1,11 @@
-import { StyledFooter } from 'components/Footer/styled';
+import { StyledFooter, StyledFooterContent } from 'components/Footer/styled';
 
 const Footer = () => {
-    return <StyledFooter>Footer</StyledFooter>;
+    return (
+        <StyledFooter>
+            <StyledFooterContent>Footer</StyledFooterContent>
+        </StyledFooter>
+    );
 };
 
 export default Footer;
