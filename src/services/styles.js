@@ -20,7 +20,7 @@ export const theme = createTheme({
             paddingRight: '15px'
         },
         header: {
-            height: '100px'
+            height: '160px'
         },
         itemCard: {
             maxWidth: '600px',
