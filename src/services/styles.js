@@ -18,7 +18,7 @@ export const theme = createTheme({
             maxWidth: '1500px'
         },
         header: {
-            height: '100px'
+            height: '160px'
         },
         itemCard: {
             maxWidth: '600px',
