@@ -1,10 +1,8 @@
 import styled from 'styled-components';
+import { baseAppStyles } from 'components/shared/styled';
 
 export const StyledPage = styled.div`
-    width: 100%;
-    max-width: ${({ theme }) => theme.sizes.app.maxWidth};
-    min-height: calc(100vh - ${({ theme }) => theme.sizes.header.height});
-    overflow-x: hidden;
-    overflow-y: auto;
+    ${baseAppStyles};
+    min-height: ${({ theme }) => `calc(100vh - ${theme.sizes.header.height});`};
     margin-top: ${({ theme }) => theme.sizes.header.height};
 `;

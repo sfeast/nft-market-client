@@ -15,7 +15,9 @@ export const theme = createTheme({
     },
     sizes: {
         app: {
-            maxWidth: '1500px'
+            maxWidth: '1500px',
+            paddingLeft: '15px',
+            paddingRight: '15px'
         },
         header: {
             height: '100px'

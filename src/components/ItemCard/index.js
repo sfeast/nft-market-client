@@ -1,11 +1,22 @@
 import PropTypes from 'prop-types';
-import { StyledItemCardGrid } from 'components/ItemCard/styled';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { StyledItemCard } from 'components/ItemCard/styled';
 
+// todo: wip
 const ItemCard = ({ el }) => {
     return (
-        <StyledItemCardGrid item container sm={4}>
-            {el.name}
-        </StyledItemCardGrid>
+        <StyledItemCard>
+            <CardMedia component="img" alt={el.name} image={el.img} />
+            <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                    {el.name}
+                </Typography>
+            </CardContent>
+            <CardActions>{el.price}</CardActions>
+        </StyledItemCard>
     );
 };
 

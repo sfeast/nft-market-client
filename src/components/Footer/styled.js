@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { baseAppStyles } from 'components/shared/styled';
 
 export const StyledFooter = styled.div`
     width: 100%;
@@ -8,6 +9,5 @@ export const StyledFooter = styled.div`
 `;
 
 export const StyledFooterContent = styled.div`
-    width: 100%;
-    max-width: ${({ theme }) => theme.sizes.app.maxWidth};
+    ${baseAppStyles}
 `;

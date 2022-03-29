@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { baseAppStyles } from 'components/shared/styled';
 
 export const StyledHeader = styled.div`
     height: ${({ theme }) => theme.sizes.header.height};
@@ -13,6 +14,5 @@ export const StyledHeader = styled.div`
 `;
 
 export const StyledHeaderContent = styled.div`
-    width: 100%;
-    max-width: ${({ theme }) => theme.sizes.app.maxWidth};
+    ${baseAppStyles};
 `;

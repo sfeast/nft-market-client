@@ -1,7 +1,7 @@
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { MEDIA_QUERIES } from 'constants/styles';
 
-const getComputedStyles = (styles, matches) => {
+const getResolutionStyles = (styles, matches) => {
     const {
         matchesSmallPhone = false,
         matchesMediumPhone = false,
@@ -18,22 +18,22 @@ const getComputedStyles = (styles, matches) => {
     // matches all "before" specified media-query params
     switch (true) {
         case matchesSmallPhone: {
-            return phone?.small || getComputedStyles(styles, { matchesMediumPhone: true });
+            return phone?.small || getResolutionStyles(styles, { matchesMediumPhone: true });
         }
         case matchesMediumPhone: {
-            return phone?.medium || getComputedStyles(styles, { matchesLargePhone: true });
+            return phone?.medium || getResolutionStyles(styles, { matchesLargePhone: true });
         }
         case matchesLargePhone: {
-            return phone?.large || getComputedStyles(styles, { matchesSmallDevice: true });
+            return phone?.large || getResolutionStyles(styles, { matchesSmallDevice: true });
         }
         case matchesSmallDevice: {
-            return smallDevice || getComputedStyles(styles, { matchesMediumDevice: true });
+            return smallDevice || getResolutionStyles(styles, { matchesMediumDevice: true });
         }
         case matchesMediumDevice: {
-            return mediumDevice || getComputedStyles(styles, { matchesLargeDevice: true });
+            return mediumDevice || getResolutionStyles(styles, { matchesLargeDevice: true });
         }
         case matchesLargeDevice: {
-            return largeDevice || getComputedStyles(styles, { matchesExtraLargeDevice: true });
+            return largeDevice || getResolutionStyles(styles, { matchesExtraLargeDevice: true });
         }
         case matchesExtraLargeDevice: {
             return extraLargeDevice || {};
@@ -59,32 +59,33 @@ const getComputedStyles = (styles, matches) => {
  *
  * @example:
 
- const { gridContainerXs = 8, iconSize = 64 } = useComputedStyle({
+ const { iconSize = 14 } = useComputedStyle({
     phone: {
         small: {
-            gridContainerXs: 8,
             iconSize: 14
+        },
+        medium: {
+            iconSize: 16
+        },
+        large: {
+            iconSize: 20
         }
     },
     smallDevice: {
-        gridContainerXs: 4,
         iconSize: 24
     },
     mediumDevice: {
-        gridContainerXs: 3,
         iconSize: 16
     },
     largeDevice: {
-        gridContainerXs: 2,
         iconSize: 12
     },
     extraLargeDevice: {
-        gridContainerXs: 1,
         iconSize: 12
     }
  });
  */
-export const useComputedStyle = styles => {
+export const useResolutionStyles = styles => {
     const matchesSmallPhone = useMediaQuery(MEDIA_QUERIES.phone.small);
     const matchesMediumPhone = useMediaQuery(MEDIA_QUERIES.phone.medium);
     const matchesLargePhone = useMediaQuery(MEDIA_QUERIES.phone.large);
@@ -103,5 +104,5 @@ export const useComputedStyle = styles => {
         matchesExtraLargeDevice
     };
 
-    return getComputedStyles(styles, matches);
+    return getResolutionStyles(styles, matches);
 };
