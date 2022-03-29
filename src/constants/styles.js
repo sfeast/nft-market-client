@@ -1,13 +1,3 @@
-export const COLORS = {
-    background: '#FFFFFF',
-    text: '#3F3F3F',
-    primary: '#FF473D'
-};
-
-export const SIZES = {
-    headerHeight: 100 //px
-};
-
 export const MEDIA_QUERIES = {
     phone: {
         /* Small phones (iPhone 5, iPhone 4, Galaxy Fold, 320px and down) */

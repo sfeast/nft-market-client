@@ -3,6 +3,7 @@ import ItemPageComponent from 'components/ItemPage';
 
 const ItemPage = () => {
     // load & prepare data for Item Page
+
     return (
         <Page>
             <ItemPageComponent />
