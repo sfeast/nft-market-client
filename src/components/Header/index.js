@@ -14,6 +14,8 @@ const Header = () => {
             <br />
             <Link to="/itemhh">404</Link>
             <br />
+            <Link to="/create">Create</Link>
+            <br />
             <WalletConnect />
         </StyledHeader>
     );

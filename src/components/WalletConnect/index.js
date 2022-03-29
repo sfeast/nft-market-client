@@ -38,10 +38,9 @@ const WalletConnect = () => {
     }, []);
 
     useEffect(async () => {
-        let activePublicKey;
         if (connected) {
             try {
-                activePublicKey = await Signer.getActivePublicKey();
+                const activePublicKey = await Signer.getActivePublicKey();
                 setKey(activePublicKey);
             } catch (error) {
                 console.log(error);

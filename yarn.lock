@@ -3621,7 +3621,21 @@ case-sensitive-paths-webpack-plugin@^2.4.0:
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz#db64066c6422eed2e08cc14b986ca43796dbc6d4"
   integrity sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==
 
-casper-js-sdk@^2.9.1:
+casper-cep47-js-client@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/casper-cep47-js-client/-/casper-cep47-js-client-1.0.1.tgz#b5daddf1f2550609d60b7379ee9c8a98ce00c653"
+  integrity sha512-O4rnjbRy20UujFqtLoRjQylH71+arbakEvN6cBauqW1YJNizjIyVPICNFNcrjQNHenRJgci3mz5dkT+SBBb4jA==
+  dependencies:
+    casper-js-sdk "^2.9.1"
+
+casper-js-client-helper@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/casper-js-client-helper/-/casper-js-client-helper-1.0.1.tgz#364245d2fc938a0b53fa2086895b647829d2ae43"
+  integrity sha512-NN4DNEiIq6hW2B8k4mbfFXFRWyZqQ6EvI972bGnw2/4BT0/aNWhy0zjRED9KiAQ60gwkKGMQbucPctrnUCHp3g==
+  dependencies:
+    casper-js-sdk "2.9.1"
+
+casper-js-sdk@2.9.1, casper-js-sdk@^2.9.1:
   version "2.9.1"
   resolved "https://registry.yarnpkg.com/casper-js-sdk/-/casper-js-sdk-2.9.1.tgz#bbadfe10a0f7e6471c88560e17c16afd1df7f1bd"
   integrity sha512-UO0meYMucBqoNfplhSys4ELis0e0HDcJRpJa5/e1TIEfCwHGSt30PbHoJ/UXWzWR3nk4YSddQJ3coHCF7IrZoA==

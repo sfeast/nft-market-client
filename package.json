@@ -44,6 +44,8 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "casper-cep47-js-client": "^1.0.1",
+    "casper-js-client-helper": "^1.0.1",
     "casper-js-sdk": "^2.9.1",
     "firebase": "^9.6.9",
     "react": "^17.0.2",
