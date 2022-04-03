@@ -4,13 +4,17 @@ import { createGlobalStyle } from 'styled-components';
 export const theme = createTheme({
     palette: {
         primary: {
-            main: '#FF473D'
+            main: '#0098ff'
+        },
+        secondary: {
+            main: '#ff7c75'
         },
         text: {
-            primary: '#3F3F3F'
+            dark: '#3F3F3F',
+            light: '#efefef'
         },
         background: {
-            primary: '#FFFFFF'
+            main: '#FFFFFF'
         }
     },
     sizes: {
@@ -20,11 +24,19 @@ export const theme = createTheme({
             paddingRight: '15px'
         },
         header: {
-            height: '160px'
+            height: '70px'
         },
-        itemCard: {
-            maxWidth: '600px',
-            minWidth: '300px'
+        grid: {
+            gap: '30px'
+        }
+    },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    boxShadow: 'none !important'
+                }
+            }
         }
     }
 });
@@ -36,8 +48,8 @@ export const SCGlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    background-color: ${({ theme }) => theme.palette.background.primary};
-    color: ${({ theme }) => theme.palette.text.primary}
+    background-color: ${({ theme }) => theme.palette.background.main};
+    color: ${({ theme }) => theme.palette.text.dark}
   }
   
   #root {

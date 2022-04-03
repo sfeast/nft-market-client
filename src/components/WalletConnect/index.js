@@ -54,7 +54,16 @@ const WalletConnect = () => {
         }
     };
 
-    return <StyledButton onClick={connect}>{key ? key : 'Connect'}</StyledButton>;
+    return (
+        <StyledButton
+            onClick={connect}
+            variant="contained"
+            color="secondary"
+            sx={{ color: 'text.light' }}
+        >
+            {key ? key : 'Connect'}
+        </StyledButton>
+    );
 };
 
 export default WalletConnect;

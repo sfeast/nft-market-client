@@ -1,6 +1,6 @@
 import { CasperClient, CLPublicKey, Keys, CasperServiceByJsonRPC } from 'casper-js-sdk';
 import { SERVER_ADDRESS } from 'constants/config';
-import { getData, postData } from 'utils/helpers';
+import { getData, postData } from 'utils/helpers/xchRequests';
 
 export const sleep = ms => {
     return new Promise(resolve => setTimeout(resolve, ms));

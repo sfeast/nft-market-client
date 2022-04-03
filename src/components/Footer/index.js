@@ -10,7 +10,7 @@ const Footer = () => {
 
     return (
         <StyledFooter>
-            <StyledFooterContent>Footer</StyledFooterContent>
+            <StyledFooterContent> </StyledFooterContent>
         </StyledFooter>
     );
 };

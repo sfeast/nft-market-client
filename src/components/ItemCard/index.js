@@ -1,27 +1,31 @@
 import PropTypes from 'prop-types';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { StyledItemCard } from 'components/ItemCard/styled';
+import cn from 'classnames';
 
-// todo: wip
-const ItemCard = ({ el }) => {
+import CardActionArea from '@mui/material/CardActionArea';
+
+import ItemCardContent from 'components/ItemCard/ItemCardContent';
+import { StyledCard, StyledCardMedia } from 'components/ItemCard/styled';
+import { getPrice } from 'utils/normalizers/nftItem';
+
+const ItemCard = ({ el, className }) => {
     return (
-        <StyledItemCard>
-            <CardMedia component="img" alt={el.name} image={el.img} />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {el.name}
-                </Typography>
-            </CardContent>
-            <CardActions>{el.price}</CardActions>
-        </StyledItemCard>
+        <StyledCard className={cn({ [className]: !!className })}>
+            <CardActionArea>
+                <StyledCardMedia alt={el.description} image={el.img} />
+                <ItemCardContent owner={el.owner} price={getPrice(el)} />
+            </CardActionArea>
+        </StyledCard>
     );
 };
 
 ItemCard.propTypes = {
-    el: PropTypes.any
+    el: PropTypes.any,
+    css: PropTypes.string,
+    className: PropTypes.string
+};
+ItemCard.defaultProps = {
+    css: '',
+    className: ''
 };
 
 export default ItemCard;

@@ -1,8 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
 
 import ItemsFilter from 'components/ItemsFilter';
-import Drawer from 'components/shared/Drawer';
-import { StyledButton, StyledItemsAside } from 'components/ItemsPage/ItemsAside/styled';
+import {
+    StyledFilterButton,
+    StyledItemsAside,
+    StyledDrawer
+} from 'components/ItemsPage/ItemsAside/styled';
 
 import { useResolutionStyles } from 'hooks/styles';
 import { selectShowItemsFilterModal } from 'store/selectors/ui';
@@ -23,7 +26,7 @@ const resolutionStylesParams = {
     },
     smallDevice: shouldRenderButton,
     mediumDevice: shouldRenderButton,
-    largeDevice: shouldNotRenderButton,
+    largeDevice: shouldRenderButton,
     extraLargeDevice: shouldNotRenderButton
 };
 
@@ -42,14 +45,19 @@ const ItemsAside = () => {
 
     return (
         <>
-            <Drawer anchor="bottom" open={showItemsFilterModal} onClose={onCloseFilterModal} form>
+            <StyledDrawer anchor="bottom" open={showItemsFilterModal} onClose={onCloseFilterModal}>
                 <ItemsFilter />
-            </Drawer>
+            </StyledDrawer>
 
             {shouldRenderButton ? (
-                <StyledButton variant="contained" onClick={onOpenFilterModal}>
+                <StyledFilterButton
+                    variant="contained"
+                    color="primary"
+                    sx={{ color: 'text.light' }}
+                    onClick={onOpenFilterModal}
+                >
                     Filter
-                </StyledButton>
+                </StyledFilterButton>
             ) : (
                 <StyledItemsAside>
                     <ItemsFilter />

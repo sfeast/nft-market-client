@@ -1,18 +1,29 @@
 import styled from 'styled-components';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import { baseAppStyles } from 'components/shared/styled';
 
-export const StyledHeader = styled.div`
+export const StyledHeader = styled(AppBar)`
+    color: ${({ theme }) => theme.palette.text.light};
+    align-items: center;
+    transition: 0.2s;
     height: ${({ theme }) => theme.sizes.header.height};
     width: 100%;
-    background-color: ${({ theme }) => theme.palette.background.primary};
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    border-bottom: 1px solid black;
+    background-color: transparent;
+    box-shadow: none;
+
+    &.header-with-bg {
+        background-color: ${({ theme }) => theme.palette.primary.main};
+    }
+    &.header-with-shadow {
+        box-shadow: 0 2px 4px -1px rgb(0 0 0 / 5%), 0px 4px 5px 0px rgb(0 0 0 / 5%),
+            0px 1px 10px 0px rgb(0 0 0 / 0%);
+    }
 `;
 
-export const StyledHeaderContent = styled.div`
+export const StyledHeaderContent = styled(Toolbar)`
     ${baseAppStyles};
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
 `;

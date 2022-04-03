@@ -1,4 +1,4 @@
-import { inProduction } from 'utils/helpers';
+import { inProduction } from 'utils/helpers/xchRequests';
 
 // TODO: move these values to .env files
 export const SERVER_ADDRESS = inProduction() ? '' : 'http://localhost:5000';
@@ -28,4 +28,8 @@ export const NFT_CONTRACT = {
 
 export const PAYMENT_AMOUNT = {
     MINT_ONE: '2000000000'
+};
+
+export const TICKERS = {
+    cspr: 'CSPR'
 };
