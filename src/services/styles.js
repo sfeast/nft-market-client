@@ -11,17 +11,22 @@ export const theme = createTheme({
         },
         text: {
             dark: '#3F3F3F',
-            light: '#efefef'
+            light: '#f6f6f6'
         },
         background: {
             main: '#FFFFFF'
+        },
+        grey: {
+            light: '#c4c4c4'
+        },
+        black: {
+            dark: '#000000'
         }
     },
     sizes: {
         app: {
             maxWidth: '1500px',
-            paddingLeft: '15px',
-            paddingRight: '15px'
+            padding: '15px'
         },
         header: {
             height: '70px'
@@ -34,7 +39,8 @@ export const theme = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    boxShadow: 'none !important'
+                    boxShadow: 'none !important',
+                    textTransform: 'capitalize'
                 }
             }
         }

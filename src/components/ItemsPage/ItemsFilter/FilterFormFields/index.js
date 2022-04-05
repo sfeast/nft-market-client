@@ -1,20 +1,25 @@
 import PropTypes from 'prop-types';
-import { Form, useField } from 'react-final-form';
+import { useField, useForm } from 'react-final-form';
 
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
 
-import { StyledApplyButton, StyledFieldsWrapper } from 'components/ItemsFilter/styled';
+import {
+    StyledButtonsContainer,
+    StyledFieldsWrapper,
+    StyledPriceContainer
+} from 'components/ItemsPage/ItemsFilter/FilterFormFields/styled';
 import Divider from 'components/shared/Divider';
 import NumericInput from 'components/shared/NumericInput';
-
 import { StyledFormControlLabel } from 'components/shared/styled';
-import { parseNumberValue } from 'utils/helpers/form';
-import { TICKERS } from 'constants/config';
 
-const ItemsFilter = ({ handleSubmit }) => {
+import { TICKERS } from 'constants/config';
+import { parseNumberValue } from 'utils/helpers/form';
+
+const FilterFormFields = ({ handleSubmit, handleClear }) => {
+    const form = useForm();
     const priceRangeFromField = useField('priceRangeFrom', {
         type: 'number',
         allowNull: true,
@@ -44,7 +49,7 @@ const ItemsFilter = ({ handleSubmit }) => {
                 <Divider title="Status" position="left" />
                 <StyledFormControlLabel
                     control={<Checkbox {...byNowStatusField.input} />}
-                    label="By Now"
+                    label="Buy now"
                 />
                 <StyledFormControlLabel
                     control={<Checkbox {...newStatusField.input} />}
@@ -52,15 +57,15 @@ const ItemsFilter = ({ handleSubmit }) => {
                 />
                 <StyledFormControlLabel
                     control={<Checkbox {...liveAuctionStatusField.input} />}
-                    label="Live Auction"
+                    label="Live auction"
                 />
                 <StyledFormControlLabel
                     control={<Checkbox {...hasOffersStatusField.input} />}
-                    label="Has Offers"
+                    label="Has offers"
                 />
 
-                <Divider title={<Typography>Price range</Typography>} position="left" />
-                <Grid container flexDirection="column">
+                <Divider title={<Typography>Price</Typography>} position="left" />
+                <StyledPriceContainer>
                     <NumericInput
                         {...priceRangeFromField.input}
                         label="from"
@@ -70,6 +75,7 @@ const ItemsFilter = ({ handleSubmit }) => {
                             )
                         }}
                     />
+                    -
                     <NumericInput
                         {...priceRangeToField.input}
                         label="to"
@@ -79,32 +85,24 @@ const ItemsFilter = ({ handleSubmit }) => {
                             )
                         }}
                     />
-                </Grid>
+                </StyledPriceContainer>
             </StyledFieldsWrapper>
-            <StyledApplyButton
-                variant="contained"
-                color="primary"
-                sx={{ color: 'text.light' }}
-                onClick={handleSubmit}
-            >
-                Apply
-            </StyledApplyButton>
+
+            <StyledButtonsContainer>
+                <Button variant="contained" color="primary" onClick={handleSubmit}>
+                    Apply
+                </Button>
+                <Button color="primary" onClick={() => handleClear(form)}>
+                    Clear
+                </Button>
+            </StyledButtonsContainer>
         </div>
     );
 };
 
-ItemsFilter.propTypes = {
-    handleSubmit: PropTypes.func
+FilterFormFields.propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    handleClear: PropTypes.func.isRequired
 };
 
-const ItemsFilterForm = props => {
-    const onSubmit = ({ values, form }) => {
-        // submit values
-    };
-
-    return (
-        <Form onSubmit={onSubmit} render={formProps => <ItemsFilter {...props} {...formProps} />} />
-    );
-};
-
-export default ItemsFilterForm;
+export default FilterFormFields;

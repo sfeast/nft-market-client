@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import ItemsFilter from 'components/ItemsFilter';
+import ItemsFilter from 'components/ItemsPage/ItemsFilter';
 import {
     StyledFilterButton,
     StyledItemsAside,
