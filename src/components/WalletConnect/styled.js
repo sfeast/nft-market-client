@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import Button from '@mui/material/Button';
 
 export const StyledButton = styled(Button)`
-    width: 100px;
+    max-width: 200px;
+    display: block;
+    white-space: nowrap;
     overflow: hidden;
-    text-transform: initial;
+    text-overflow: ellipsis;
     font-weight: bold;
 `;

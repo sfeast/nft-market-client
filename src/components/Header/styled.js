@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { baseAppStyles } from 'components/shared/styled';
@@ -26,4 +26,20 @@ export const StyledHeaderContent = styled(Toolbar)`
     display: flex;
     justify-content: space-between;
     height: 100%;
+
+    button {
+        font-weight: bold;
+    }
+
+    .header-search-button {
+        margin: 0 25px 0 10px;
+    }
+`;
+
+export const StyledButtonsWrapper = styled.div`
+    display: flex;
+
+    .header-button-space {
+        margin-right: 30px;
+    }
 `;

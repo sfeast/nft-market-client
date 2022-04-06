@@ -11,13 +11,13 @@ const Divider = ({ title, css, className, position }) => (
 );
 
 Divider.propTypes = {
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element, null]),
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     css: PropTypes.string,
     className: PropTypes.string,
     position: PropTypes.oneOf(['left', 'center', 'right'])
 };
 Divider.defaultProps = {
-    title: null,
+    title: undefined,
     css: '',
     className: '',
     position: 'left'

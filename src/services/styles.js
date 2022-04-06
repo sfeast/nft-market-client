@@ -40,7 +40,14 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: 'none !important',
-                    textTransform: 'capitalize'
+                    textTransform: 'initial'
+                }
+            }
+        },
+        MuiBackdrop: {
+            styleOverrides: {
+                root: {
+                    backdropFilter: 'blur(5px)'
                 }
             }
         }
