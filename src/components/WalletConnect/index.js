@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Signer } from 'casper-js-sdk';
 
 import { StyledButton } from 'components/WalletConnect/styled';
+import { truncate } from 'utils/helpers/string';
 
 const WalletConnect = () => {
     const [connected, setConnected] = useState(false);
@@ -61,7 +62,7 @@ const WalletConnect = () => {
             color="secondary"
             sx={{ color: 'text.light' }}
         >
-            {key ? key : 'Connect'}
+            {key ? truncate(key, 20) : 'Connect'}
         </StyledButton>
     );
 };
