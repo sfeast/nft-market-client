@@ -62,7 +62,7 @@ const WalletConnect = () => {
             color="secondary"
             sx={{ color: 'text.light' }}
         >
-            {key ? truncate(key, 20) : 'Connect'}
+            {key ? truncate(key, 14) : 'Connect'}
         </StyledButton>
     );
 };
