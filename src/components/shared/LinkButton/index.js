@@ -21,11 +21,13 @@ const LinkButton = ({ to, children, onClick, ...buttonProps }) => {
 LinkButton.propTypes = {
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
     to: PropTypes.string,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    className: PropTypes.string
 };
 LinkButton.defaultProps = {
     to: undefined,
-    onClick: () => {}
+    onClick: () => {},
+    className: ''
 };
 
 export default LinkButton;

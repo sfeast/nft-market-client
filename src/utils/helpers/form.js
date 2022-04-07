@@ -1,10 +1,16 @@
-const required = value => (value ? undefined : 'Required');
-const numbersOnly = value => (isNaN(value) ? 'Must be a number' : undefined);
+const requiredFieldValidation = value => (value ? undefined : 'The field is required');
+const numberFieldValidation = value => (isNaN(value) ? 'The field must be a number' : undefined);
+const httpsUrlFieldValidation = value => {
+    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+    return value.match(reg) ? undefined : 'The field must be a HTTPS link';
+};
 
 export const validators = {
-    required,
-    numbersOnly
+    required: requiredFieldValidation,
+    number: numberFieldValidation,
+    https: httpsUrlFieldValidation
 };
+
 export const composeValidators =
     (...validators) =>
     value => {

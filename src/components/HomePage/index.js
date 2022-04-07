@@ -10,13 +10,11 @@ const HomePage = () => {
     return (
         <StyledHomePage>
             <Banner />
-            <StyledDivider
-                title={
-                    <Typography variant="h5" fontWeight="bold">
-                        Latest Drops
-                    </Typography>
-                }
-            />
+            <StyledDivider>
+                <Typography variant="h5" fontWeight="bold">
+                    Latest Drops
+                </Typography>
+            </StyledDivider>
             <ItemsGrid items={items} />
         </StyledHomePage>
     );

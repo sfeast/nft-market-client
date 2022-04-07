@@ -1,4 +1,4 @@
-import Select from 'components/shared/Select';
+import { StyledSelect } from 'components/ItemsPage/ItemsSort/styled';
 
 const options = {
     newestToOldest: 'Newest to Oldest',
@@ -14,13 +14,13 @@ const ItemsSort = () => {
     };
 
     return (
-        <Select label="Sort by" onChange={handleChange}>
+        <StyledSelect label="Sort by" onChange={handleChange}>
             {Object.keys(options).map(opt => (
                 <option key={opt} value={opt}>
                     {options[opt]}
                 </option>
             ))}
-        </Select>
+        </StyledSelect>
     );
 };
 

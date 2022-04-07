@@ -20,7 +20,7 @@ export const StyledButtonsContainer = styled.div`
 
 export const StyledPriceContainer = styled.div`
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     grid-gap: 5px;
 `;

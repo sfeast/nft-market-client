@@ -4,9 +4,13 @@ import cn from 'classnames';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
-import { StyledHeader, StyledHeaderContent, StyledButtonsWrapper } from 'components/Header/styled';
+import {
+    StyledHeader,
+    StyledHeaderContent,
+    StyledButtonsWrapper,
+    StyledLinkButton
+} from 'components/Header/styled';
 import WalletConnect from 'components/WalletConnect';
-import LinkButton from 'components/shared/LinkButton';
 import HomeButton from 'components/Header/HomeButton';
 import Search from 'components/shared/Search';
 import HeaderMenuDrawer from 'components/Header/HeaderMenuDrawer';
@@ -62,12 +66,12 @@ const Header = () => {
                     <HeaderMenuDrawer />
                 ) : (
                     <StyledButtonsWrapper>
-                        <LinkButton to="/items" color="background" className="header-button-space">
+                        <StyledLinkButton to="/items" color="background">
                             Explore
-                        </LinkButton>
-                        <LinkButton to="/create" color="background" className="header-button-space">
+                        </StyledLinkButton>
+                        <StyledLinkButton to="/create" color="background">
                             Create
-                        </LinkButton>
+                        </StyledLinkButton>
                         <WalletConnect />
                     </StyledButtonsWrapper>
                 )}

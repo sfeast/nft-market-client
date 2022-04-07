@@ -6,5 +6,5 @@ export const StyledHomePage = styled.div`
 `;
 
 export const StyledDivider = styled(Divider)`
-    margin: 50px 0 0 0;
+    margin: 30px 0 ${({ theme }) => theme.sizes.app.padding} 0;
 `;

@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+
 import { baseAppStyles } from 'components/shared/styled';
+import LinkButton from 'components/shared/LinkButton';
 
 export const StyledHeader = styled(AppBar)`
     color: ${({ theme }) => theme.palette.text.light};
@@ -38,8 +40,9 @@ export const StyledHeaderContent = styled(Toolbar)`
 
 export const StyledButtonsWrapper = styled.div`
     display: flex;
+    flex-direction: row;
+`;
 
-    .header-button-space {
-        margin-right: 30px;
-    }
+export const StyledLinkButton = styled(LinkButton)`
+    margin-right: 30px;
 `;

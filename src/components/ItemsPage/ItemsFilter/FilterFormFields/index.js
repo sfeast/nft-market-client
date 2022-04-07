@@ -46,7 +46,9 @@ const FilterFormFields = ({ handleSubmit, handleClear }) => {
     return (
         <div>
             <StyledFieldsWrapper>
-                <Divider title="Status" position="left" />
+                <Divider position="left">
+                    <Typography>Status</Typography>
+                </Divider>
                 <StyledFormControlLabel
                     control={<Checkbox {...byNowStatusField.input} />}
                     label="Buy now"
@@ -64,7 +66,9 @@ const FilterFormFields = ({ handleSubmit, handleClear }) => {
                     label="Has offers"
                 />
 
-                <Divider title={<Typography>Price</Typography>} position="left" />
+                <Divider position="left">
+                    <Typography>Price</Typography>
+                </Divider>
                 <StyledPriceContainer>
                     <NumericInput
                         {...priceRangeFromField.input}

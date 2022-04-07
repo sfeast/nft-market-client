@@ -10,7 +10,3 @@ export const StyledItemsPage = styled.div`
         grid-template-columns: 320px 0 auto;
     }
 `;
-
-export const StyledItemsGridWrapper = styled.div`
-    padding-top: ${({ theme }) => theme.sizes.app.padding};
-`;
