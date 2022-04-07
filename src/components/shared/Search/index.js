@@ -30,7 +30,7 @@ const Search = ({ onChange, placeholder, small, children, buttonClassName, dialo
             {small ? (
                 <IconButton
                     onClick={handleClickOpen}
-                    color="background"
+                    sx={{ color: 'grey.50' }}
                     className={cn({ [buttonClassName]: !!buttonClassName })}
                 >
                     <SearchIcon />
@@ -39,7 +39,7 @@ const Search = ({ onChange, placeholder, small, children, buttonClassName, dialo
                 <StyledSearchButton
                     variant="outlined"
                     onClick={handleClickOpen}
-                    color="background"
+                    sx={{ color: 'grey.50' }}
                     className={cn({ [buttonClassName]: !!buttonClassName })}
                 >
                     <SearchIcon /> {placeholder}

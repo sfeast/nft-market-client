@@ -66,10 +66,10 @@ const Header = () => {
                     <HeaderMenuDrawer />
                 ) : (
                     <StyledButtonsWrapper>
-                        <StyledLinkButton to="/items" color="background">
+                        <StyledLinkButton to="/items" sx={{ color: 'grey.50' }}>
                             Explore
                         </StyledLinkButton>
-                        <StyledLinkButton to="/create" color="background">
+                        <StyledLinkButton to="/create" sx={{ color: 'grey.50' }}>
                             Create
                         </StyledLinkButton>
                         <WalletConnect />

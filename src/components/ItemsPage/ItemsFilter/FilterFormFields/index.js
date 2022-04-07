@@ -8,12 +8,11 @@ import Button from '@mui/material/Button';
 
 import {
     StyledButtonsContainer,
-    StyledFieldsWrapper,
     StyledPriceContainer
 } from 'components/ItemsPage/ItemsFilter/FilterFormFields/styled';
 import Divider from 'components/shared/Divider';
 import NumericInput from 'components/shared/NumericInput';
-import { StyledFormControlLabel } from 'components/shared/styled';
+import { StyledFormControlLabel, StyledFormFieldsContainer } from 'components/shared/styled';
 
 import { TICKERS } from 'constants/config';
 import { parseNumberValue } from 'utils/helpers/form';
@@ -45,7 +44,7 @@ const FilterFormFields = ({ handleSubmit, handleClear }) => {
 
     return (
         <div>
-            <StyledFieldsWrapper>
+            <StyledFormFieldsContainer>
                 <Divider position="left">
                     <Typography>Status</Typography>
                 </Divider>
@@ -90,7 +89,7 @@ const FilterFormFields = ({ handleSubmit, handleClear }) => {
                         }}
                     />
                 </StyledPriceContainer>
-            </StyledFieldsWrapper>
+            </StyledFormFieldsContainer>
 
             <StyledButtonsContainer>
                 <Button variant="contained" color="primary" onClick={handleSubmit}>

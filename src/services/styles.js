@@ -1,26 +1,26 @@
 import { createTheme } from '@mui/material/styles';
 import { createGlobalStyle } from 'styled-components';
 
+// mui default theme explorer - https://mui.com/customization/default-theme/
 export const theme = createTheme({
     palette: {
         primary: {
-            main: '#0098ff'
+            light: '#45b2ff',
+            main: '#0098ff',
+            dark: '#007ace'
         },
         secondary: {
-            main: '#ff7c75'
+            light: '#ff928d',
+            main: '#ff7c75',
+            dark: '#ea716b'
         },
         text: {
-            dark: '#3F3F3F',
-            light: '#f6f6f6'
-        },
-        background: {
-            main: '#FFFFFF'
+            main: '#3F3F3F',
+            light: '#f6f6f6',
+            dark: '#000000'
         },
         grey: {
             light: '#c4c4c4'
-        },
-        black: {
-            dark: '#000000'
         }
     },
     sizes: {
@@ -61,8 +61,8 @@ export const SCGlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    background-color: ${({ theme }) => theme.palette.background.main};
-    color: ${({ theme }) => theme.palette.text.dark}
+    background-color: ${({ theme }) => theme.palette.background.default};
+    color: ${({ theme }) => theme.palette.text.main}
   }
   
   #root {
