@@ -18,9 +18,6 @@ export const theme = createTheme({
             main: '#3F3F3F',
             light: '#f6f6f6',
             dark: '#000000'
-        },
-        grey: {
-            light: '#c4c4c4'
         }
     },
     sizes: {
