@@ -52,3 +52,7 @@ export const storeMetaData = async meta => {
             throw Error('Deploy error: ' + error);
         });
 };
+
+export const getAccountBalance = async publicKey => {
+    return getData(SERVER_ADDRESS + '/getAccountBalance', { publicKey });
+};
