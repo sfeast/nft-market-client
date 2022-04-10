@@ -17,6 +17,7 @@ const CreatePage = () => {
 
     useEffect(async () => {
         switch (true) {
+            // TODO: replace alerts with app UI
             case !state && deployState === DEPLOY_STATE.MINT:
                 alert('Minting');
                 break;
