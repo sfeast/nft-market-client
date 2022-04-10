@@ -1,5 +1,3 @@
-import { DEPLOYS } from 'constants/config';
-
 import { CEP47Client } from 'casper-cep47-js-client';
 import { CasperClient, Contracts, RuntimeArgs, CLValueBuilder, CLByteArray } from 'casper-js-sdk';
 import { Buffer } from 'buffer';
@@ -14,7 +12,8 @@ import {
     ENVIRONMENT,
     PAYMENT_AMOUNT,
     NFT_CONTRACT,
-    MARKET_CONTRACT
+    MARKET_CONTRACT,
+    DEPLOY_STATE
 } from 'constants/config';
 
 export const MARKET_ACTION_TYPES = {
@@ -47,14 +46,14 @@ export const mint = metaData => async (dispatch, getState) => {
             clPublicKey
         );
 
-        dispatch(executeDeploy(deploy, DEPLOYS.mint));
+        dispatch(executeDeploy(deploy, DEPLOY_STATE.MINT));
     } catch (error) {
         console.log(error);
         alert(error);
     }
 };
 
-export const approveContractTransfer = token_id => async (dispatch, getState) => {
+export const approveTransfer = token_id => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
     const hex = Uint8Array.from(
@@ -66,11 +65,11 @@ export const approveContractTransfer = token_id => async (dispatch, getState) =>
         const deploy = await cep47.approve(
             package_hash,
             [token_id],
-            PAYMENT_AMOUNT.DEPLOY,
+            PAYMENT_AMOUNT.APPROVE,
             clPublicKey
         );
 
-        dispatch(executeDeploy(deploy, DEPLOYS.approve));
+        dispatch(executeDeploy(deploy, DEPLOY_STATE.APPROVE));
     } catch (error) {
         console.log(error);
         alert(error);
@@ -98,7 +97,7 @@ export const list = (token_id, price) => async (dispatch, getState) => {
             PAYMENT_AMOUNT.DEPLOY
         );
 
-        dispatch(executeDeploy(deploy, DEPLOYS.list));
+        dispatch(executeDeploy(deploy, DEPLOY_STATE.LIST));
     } catch (error) {
         console.log(error);
         alert(error);
@@ -125,11 +124,59 @@ export const cancelListing = token_id => async (dispatch, getState) => {
             PAYMENT_AMOUNT.DEPLOY
         );
 
-        dispatch(executeDeploy(deploy, DEPLOYS.cancel_listing));
+        dispatch(executeDeploy(deploy, DEPLOY_STATE.CANCEL_LISTING));
     } catch (error) {
         console.log(error);
         alert(error);
     }
+};
+
+export const buyListing = token_id => async (dispatch, getState) => {
+    const store = getState();
+    const clPublicKey = walletSelectors.selectCLPublicKey(store);
+
+    const price = 1;
+    // TODO: implement server side token listing price lookup? (or I think we'll already have it locally with nft item data)
+    // const price = await getListingPrice(token_id);
+
+    try {
+        const runtimeArgs = RuntimeArgs.fromMap({
+            token_id: CLValueBuilder.string(token_id),
+            token_contract_hash: CLValueBuilder.string(
+                NFT_CONTRACT.HASH.replace('hash', 'contract')
+            ),
+            market_contract_hash: CLValueBuilder.string(
+                MARKET_CONTRACT.HASH.replace('hash', 'contract')
+            ),
+            entry_point_name: CLValueBuilder.string('buy_listing'),
+            amount: CLValueBuilder.u512(toMotes(parseInt(price)))
+        });
+
+        const paymentBinary = await getPaymentBinary();
+
+        const deploy = await contract.install(
+            paymentBinary,
+            runtimeArgs,
+            PAYMENT_AMOUNT.INSTALL,
+            clPublicKey,
+            ENVIRONMENT.CHAIN_NAME
+        );
+
+        dispatch(executeDeploy(deploy, DEPLOY_STATE.BUY_LISTING));
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+};
+
+const getPaymentBinary = async () => {
+    return fetch(`${process.env.PUBLIC_URL}/contract.wasm`, {
+        headers: {
+            'Content-Type': 'application/wasm'
+        }
+    })
+        .then(response => response.arrayBuffer())
+        .then(bytes => new Uint8Array(bytes));
 };
 
 const getNewMintId = async () => {
@@ -148,11 +195,40 @@ const storeMetaData = async meta => {
         });
 };
 
+const resetDeployState = () => async dispatch => {
+    setTimeout(() => {
+        dispatch({
+            type: MARKET_ACTION_TYPES.COMPLETED_DEPLOY,
+            payload: DEPLOY_STATE.RESET
+        });
+    }, 1000);
+};
+
+const setDeployError = () => async dispatch => {
+    dispatch({
+        type: MARKET_ACTION_TYPES.COMPLETED_DEPLOY,
+        payload: DEPLOY_STATE.ERROR
+    });
+    dispatch(resetDeployState());
+};
+
+const setDeploySuccess = () => async dispatch => {
+    dispatch({
+        type: MARKET_ACTION_TYPES.COMPLETED_DEPLOY,
+        payload: DEPLOY_STATE.SUCCESS
+    });
+    dispatch(resetDeployState());
+};
+
 const executeDeploy = (deploy, type) => async (dispatch, getState) => {
     const signedDeploy = await signDeploy(deploy);
+
+    if (!signedDeploy) {
+        dispatch(setDeployError());
+        return;
+    }
     const hash = await sendDeploy(signedDeploy);
 
-    // TODO: signals start of deploy - use to show loader/steps
     dispatch({
         type: MARKET_ACTION_TYPES.DEPLOY,
         payload: type
@@ -161,14 +237,11 @@ const executeDeploy = (deploy, type) => async (dispatch, getState) => {
 
     getDeploy(hash)
         .then(deploy => {
-            //  signals successful deploy for UI to update
-            dispatch({
-                type: MARKET_ACTION_TYPES.COMPLETED_DEPLOY,
-                payload: null
-            });
-            console.log('Deploy success');
+            dispatch(setDeploySuccess());
         })
         .catch(error => {
-            alert(error);
+            dispatch(setDeployError());
+            // TODO: set error state for user messaging
+            console.log(error);
         });
 };

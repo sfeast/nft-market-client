@@ -40,17 +40,23 @@ export const MARKET_CONTRACT = {
 // };
 
 export const PAYMENT_AMOUNT = {
+    DEPLOY: '7000000000',
+    INSTALL: '7000000000',
     MINT_ONE: '2000000000',
-    DEPLOY: '7000000000'
+    APPROVE: '2000000000'
 };
 
 export const TICKERS = {
     cspr: 'CSPR'
 };
 
-export const DEPLOYS = {
-    mint: 'mint',
-    approve: 'approve',
-    list: 'list',
-    cancel_listing: 'cancel_listing'
+export const DEPLOY_STATE = {
+    MINT: 'mint',
+    APPROVE: 'approve',
+    LIST: 'list',
+    CANCEL_LISTING: 'cancel_listing',
+    BUY_LISTING: 'buy_listing',
+    SUCCESS: 'success',
+    ERROR: 'error',
+    RESET: null
 };
