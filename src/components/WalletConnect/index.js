@@ -1,57 +1,37 @@
-import { useEffect, useState } from 'react';
-import { Signer } from 'casper-js-sdk';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { StyledButton } from 'components/WalletConnect/styled';
 import { truncate } from 'utils/helpers/string';
 
+import { walletActions } from 'store/actions';
+import { walletSelectors } from 'store/selectors';
+
 const WalletConnect = () => {
-    const [connected, setConnected] = useState(false);
-    const [key, setKey] = useState(null);
+    const dispatch = useDispatch();
+    const connected = useSelector(walletSelectors.selectConnected);
+    const key = useSelector(walletSelectors.selectPublicKeyHash);
+    const balance = useSelector(walletSelectors.selectBalance);
 
     useEffect(async () => {
-        const isConnected = await Signer.isConnected();
-        setConnected(isConnected);
-
-        window.addEventListener('signer:locked', msg => {
-            setKey(null);
-            setConnected(false);
-        });
-        window.addEventListener('signer:unlocked', msg => {
-            if (msg.detail.isConnected) {
-                setKey(msg.detail.activeKey);
-                setConnected(true);
-            }
-        });
-        window.addEventListener('signer:activeKeyChanged', msg => {
-            if (msg.detail.isConnected) {
-                setKey(msg.detail.activeKey);
-                setConnected(true);
-            }
-        });
-        window.addEventListener('signer:connected', msg => {
-            setKey(msg.detail.activeKey);
-            setConnected(true);
-        });
-        window.addEventListener('signer:disconnected', msg => {
-            setKey(null);
-            setConnected(false);
-        });
+        dispatch(walletActions.initialize());
     }, []);
 
     useEffect(async () => {
         if (connected) {
-            try {
-                const activePublicKey = await Signer.getActivePublicKey();
-                setKey(activePublicKey);
-            } catch (error) {
-                console.log(error);
-            }
+            dispatch(walletActions.updateKey());
         }
     }, [connected]);
 
+    useEffect(async () => {
+        if (key) {
+            dispatch(walletActions.updateBalance());
+        }
+    }, [key]);
+
     const connect = e => {
         if (!key) {
-            Signer.sendConnectionRequest();
+            dispatch(walletActions.connectionRequest());
         }
     };
 

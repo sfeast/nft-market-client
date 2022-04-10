@@ -1,15 +1,38 @@
-import { CEP47Client } from 'casper-cep47-js-client';
-import { getDeploy, sendDeploy, getNewMintId, storeMetaData } from 'utils/casper';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { CLPublicKey, DeployUtil, Signer } from 'casper-js-sdk';
-
-import { SERVER_ADDRESS, ENVIRONMENT, PAYMENT_AMOUNT, NFT_CONTRACT } from 'constants/config';
-
-const cep47 = new CEP47Client(ENVIRONMENT.NODE_ADDRESS, ENVIRONMENT.CHAIN_NAME);
+import { marketActions } from 'store/actions';
+import { marketSelectors, walletSelectors } from 'store/selectors';
 
 import { StyledButton } from 'components/CreatePage/styled';
 
+import { DEPLOY_STATE } from 'constants/config';
+
 const CreatePage = () => {
+    const dispatch = useDispatch();
+    // using key because connected seems to be wrong a lot :( Or does it not mean what I think it means?
+    const key = useSelector(walletSelectors.selectPublicKeyHash);
+    const deployState = useSelector(marketSelectors.selectDeployState);
+    const [state, setState] = useState();
+
+    useEffect(async () => {
+        switch (true) {
+            // TODO: replace alerts with app UI
+            case !state && deployState === DEPLOY_STATE.MINT:
+                alert('Minting');
+                break;
+            case state === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.SUCCESS:
+                alert('Minting Success');
+                break;
+            case state === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.ERROR:
+                alert('Minting Failed');
+                break;
+            default:
+                break;
+        }
+        setState(deployState);
+    }, [deployState]);
+
     // TODO: replace this with a form/user input fields to create these values - see https://www.friendly.market/nfts/create for example
     const metaData = {
         image: 'image',
@@ -22,55 +45,17 @@ const CreatePage = () => {
     };
 
     const mint = async e => {
-        // FIXME: if not connected on this page, then connect, get error (have to refresh first)- key not availble unless refresh?
-        try {
-            // TODO: use redux to store/select key for all components (the WalletConnect component is current the source of truth)
-            const activePublicKey = await Signer.getActivePublicKey();
-            const publicKey = CLPublicKey.fromHex(activePublicKey);
-
-            // TODO: move contract deploys to redux action?
-            await cep47.setContractHash(NFT_CONTRACT.HASH, NFT_CONTRACT.PACKAGE_HASH);
-            const id = await getNewMintId();
-
-            // TODO: store metadata on ipfs & provide the uri for minting
-            //       - not sure if we'll upload to storage from client or server, current call goes to server but may be an issue for images?
-            const meta = await storeMetaData(metaData);
-
-            const mintDeploy = await cep47.mint(
-                publicKey,
-                [id],
-                [new Map([meta])],
-                PAYMENT_AMOUNT.MINT_ONE,
-                publicKey
-            );
-            const deployJSON = DeployUtil.deployToJson(mintDeploy);
-
-            Signer.sign(deployJSON, activePublicKey)
-                .then(async success => {
-                    const hash = await sendDeploy(success);
-                    // TODO: show user the deployment link &/OR show a loader while minting?
-                    console.log('Deployed: https://testnet.cspr.live/deploy/' + hash);
-                    if (hash) {
-                        getDeploy(hash)
-                            .then(deploy => {
-                                alert('Minted successfully');
-                                // TODO: show success message &/OR route user to newly minted nft's page
-                            })
-                            .catch(error => {
-                                alert(error);
-                            });
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        } catch (error) {
-            console.log(error);
-            alert('Please connect your Casper wallet');
+        if (!key) {
+            alert('Please connect Casper Signer');
         }
+        dispatch(marketActions.mint(metaData));
     };
 
-    return <StyledButton onClick={mint}>Create</StyledButton>;
+    return (
+        <StyledButton onClick={mint} disabled={!key || deployState === DEPLOY_STATE.MINT}>
+            Create
+        </StyledButton>
+    );
 };
 
 export default CreatePage;
