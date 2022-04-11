@@ -1,8 +1,9 @@
 import Page from 'components/shared/Page';
 import CreateItemPageComponent from 'components/CreateItemPage';
+import { useMint } from 'hooks/mint';
 
 const CreateItemPage = () => {
-    // load & prepare data for Create Page
+    useMint();
 
     return (
         <Page>

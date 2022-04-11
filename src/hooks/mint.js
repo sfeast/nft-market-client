@@ -1,7 +1,7 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { marketActions, walletActions } from 'store/actions';
+import { walletActions } from 'store/actions';
 import { marketSelectors, walletSelectors } from 'store/selectors';
 
 import { DEPLOY_STATE } from 'constants/config';
@@ -33,24 +33,7 @@ export const useMint = () => {
 
     useEffect(() => {
         if (!key) {
-            // alert('Please connect Casper Signer');
             dispatch(walletActions.connectionRequest());
         }
     }, [dispatch, key]);
-
-    const mint = useCallback(
-        metaData => {
-            if (!key) {
-                // alert('Please connect Casper Signer');
-                dispatch(walletActions.connectionRequest());
-            } else {
-                dispatch(marketActions.mint(metaData));
-            }
-        },
-        [dispatch, key]
-    );
-
-    return {
-        mint
-    };
 };

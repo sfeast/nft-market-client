@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'react-final-form';
 
 import Typography from '@mui/material/Typography';
@@ -6,7 +8,8 @@ import CreateFormFields from 'components/CreateItemPage/CreateFormFields';
 import Divider from 'components/shared/Divider';
 import { StyledCreateItemPage } from 'components/CreateItemPage/styled';
 
-import { useMint } from 'hooks/mint';
+import { marketActions, walletActions } from 'store/actions';
+import { walletSelectors } from 'store/selectors';
 
 const initialValues = {
     image: '',
@@ -17,12 +20,20 @@ const initialValues = {
 };
 
 const CreateItemPage = props => {
-    const { mint } = useMint();
+    const dispatch = useDispatch();
+    const key = useSelector(walletSelectors.selectPublicKeyHash);
 
-    const onSubmit = values => {
-        console.log(values);
-        mint(values);
-    };
+    const onSubmit = useCallback(
+        metaData => {
+            if (!key) {
+                alert('Please connect Casper Signer');
+                dispatch(walletActions.connectionRequest());
+            } else {
+                dispatch(marketActions.mint(metaData));
+            }
+        },
+        [dispatch, key]
+    );
 
     return (
         <StyledCreateItemPage>
