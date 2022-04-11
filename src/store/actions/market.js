@@ -38,9 +38,15 @@ export const mint = metaData => async (dispatch, getState) => {
         const ipfs = await IPFS.create();
         console.log({ metaData });
 
-        const { cid: imageCID } = await ipfs.add(metaData.image, {
-            progress: prog => console.log(`received: ${prog}`)
-        });
+        const { cid: imageCID } = await ipfs.add(
+            {
+                path: metaData.image.name,
+                content: metaData.image
+            },
+            {
+                progress: prog => console.log(`received: ${prog}`)
+            }
+        );
         console.log('imageCID', imageCID.toString());
 
         const { cid: metadataCID } = await ipfs.add(
