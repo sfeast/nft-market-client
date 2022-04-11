@@ -1,6 +1,7 @@
 import { CEP47Client } from 'casper-cep47-js-client';
 import { CasperClient, Contracts, RuntimeArgs, CLValueBuilder, CLByteArray } from 'casper-js-sdk';
 import { Buffer } from 'buffer';
+import * as IPFS from 'ipfs-core';
 
 import { getDeploy, sendDeploy, signDeploy, toMotes } from 'utils/casper';
 import { getData, postData } from 'utils/helpers/xchRequests';
@@ -34,14 +35,26 @@ export const mint = metaData => async (dispatch, getState) => {
 
     try {
         const id = await getNewMintId();
-        // TODO: store metadata on ipfs & provide the uri for minting
-        //       - not sure if we'll upload to storage from client or server, current call goes to server but may be an issue for images?
-        const meta = await storeMetaData(metaData);
+        const ipfs = await IPFS.create();
+        console.log({ metaData });
+
+        const { cid: imageCID } = await ipfs.add(metaData.image, {
+            progress: prog => console.log(`received: ${prog}`)
+        });
+        console.log('imageCID', imageCID.toString());
+
+        const { cid: metadataCID } = await ipfs.add(
+            JSON.stringify({ ...metaData, image: `ipfs://${imageCID.toString()}` }),
+            {
+                progress: prog => console.log(`received: ${prog}`)
+            }
+        );
+        console.log('metadataCID', metadataCID.toString());
 
         const deploy = await cep47.mint(
             clPublicKey,
             [id],
-            [new Map([meta])],
+            [new Map([['token_uri', metadataCID.toString()]])],
             PAYMENT_AMOUNT.MINT_ONE,
             clPublicKey
         );

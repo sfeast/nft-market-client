@@ -10,3 +10,8 @@ export const StyledAddProperties = styled.div`
     display: grid;
     row-gap: ${({ theme }) => theme.sizes.app.padding};
 `;
+
+export const StyledPropertiesContainer = styled.div`
+    display: grid;
+    row-gap: ${({ theme }) => theme.sizes.app.padding};
+`;

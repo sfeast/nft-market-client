@@ -15,12 +15,13 @@ import {
 import { readUploadedFileAsUrl } from 'utils/helpers/file';
 
 const Dropzone = ({ dropzoneOptions, onRemove, className, onChange, width, hintMessage }) => {
-    const [previewUrl, setPreviewUrl] = useState();
+    const [previewUrl, setPreviewUrl] = useState('');
 
     const onDrop = useCallback(
         acceptedFiles => {
+            onChange(acceptedFiles);
+
             Promise.all(acceptedFiles.map(file => readUploadedFileAsUrl(file))).then(urls => {
-                onChange(urls);
                 setPreviewUrl(urls[0]);
             });
         },
@@ -46,7 +47,7 @@ const Dropzone = ({ dropzoneOptions, onRemove, className, onChange, width, hintM
 
     const handleOnRemove = e => {
         e.stopPropagation();
-
+        setPreviewUrl('');
         onRemove();
     };
 
