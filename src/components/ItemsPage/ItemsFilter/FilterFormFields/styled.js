@@ -18,3 +18,9 @@ export const StyledPriceContainer = styled.div`
     align-items: center;
     grid-gap: 5px;
 `;
+
+export const StyledFormFieldsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+`;

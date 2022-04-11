@@ -3,14 +3,13 @@ import { getData } from 'utils/helpers/xchRequests';
 import { fromMotes } from 'utils/casper';
 
 import { walletSelectors } from 'store/selectors';
+import { SERVER_ADDRESS } from 'constants/config';
 
 export const WALLET_ACTION_TYPES = {
     SET_KEY: 'SET_KEY',
     SET_CONNECTED: 'SET_CONNECTED',
     SET_BALANCE: 'SET_BALANCE'
 };
-
-import { SERVER_ADDRESS } from 'constants/config';
 
 export const connectionRequest = () => async () => {
     Signer.sendConnectionRequest();
