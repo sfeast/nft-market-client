@@ -9,8 +9,11 @@ export const useWallet = () => {
     const connected = useSelector(walletSelectors.selectConnected);
     const key = useSelector(walletSelectors.selectPublicKeyHash);
 
-    useEffect(async () => {
-        dispatch(walletActions.initialize());
+    useEffect(() => {
+        // workaround to make initialization async and wait for content script (Signer plugin) to be injected
+        setTimeout(() => {
+            dispatch(walletActions.initialize());
+        }, 0);
     }, []);
 
     useEffect(async () => {
