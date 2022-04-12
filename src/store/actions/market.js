@@ -28,20 +28,37 @@ const casperClient = new CasperClient(ENVIRONMENT.NODE_ADDRESS);
 const contract = new Contracts.Contract(casperClient);
 contract.setContractHash(MARKET_CONTRACT.HASH, MARKET_CONTRACT.PACKAGE_HASH);
 
-export const mint = metaData => async (dispatch, getState) => {
+export const mint = (metaData, ipfs) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
 
     try {
+        if (!ipfs) {
+            throw new Error('IPFS service is not initialized');
+        }
+
         const id = await getNewMintId();
-        // TODO: store metadata on ipfs & provide the uri for minting
-        //       - not sure if we'll upload to storage from client or server, current call goes to server but may be an issue for images?
-        const meta = await storeMetaData(metaData);
+
+        const { cid: imageCID } = await ipfs.add(
+            {
+                path: metaData.image.name,
+                content: metaData.image
+            },
+            {
+                progress: prog => console.log(`received: ${prog}`)
+            }
+        );
+        const { cid: metadataCID } = await ipfs.add(
+            JSON.stringify({ ...metaData, image: `ipfs://${imageCID.toString()}` }),
+            {
+                progress: prog => console.log(`received: ${prog}`)
+            }
+        );
 
         const deploy = await cep47.mint(
             clPublicKey,
             [id],
-            [new Map([meta])],
+            [new Map([['token_uri', metadataCID.toString()]])],
             PAYMENT_AMOUNT.MINT_ONE,
             clPublicKey
         );

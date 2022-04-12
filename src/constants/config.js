@@ -60,3 +60,10 @@ export const DEPLOY_STATE = {
     ERROR: 'error',
     RESET: null
 };
+
+export const ACCEPTED_MIME_TYPES = {
+    png: 'image/png',
+    jpg: 'image/jpg',
+    gif: 'image/gif',
+    jpeg: 'image/jpeg'
+};

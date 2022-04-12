@@ -1,8 +1,9 @@
-const requiredFieldValidation = value => (value ? undefined : 'The field is required');
-const numberFieldValidation = value => (isNaN(value) ? 'The field must be a number' : undefined);
+const requiredFieldValidation = value => (value ? undefined : 'Required');
+const numberFieldValidation = value => (isNaN(value) ? 'Numbers only' : undefined);
 const httpsUrlFieldValidation = value => {
-    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
-    return value.match(reg) ? undefined : 'The field must be a HTTPS link';
+    const reg =
+        'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)';
+    return value ? (value.match(reg) ? undefined : 'Incorrect url') : undefined;
 };
 
 export const validators = {
@@ -18,6 +19,10 @@ export const composeValidators =
     };
 
 export const fieldHasErrors = field => field.meta.invalid && field.meta.touched;
+
+export const getFieldError = field => {
+    return fieldHasErrors(field) ? field.meta.error : '';
+};
 
 export const parseNumberValue = value => {
     const float = parseFloat(value);

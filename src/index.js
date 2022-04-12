@@ -8,7 +8,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { theme, SCGlobalStyles } from 'services/styles';
 import store from 'services/redux';
 
-import App from './App';
+import App from 'App';
+import IpfsProvider from 'context/ipfs';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -18,7 +19,9 @@ ReactDOM.render(
                 <SCThemeProvider theme={theme}>
                     <SCGlobalStyles />
                     <Provider store={store}>
-                        <App />
+                        <IpfsProvider>
+                            <App />
+                        </IpfsProvider>
                     </Provider>
                 </SCThemeProvider>
             </MuiThemeProvider>

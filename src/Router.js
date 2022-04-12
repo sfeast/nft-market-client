@@ -7,7 +7,7 @@ import Footer from 'components/Footer';
 const ItemsPageLazy = lazy(() => import('pages/ItemsPage'));
 const ItemPageLazy = lazy(() => import('pages/ItemPage'));
 const HomePageLazy = lazy(() => import('pages/HomePage'));
-const CreatePageLazy = lazy(() => import('pages/CreatePage'));
+const CreateItemPageLazy = lazy(() => import('pages/CreateItemPage'));
 
 const Router = () => {
     return (
@@ -19,7 +19,7 @@ const Router = () => {
                     <Route path="/" element={<HomePageLazy />} />
                     <Route path="items" element={<ItemsPageLazy />} />
                     <Route path="items/:itemId" element={<ItemPageLazy />} />
-                    <Route path="create" element={<CreatePageLazy />} />
+                    <Route path="create" element={<CreateItemPageLazy />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Suspense>

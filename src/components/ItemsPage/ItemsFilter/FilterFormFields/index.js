@@ -8,11 +8,12 @@ import Button from '@mui/material/Button';
 
 import {
     StyledButtonsContainer,
-    StyledPriceContainer
+    StyledPriceContainer,
+    StyledFormFieldsContainer
 } from 'components/ItemsPage/ItemsFilter/FilterFormFields/styled';
 import Divider from 'components/shared/Divider';
 import NumericInput from 'components/shared/NumericInput';
-import { StyledFormControlLabel, StyledFormFieldsContainer } from 'components/shared/styled';
+import { StyledFormControlLabel } from 'components/shared/styled';
 
 import { TICKERS } from 'constants/config';
 import { parseNumberValue } from 'utils/helpers/form';
