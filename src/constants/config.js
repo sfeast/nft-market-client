@@ -67,3 +67,10 @@ export const ACCEPTED_MIME_TYPES = {
     gif: 'image/gif',
     jpeg: 'image/jpeg'
 };
+
+export const SORT_OPTIONS = {
+    NEW_TO_OLD: 'Newest to Oldest',
+    OLD_TO_NEW: 'Oldest to Newest',
+    PRICE_LOW_TO_HIGH: 'Price: Low to High',
+    PRICE_HIGH_TO_LOW: 'Price: High to Low'
+};

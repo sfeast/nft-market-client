@@ -1,4 +1,6 @@
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { useMatch } from 'react-router';
 import cn from 'classnames';
 
@@ -14,6 +16,9 @@ import WalletConnect from 'components/WalletConnect';
 import HomeButton from 'components/Header/HomeButton';
 import Search from 'components/shared/Search';
 import HeaderMenuDrawer from 'components/Header/HeaderMenuDrawer';
+
+import { useCallbackDebounced } from 'hooks/callbacks';
+import { nftActions } from 'store/actions';
 
 import { useResolutionStyles } from 'hooks/styles';
 
@@ -37,6 +42,7 @@ const resolutionStylesParams = {
 };
 
 const Header = () => {
+    const dispatch = useDispatch();
     const homePageMatch = useMatch('');
     const { isSmallResolution } = useResolutionStyles(resolutionStylesParams);
 
@@ -46,10 +52,14 @@ const Header = () => {
         target: window
     });
 
-    const onSearch = useCallback(e => {
-        const value = e.target.value;
-        // todo: handle search input
-    }, []);
+    const debouncedOnSearch = useCallbackDebounced(
+        e => {
+            const value = e.target.value;
+            dispatch(nftActions.textSearch(value));
+        },
+        [dispatch],
+        500
+    );
 
     return (
         <StyledHeader
@@ -61,7 +71,7 @@ const Header = () => {
         >
             <StyledHeaderContent>
                 <HomeButton />
-                <Search onChange={onSearch} buttonClassName="header-search-button" />
+                <Search onChange={debouncedOnSearch} buttonClassName="header-search-button" />
                 {isSmallResolution ? (
                     <HeaderMenuDrawer />
                 ) : (
