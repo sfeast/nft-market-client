@@ -9,7 +9,7 @@ import { theme, SCGlobalStyles } from 'services/styles';
 import store from 'services/redux';
 
 import App from 'App';
-import { IpfsProvider } from 'context/ipfs';
+import IpfsProvider from 'context/ipfs';
 
 ReactDOM.render(
     <React.StrictMode>

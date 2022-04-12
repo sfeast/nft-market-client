@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { useIpfsInit } from 'hooks/ipfs';
 
-export const IpfsContext = createContext(undefined);
-export const IpfsProvider = ({ children }) => {
+const IpfsContext = createContext(undefined);
+const IpfsProvider = ({ children }) => {
     const ipfs = useIpfsInit();
 
     return <IpfsContext.Provider value={ipfs}>{children}</IpfsContext.Provider>;
@@ -12,4 +12,6 @@ export const IpfsProvider = ({ children }) => {
 IpfsProvider.propTypes = {
     children: PropTypes.element
 };
+
 export const useIpfsContext = () => useContext(IpfsContext);
+export default IpfsProvider;
