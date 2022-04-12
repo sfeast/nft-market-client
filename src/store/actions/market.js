@@ -1,7 +1,6 @@
 import { CEP47Client } from 'casper-cep47-js-client';
 import { CasperClient, Contracts, RuntimeArgs, CLValueBuilder, CLByteArray } from 'casper-js-sdk';
 import { Buffer } from 'buffer';
-import * as IPFS from 'ipfs-core';
 
 import { getDeploy, sendDeploy, signDeploy, toMotes } from 'utils/casper';
 import { getData, postData } from 'utils/helpers/xchRequests';
@@ -29,14 +28,16 @@ const casperClient = new CasperClient(ENVIRONMENT.NODE_ADDRESS);
 const contract = new Contracts.Contract(casperClient);
 contract.setContractHash(MARKET_CONTRACT.HASH, MARKET_CONTRACT.PACKAGE_HASH);
 
-export const mint = metaData => async (dispatch, getState) => {
+export const mint = (metaData, ipfs) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
 
     try {
+        if (!ipfs) {
+            throw new Error('IPFS service is not initialized');
+        }
+
         const id = await getNewMintId();
-        const ipfs = await IPFS.create();
-        console.log({ metaData });
 
         const { cid: imageCID } = await ipfs.add(
             {
@@ -47,15 +48,12 @@ export const mint = metaData => async (dispatch, getState) => {
                 progress: prog => console.log(`received: ${prog}`)
             }
         );
-        console.log('imageCID', imageCID.toString());
-
         const { cid: metadataCID } = await ipfs.add(
             JSON.stringify({ ...metaData, image: `ipfs://${imageCID.toString()}` }),
             {
                 progress: prog => console.log(`received: ${prog}`)
             }
         );
-        console.log('metadataCID', metadataCID.toString());
 
         const deploy = await cep47.mint(
             clPublicKey,

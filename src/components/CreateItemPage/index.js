@@ -10,6 +10,7 @@ import { StyledCreateItemPage } from 'components/CreateItemPage/styled';
 
 import { marketActions, walletActions } from 'store/actions';
 import { walletSelectors } from 'store/selectors';
+import { useIpfsContext } from 'context/ipfs';
 
 const initialValues = {
     image: '',
@@ -22,6 +23,7 @@ const initialValues = {
 const CreateItemPage = props => {
     const dispatch = useDispatch();
     const key = useSelector(walletSelectors.selectPublicKeyHash);
+    const ipfs = useIpfsContext();
 
     const onSubmit = useCallback(
         metaData => {
@@ -29,10 +31,10 @@ const CreateItemPage = props => {
                 alert('Please connect Casper Signer');
                 dispatch(walletActions.connectionRequest());
             } else {
-                dispatch(marketActions.mint(metaData));
+                dispatch(marketActions.mint(metaData, ipfs));
             }
         },
-        [dispatch, key]
+        [dispatch, key, ipfs]
     );
 
     return (
