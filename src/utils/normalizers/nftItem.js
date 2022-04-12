@@ -1,5 +1,5 @@
 export const getPrice = item => {
-    return `${item.price} ${item.currency}`;
+    return item.price ? `${item.price} ${item.currency}` : '';
 };
 
 export const getIPFSImage = uri => {
