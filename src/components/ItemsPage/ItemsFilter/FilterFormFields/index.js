@@ -58,10 +58,12 @@ const FilterFormFields = ({ handleSubmit, handleClear }) => {
                     label="New"
                 />
                 <StyledFormControlLabel
+                    disabled={true}
                     control={<Checkbox {...liveAuctionStatusField.input} />}
                     label="Live auction"
                 />
                 <StyledFormControlLabel
+                    disabled={true}
                     control={<Checkbox {...hasOffersStatusField.input} />}
                     label="Has offers"
                 />

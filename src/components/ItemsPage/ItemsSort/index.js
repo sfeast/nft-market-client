@@ -1,23 +1,21 @@
 import { StyledSelect } from 'components/ItemsPage/ItemsSort/styled';
+import { useDispatch } from 'react-redux';
 
-const options = {
-    newestToOldest: 'Newest to Oldest',
-    oldestToNewest: 'Oldest to Newest',
-    priceLowToHigh: 'Price: Low to High',
-    priceHighToLow: 'Price: High to Low'
-};
+import { nftActions } from 'store/actions';
+import { SORT_OPTIONS } from 'constants/config';
 
 const ItemsSort = () => {
+    const dispatch = useDispatch();
     const handleChange = e => {
         const value = e.target.value;
-        // todo: handle sort submit
+        dispatch(nftActions.updateSortOrder(SORT_OPTIONS[value]));
     };
 
     return (
         <StyledSelect label="Sort by" onChange={handleChange}>
-            {Object.keys(options).map(opt => (
+            {Object.keys(SORT_OPTIONS).map(opt => (
                 <option key={opt} value={opt}>
-                    {options[opt]}
+                    {SORT_OPTIONS[opt]}
                 </option>
             ))}
         </StyledSelect>

@@ -6,18 +6,23 @@ import FilterFormFields from 'components/ItemsPage/ItemsFilter/FilterFormFields'
 
 import { setHideItemsFilterModal } from 'store/actions/ui';
 
+import { nftActions } from 'store/actions';
+
 const ItemsFilterForm = props => {
     const dispatch = useDispatch();
 
-    const onSubmit = useCallback((values, form) => {
-        // todo: submit values
-        dispatch(setHideItemsFilterModal());
-    }, []);
+    const onSubmit = useCallback(
+        (values, form) => {
+            dispatch(setHideItemsFilterModal());
+            dispatch(nftActions.applyFilters(values));
+        },
+        [dispatch]
+    );
 
     const onClear = useCallback(form => {
-        // todo: submit reset
         form.reset();
         dispatch(setHideItemsFilterModal());
+        dispatch(nftActions.resetFilters());
     }, []);
 
     return (
