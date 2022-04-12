@@ -45,7 +45,7 @@ export const search = params => async (dispatch, getState) => {
 
     dispatch({
         type: NFT_ACTION_TYPES.SEARCH_LOADED,
-        payload: sort(results, sortOrder)
+        payload: sort(results.slice(0), sortOrder)
     });
 };
 
@@ -91,7 +91,7 @@ const sort = (data, order) => {
 export const updateSortOrder = sortOrder => async (dispatch, getState) => {
     const store = getState();
     const searchResults = nftSelectors.selectSearchResults(store);
-    const results = sort(searchResults, sortOrder);
+    const results = sort(searchResults.slice(0), sortOrder);
 
     dispatch({
         type: NFT_ACTION_TYPES.UPDATE_SORT_ORDER,
