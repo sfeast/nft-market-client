@@ -34,7 +34,6 @@ export const search = params => async (dispatch, getState) => {
     });
 
     const results = await postData(SERVER_ADDRESS + '/search', {
-        contract: NFT_CONTRACT.PACKAGE_HASH,
         search: params ? params : undefined
     }).catch(error => {
         dispatch({
