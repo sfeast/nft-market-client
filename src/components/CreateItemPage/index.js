@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Form } from 'react-final-form';
 
 import Typography from '@mui/material/Typography';
@@ -8,8 +8,7 @@ import CreateFormFields from 'components/CreateItemPage/CreateFormFields';
 import Divider from 'components/shared/Divider';
 import { StyledCreateItemPage } from 'components/CreateItemPage/styled';
 
-import { marketActions, walletActions } from 'store/actions';
-import { walletSelectors } from 'store/selectors';
+import { marketActions } from 'store/actions';
 import { useIpfsContext } from 'context/ipfs';
 
 const initialValues = {
@@ -22,19 +21,13 @@ const initialValues = {
 
 const CreateItemPage = props => {
     const dispatch = useDispatch();
-    const key = useSelector(walletSelectors.selectPublicKeyHash);
     const ipfs = useIpfsContext();
 
     const onSubmit = useCallback(
         metaData => {
-            if (!key) {
-                alert('Please connect Casper Signer');
-                dispatch(walletActions.connectionRequest());
-            } else {
-                dispatch(marketActions.mint(metaData, ipfs));
-            }
+            dispatch(marketActions.mint(metaData, ipfs));
         },
-        [dispatch, key, ipfs]
+        [dispatch, ipfs]
     );
 
     return (

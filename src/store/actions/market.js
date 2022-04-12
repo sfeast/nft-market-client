@@ -1,11 +1,13 @@
 import { CEP47Client } from 'casper-cep47-js-client';
 import { CasperClient, Contracts, RuntimeArgs, CLValueBuilder, CLByteArray } from 'casper-js-sdk';
 import { Buffer } from 'buffer';
+import { toast } from 'react-toastify';
 
 import { getDeploy, sendDeploy, signDeploy, toMotes } from 'utils/casper';
 import { getData, postData } from 'utils/helpers/xchRequests';
 
 import { walletSelectors } from 'store/selectors';
+import { walletActions } from 'store/actions';
 
 import {
     SERVER_ADDRESS,
@@ -31,9 +33,17 @@ contract.setContractHash(MARKET_CONTRACT.HASH, MARKET_CONTRACT.PACKAGE_HASH);
 export const mint = (metaData, ipfs) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
+    const key = walletSelectors.selectPublicKeyHash(store);
+
+    if (!key) {
+        dispatch(walletActions.connectionRequest());
+        toast.warning('Please, connect you wallet.');
+        return;
+    }
 
     try {
         if (!ipfs) {
+            toast.warning('Services are setting up, please try in 10 sec');
             throw new Error('IPFS service is not initialized');
         }
 
@@ -66,7 +76,6 @@ export const mint = (metaData, ipfs) => async (dispatch, getState) => {
         dispatch(executeDeploy(deploy, DEPLOY_STATE.MINT));
     } catch (error) {
         console.log(error);
-        alert(error);
     }
 };
 

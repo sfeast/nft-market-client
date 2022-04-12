@@ -1,39 +1,45 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
-import { walletActions } from 'store/actions';
-import { marketSelectors, walletSelectors } from 'store/selectors';
+import { marketSelectors } from 'store/selectors';
 
 import { DEPLOY_STATE } from 'constants/config';
 import { usePreviousState } from 'hooks/react';
 
 export const useMint = () => {
-    const dispatch = useDispatch();
-    // using key because connected seems to be wrong a lot :( Or does it not mean what I think it means?
-    const key = useSelector(walletSelectors.selectPublicKeyHash);
     const deployState = useSelector(marketSelectors.selectDeployState);
     const previousDeployState = usePreviousState(deployState);
 
+    const promiseResolveRef = useRef();
+    const promiseRejectRef = useRef();
+
     useEffect(async () => {
         switch (true) {
-            // TODO: replace alerts with app UI
-            case !previousDeployState && deployState === DEPLOY_STATE.MINT:
-                alert('Minting');
+            case !previousDeployState && deployState === DEPLOY_STATE.MINT: {
+                const promise = new Promise((resolve, reject) => {
+                    promiseResolveRef.current = resolve;
+                    promiseRejectRef.current = reject;
+                });
+                toast.promise(
+                    promise,
+                    {
+                        pending: 'Minting you NFT 😴',
+                        success: 'Minting success 👌',
+                        error: 'Minting failed 🤯'
+                    },
+                    { toastId: Math.random() }
+                );
                 break;
+            }
             case previousDeployState === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.SUCCESS:
-                alert('Minting Success');
+                promiseResolveRef.current?.();
                 break;
             case previousDeployState === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.ERROR:
-                alert('Minting Failed');
+                promiseRejectRef.current?.();
                 break;
             default:
                 break;
         }
     }, [deployState]);
-
-    useEffect(() => {
-        if (!key) {
-            dispatch(walletActions.connectionRequest());
-        }
-    }, [dispatch, key]);
 };

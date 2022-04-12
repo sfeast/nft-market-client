@@ -1,13 +1,15 @@
 import { Signer } from 'casper-js-sdk';
+import { toast } from 'react-toastify';
+
 import { getData } from 'utils/helpers/xchRequests';
 import { fromMotes } from 'utils/casper';
+import { truncate } from 'utils/helpers/string';
 
 import { walletSelectors } from 'store/selectors';
 import { SERVER_ADDRESS } from 'constants/config';
 
 export const WALLET_ACTION_TYPES = {
     SET_KEY: 'SET_KEY',
-    SET_CONNECTED: 'SET_CONNECTED',
     SET_BALANCE: 'SET_BALANCE'
 };
 
@@ -15,26 +17,18 @@ export const connectionRequest = () => async () => {
     Signer.sendConnectionRequest();
 };
 
-const setConnected = connected => async dispatch => {
-    dispatch({
-        type: WALLET_ACTION_TYPES.SET_CONNECTED,
-        payload: connected
-    });
-};
-
-const setKey = key => async dispatch => {
-    dispatch({
-        type: WALLET_ACTION_TYPES.SET_KEY,
-        payload: key
-    });
-};
-
-// can we integrate this with setConnected? ex: key || activePublicKey
-export const updateKey = () => async dispatch => {
+export const updateKey = key => async dispatch => {
     try {
         const activePublicKey = await Signer.getActivePublicKey();
-        dispatch(setKey(activePublicKey));
+        dispatch({
+            type: WALLET_ACTION_TYPES.SET_KEY,
+            payload: key || activePublicKey
+        });
     } catch (error) {
+        dispatch({
+            type: WALLET_ACTION_TYPES.SET_KEY,
+            payload: key || null
+        });
         console.log(error);
     }
 };
@@ -53,31 +47,33 @@ export const updateBalance = () => async (dispatch, getState) => {
 };
 
 export const initialize = () => async dispatch => {
-    const isConnected = await Signer.isConnected();
-    dispatch(setConnected(isConnected));
+    dispatch(updateKey());
 
-    window.addEventListener('signer:locked', msg => {
-        dispatch(setKey(null));
-        dispatch(setConnected(false));
+    window.addEventListener('signer:locked', () => {
+        toast.warning('Wallet is disconnected');
+        dispatch(updateKey(null));
     });
     window.addEventListener('signer:unlocked', msg => {
         if (msg.detail.isConnected) {
-            dispatch(setKey(msg.detail.activeKey));
-            dispatch(setConnected(true));
+            const key = msg.detail.activeKey;
+            toast.success(`Wallet is connected: ${truncate(key, 20, '..')}`, { toastId: key });
+            dispatch(updateKey(key));
         }
     });
     window.addEventListener('signer:activeKeyChanged', msg => {
         if (msg.detail.isConnected) {
-            dispatch(setKey(msg.detail.activeKey));
-            dispatch(setConnected(true));
+            const key = msg.detail.activeKey;
+            toast.success(`Wallet is connected: ${truncate(key, 20, '..')}`, { toastId: key });
+            dispatch(updateKey(key));
         }
     });
     window.addEventListener('signer:connected', msg => {
-        dispatch(setKey(msg.detail.activeKey));
-        dispatch(setConnected(true));
+        const key = msg.detail.activeKey;
+        toast.success(`Wallet is connected: ${truncate(key, 20, '..')}`, { toastId: key });
+        dispatch(updateKey(key));
     });
-    window.addEventListener('signer:disconnected', msg => {
-        dispatch(setKey(null));
-        dispatch(setConnected(false));
+    window.addEventListener('signer:disconnected', () => {
+        toast.warning('Wallet is disconnected');
+        dispatch(updateKey(null));
     });
 };

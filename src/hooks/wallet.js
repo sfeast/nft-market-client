@@ -6,7 +6,6 @@ import { walletSelectors } from 'store/selectors';
 
 export const useWallet = () => {
     const dispatch = useDispatch();
-    const connected = useSelector(walletSelectors.selectConnected);
     const key = useSelector(walletSelectors.selectPublicKeyHash);
 
     useEffect(() => {
@@ -16,13 +15,7 @@ export const useWallet = () => {
         }, 0);
     }, []);
 
-    useEffect(async () => {
-        if (connected) {
-            dispatch(walletActions.updateKey());
-        }
-    }, [connected]);
-
-    useEffect(async () => {
+    useEffect(() => {
         if (key) {
             dispatch(walletActions.updateBalance());
         }
