@@ -3,4 +3,4 @@ import * as marketActions from 'store/actions/market';
 import * as nftActions from 'store/actions/nft';
 import * as uiActions from 'store/actions/ui';
 
-export { walletActions, marketActions, nftAction, uiActions };
+export { walletActions, marketActions, nftActions, uiActions };
