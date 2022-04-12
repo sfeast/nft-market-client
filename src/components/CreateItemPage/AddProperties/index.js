@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 
 import {
     StyledFieldsContainer,
+    StyledPropertiesContainer,
     StyledAddProperties
 } from 'components/CreateItemPage/AddProperties/styled';
 
@@ -49,13 +50,17 @@ const CreateFormFields = ({ form, field }) => {
                     +
                 </Button>
             </StyledFieldsContainer>
-            <div>
+            <StyledPropertiesContainer>
                 {fieldValue.map((value, i) => (
-                    <div key={i}>
-                        {value.type} - {value.name}
-                    </div>
+                    <StyledFieldsContainer key={i}>
+                        <TextField disabled value={value.type} />
+                        <TextField disabled value={value.name} />
+                        <Button variant="outlined" color="error" onClick={() => handleRemove(i)}>
+                            -
+                        </Button>
+                    </StyledFieldsContainer>
                 ))}
-            </div>
+            </StyledPropertiesContainer>
         </StyledAddProperties>
     );
 };
