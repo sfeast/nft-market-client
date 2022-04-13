@@ -38,7 +38,7 @@ function CollapsibleSection({ className, title, children, ...restProps }) {
             >
                 <Typography>{title}</Typography>
             </AccordionSummary>
-            <AccordionDetails>{children}</AccordionDetails>
+            <AccordionDetails className={styles.details}>{children}</AccordionDetails>
         </Accordion>
     );
 }

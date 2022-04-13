@@ -11,7 +11,7 @@ const ItemCard = ({ el, className, hideContent }) => {
     return (
         <StyledCard className={cn({ [className]: !!className })}>
             <CardActionArea>
-                <StyledCardMedia alt={el.description} image={getIPFSImage(el?.image)} />
+                <StyledCardMedia alt={el?.description} image={getIPFSImage(el?.image)} />
                 {!hideContent && <ItemCardContent owner={el.owner} price={getPrice(el)} />}
             </CardActionArea>
         </StyledCard>

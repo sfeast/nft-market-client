@@ -1,13 +1,17 @@
 @import "src/styles/tokens";
 
 .CollapsibleSection {
-
   &:before {
     display: none;
   }
 
   .title {
     background-color: $ui-blue-light;
+    :global(.MuiAccordionSummary-content .MuiTypography-body1) {
+      font-size: 22px;
+    }
   }
-
+  .details {
+    background-color: $ui-blue-white;
+  }
 }

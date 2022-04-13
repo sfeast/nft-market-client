@@ -19,7 +19,7 @@ const Router = () => {
                     <Routes>
                         <Route path="/" element={<HomePageLazy />} />
                         <Route path="items" element={<ItemsPageLazy />} />
-                        <Route path="items/:itemId" element={<NFTDetailsLazy />} />
+                        <Route path="items/:contract/:itemId" element={<NFTDetailsLazy />} />
                         <Route path="create" element={<CreateItemPageLazy />} />
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
