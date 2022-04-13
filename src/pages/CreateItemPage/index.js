@@ -7,6 +7,7 @@ import CreateItemPageComponent from 'components/CreateItemPage';
 
 import { walletActions } from 'store/actions';
 import { walletSelectors } from 'store/selectors';
+import { notifications } from 'utils/helpers/notifications';
 
 const CreateItemPage = () => {
     const dispatch = useDispatch();
@@ -14,7 +15,8 @@ const CreateItemPage = () => {
 
     useEffect(() => {
         if (!key) {
-            toast.warning('Please, connect you wallet.');
+            const message = notifications.connectWallet;
+            toast.warning(message, { toastId: message, autoClose: false });
             dispatch(walletActions.connectionRequest());
         }
     }, [dispatch, key]);

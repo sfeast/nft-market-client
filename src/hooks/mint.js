@@ -6,6 +6,7 @@ import { marketSelectors } from 'store/selectors';
 
 import { DEPLOY_STATE } from 'constants/config';
 import { usePreviousState } from 'hooks/react';
+import { notifications } from 'utils/helpers/notifications';
 
 export const useMint = () => {
     const deployState = useSelector(marketSelectors.selectDeployState);
@@ -21,15 +22,11 @@ export const useMint = () => {
                     promiseResolveRef.current = resolve;
                     promiseRejectRef.current = reject;
                 });
-                toast.promise(
-                    promise,
-                    {
-                        pending: 'Minting you NFT 😴',
-                        success: 'Minting success 👌',
-                        error: 'Minting failed 🤯'
-                    },
-                    { toastId: Math.random() }
-                );
+                toast.promise(promise, {
+                    pending: notifications.mintingStarted + notifications.wait,
+                    success: notifications.mintingSuccess,
+                    error: notifications.mintingFailed + notifications.tryAgain
+                });
                 break;
             }
             case previousDeployState === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.SUCCESS:

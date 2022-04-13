@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 import { getDeploy, sendDeploy, signDeploy, toMotes } from 'utils/casper';
 import { getData, postData } from 'utils/helpers/xchRequests';
+import { notifications } from 'utils/helpers/notifications';
 
 import { walletSelectors } from 'store/selectors';
 import { walletActions } from 'store/actions';
@@ -30,6 +31,31 @@ const casperClient = new CasperClient(ENVIRONMENT.NODE_ADDRESS);
 const contract = new Contracts.Contract(casperClient);
 contract.setContractHash(MARKET_CONTRACT.HASH, MARKET_CONTRACT.PACKAGE_HASH);
 
+const loadMetaDataToIPFS = async (metaData, ipfs) => {
+    try {
+        // toast.info(notifications.saveToIpfsStarted);
+
+        const { cid: imageCID } = await ipfs.add({
+            path: metaData.image.name,
+            content: metaData.image
+        });
+        const { cid: metadataCID } = await ipfs.add(
+            JSON.stringify({ ...metaData, image: `ipfs://${imageCID.toString()}` })
+        );
+
+        toast.info(notifications.saveToIpfsSuccess);
+
+        return {
+            imageCID,
+            metadataCID
+        };
+    } catch (err) {
+        toast.warning(
+            notifications.saveToIpfsFailed + notifications.wait + notifications.andTryAgain
+        );
+    }
+};
+
 export const mint = (metaData, ipfs) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
@@ -37,33 +63,15 @@ export const mint = (metaData, ipfs) => async (dispatch, getState) => {
 
     if (!key) {
         dispatch(walletActions.connectionRequest());
-        toast.warning('Please, connect you wallet.');
+        const message = notifications.connectWallet + notifications.andTryAgain;
+        toast.warning(message, { toastId: message });
         return;
     }
 
     try {
-        if (!ipfs) {
-            toast.warning('Services are setting up, please try in 10 sec');
-            throw new Error('IPFS service is not initialized');
-        }
-
         const id = await getNewMintId();
 
-        const { cid: imageCID } = await ipfs.add(
-            {
-                path: metaData.image.name,
-                content: metaData.image
-            },
-            {
-                progress: prog => console.log(`received: ${prog}`)
-            }
-        );
-        const { cid: metadataCID } = await ipfs.add(
-            JSON.stringify({ ...metaData, image: `ipfs://${imageCID.toString()}` }),
-            {
-                progress: prog => console.log(`received: ${prog}`)
-            }
-        );
+        const { metadataCID } = await loadMetaDataToIPFS(metaData, ipfs);
 
         const deploy = await cep47.mint(
             clPublicKey,
