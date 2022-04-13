@@ -6,6 +6,8 @@ export const selectCurrentItem = createSelector(selectNftState, nftState => nftS
 
 export const selectSearchResults = createSelector(selectNftState, nftState => nftState.results);
 
+export const selectSliceResults = createSelector(selectNftState, nftState => nftState.sliceResults);
+
 export const selectSearchParameters = createSelector(
     selectNftState,
     nftState => nftState.searchParams

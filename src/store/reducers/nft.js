@@ -4,6 +4,7 @@ import { SORT_OPTIONS } from 'constants/config';
 const initialState = {
     item: false,
     results: [],
+    sliceResults: [],
     searchParams: null,
     loading: false,
     sortOrder: SORT_OPTIONS.NEW_TO_OLD
@@ -49,6 +50,25 @@ const NFTReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
+            };
+        }
+        case NFT_ACTION_TYPES.SLICE_SEARCH_STARTED: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+        case NFT_ACTION_TYPES.SLICE_SEARCH_SUCCESS: {
+            return {
+                ...state,
+                sliceResults: action.payload,
+                loading: false
+            };
+        }
+        case NFT_ACTION_TYPES.SLICE_SEARCH_FAILED: {
+            return {
+                ...state,
+                loading: false
             };
         }
         default: {
