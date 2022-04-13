@@ -18,12 +18,12 @@ export const StyledSelectWrapper = styled.div`
     padding: 5px;
     border-width: 1px;
     border-radius: 4px;
-    border-color: ${({ theme }) => theme.palette.grey.light};
+    border-color: ${({ theme }) => theme.palette.grey[400]};
     border-style: solid;
 
     &:hover,
     &:focus {
-        border-color: ${({ theme }) => theme.palette.black.dark};
+        border-color: ${({ theme }) => theme.palette.text.dark};
     }
 `;
 

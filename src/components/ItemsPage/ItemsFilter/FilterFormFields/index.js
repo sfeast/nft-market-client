@@ -8,8 +8,8 @@ import Button from '@mui/material/Button';
 
 import {
     StyledButtonsContainer,
-    StyledFieldsWrapper,
-    StyledPriceContainer
+    StyledPriceContainer,
+    StyledFormFieldsContainer
 } from 'components/ItemsPage/ItemsFilter/FilterFormFields/styled';
 import Divider from 'components/shared/Divider';
 import NumericInput from 'components/shared/NumericInput';
@@ -45,7 +45,7 @@ const FilterFormFields = ({ handleSubmit, handleClear }) => {
 
     return (
         <div>
-            <StyledFieldsWrapper>
+            <StyledFormFieldsContainer>
                 <Divider position="left">
                     <Typography>Status</Typography>
                 </Divider>
@@ -58,10 +58,12 @@ const FilterFormFields = ({ handleSubmit, handleClear }) => {
                     label="New"
                 />
                 <StyledFormControlLabel
+                    disabled={true}
                     control={<Checkbox {...liveAuctionStatusField.input} />}
                     label="Live auction"
                 />
                 <StyledFormControlLabel
+                    disabled={true}
                     control={<Checkbox {...hasOffersStatusField.input} />}
                     label="Has offers"
                 />
@@ -90,7 +92,7 @@ const FilterFormFields = ({ handleSubmit, handleClear }) => {
                         }}
                     />
                 </StyledPriceContainer>
-            </StyledFieldsWrapper>
+            </StyledFormFieldsContainer>
 
             <StyledButtonsContainer>
                 <Button variant="contained" color="primary" onClick={handleSubmit}>

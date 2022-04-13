@@ -8,7 +8,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 const ItemsPageLazy = lazy(() => import('pages/ItemsPage'));
 const NFTDetailsLazy = lazy(() => import('pages/NFTDetails'));
 const HomePageLazy = lazy(() => import('pages/HomePage'));
-const CreatePageLazy = lazy(() => import('pages/CreatePage'));
+const CreateItemPageLazy = lazy(() => import('pages/CreateItemPage'));
 
 const Router = () => {
     return (
@@ -20,7 +20,7 @@ const Router = () => {
                         <Route path="/" element={<HomePageLazy />} />
                         <Route path="items" element={<ItemsPageLazy />} />
                         <Route path="items/:itemId" element={<NFTDetailsLazy />} />
-                        <Route path="create" element={<CreatePageLazy />} />
+                        <Route path="create" element={<CreateItemPageLazy />} />
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                 </Suspense>

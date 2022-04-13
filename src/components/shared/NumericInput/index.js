@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { StyledTextField } from 'components/shared/styled';
+import TextField from '@mui/material/TextField';
 
 const inputProp = {
     pattern: '[0-9]*',
@@ -8,7 +8,7 @@ const inputProp = {
 };
 
 const NumericInput = props => {
-    return <StyledTextField size="small" {...props} type="number" inputProps={inputProp} />;
+    return <TextField size="small" {...props} type="number" inputProps={inputProp} />;
 };
 
 NumericInput.propTypes = {

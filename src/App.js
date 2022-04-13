@@ -1,7 +1,8 @@
-import Router from './Router';
+import Router from 'Router';
+import { useWallet } from 'hooks/wallet';
 
 const App = () => {
-    // prepare and load system config
+    useWallet();
 
     return <Router />;
 };

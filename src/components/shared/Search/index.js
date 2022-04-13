@@ -5,7 +5,7 @@ import cn from 'classnames';
 import DialogContent from '@mui/material/DialogContent';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton/IconButton';
+import IconButton from '@mui/material/IconButton';
 
 import {
     StyledSearchButton,
@@ -30,7 +30,7 @@ const Search = ({ onChange, placeholder, small, children, buttonClassName, dialo
             {small ? (
                 <IconButton
                     onClick={handleClickOpen}
-                    color="background"
+                    sx={{ color: 'grey.50' }}
                     className={cn({ [buttonClassName]: !!buttonClassName })}
                 >
                     <SearchIcon />
@@ -39,7 +39,7 @@ const Search = ({ onChange, placeholder, small, children, buttonClassName, dialo
                 <StyledSearchButton
                     variant="outlined"
                     onClick={handleClickOpen}
-                    color="background"
+                    sx={{ color: 'grey.50' }}
                     className={cn({ [buttonClassName]: !!buttonClassName })}
                 >
                     <SearchIcon /> {placeholder}

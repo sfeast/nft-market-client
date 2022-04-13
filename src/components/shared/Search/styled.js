@@ -34,7 +34,7 @@ export const StyledDialogBlur = styled(Dialog)`
 
 export const StyledDialogHeader = styled(DialogHeader)`
     padding: 0;
-    border-bottom: 1px solid ${({ theme }) => theme.palette.grey.light};
+    border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
 `;
 
 export const StyledTextField = styled(TextField)`
