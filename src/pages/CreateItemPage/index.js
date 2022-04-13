@@ -16,7 +16,7 @@ const CreateItemPage = () => {
     useEffect(() => {
         if (!key) {
             const message = notifications.connectWallet;
-            toast.warning(message, { toastId: message, autoClose: false });
+            toast.warning(message, { toastId: message });
             dispatch(walletActions.connectionRequest());
         }
     }, [dispatch, key]);
