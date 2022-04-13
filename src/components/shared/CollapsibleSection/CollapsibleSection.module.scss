@@ -1,0 +1,13 @@
+@import "src/styles/tokens";
+
+.CollapsibleSection {
+
+  &:before {
+    display: none;
+  }
+
+  .title {
+    background-color: $ui-blue-light;
+  }
+
+}

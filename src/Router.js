@@ -3,9 +3,10 @@ import { Route, Routes, Navigate, BrowserRouter } from 'react-router-dom';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 const ItemsPageLazy = lazy(() => import('pages/ItemsPage'));
-const ItemPageLazy = lazy(() => import('pages/ItemPage'));
+const NFTDetailsLazy = lazy(() => import('pages/NFTDetails'));
 const HomePageLazy = lazy(() => import('pages/HomePage'));
 const CreatePageLazy = lazy(() => import('pages/CreatePage'));
 
@@ -13,17 +14,17 @@ const Router = () => {
     return (
         <BrowserRouter>
             <Header />
-
-            <Suspense fallback={<div />}>
-                <Routes>
-                    <Route path="/" element={<HomePageLazy />} />
-                    <Route path="items" element={<ItemsPageLazy />} />
-                    <Route path="items/:itemId" element={<ItemPageLazy />} />
-                    <Route path="create" element={<CreatePageLazy />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-            </Suspense>
-
+            <ErrorBoundary>
+                <Suspense fallback={<div />}>
+                    <Routes>
+                        <Route path="/" element={<HomePageLazy />} />
+                        <Route path="items" element={<ItemsPageLazy />} />
+                        <Route path="items/:itemId" element={<NFTDetailsLazy />} />
+                        <Route path="create" element={<CreatePageLazy />} />
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                </Suspense>
+            </ErrorBoundary>
             <Footer />
         </BrowserRouter>
     );
