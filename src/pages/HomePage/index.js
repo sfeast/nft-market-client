@@ -1,8 +1,16 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
 import Page from 'components/shared/Page';
 import HomePageComponent from 'components/HomePage';
+import { nftActions } from 'store/actions';
 
 const HomePage = () => {
-    // load & prepare data for Home Page
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(nftActions.getSliceResults(12));
+    }, [dispatch]);
 
     return (
         <Page>
