@@ -11,6 +11,6 @@ export const notifications = {
     saveToIpfsFailed: 'Metadata saving is failed 🤯',
     tryAgain: '\nPlease, try again',
     andTryAgain: ' and try again.',
-    wait: '\nPlease wait',
+    wait: '\nPlease, wait',
     walletConnected: key => `Wallet is connected: ${truncate(key, 20, '..')}`
 };

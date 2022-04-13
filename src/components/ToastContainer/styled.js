@@ -47,7 +47,7 @@ export const StyledToastContainer = styled(ToastContainer)`
             }
             &--default {
                 background-color: ${({ theme }) => theme.palette.primary.light};
-                color: ${({ theme }) => theme.palette.getContrastText(theme.palette.primary.light)};
+                color: ${({ theme }) => theme.palette.getContrastText(theme.palette.primary.dark)};
             }
         }
         &__close-button {

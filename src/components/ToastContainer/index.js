@@ -8,7 +8,6 @@ const ToastContainerWrapper = () => (
         newestOnTop
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
         draggable
         pauseOnHover
         closeButton={false}
