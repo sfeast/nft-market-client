@@ -30,7 +30,7 @@ function NFTDetailsPage() {
                     <Stack spacing={3}>
                         <ItemCard el={nft?.metadata} hideContent />
                         <CollapsibleSection title="Description">
-                            <Typography textAlign="center">
+                            <Typography textAlign={nft?.metadata?.description ? 'left' : 'center'}>
                                 {nft?.metadata?.description || 'This NFT has no description.'}
                             </Typography>
                         </CollapsibleSection>
