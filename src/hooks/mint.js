@@ -31,7 +31,7 @@ export const useMint = () => {
                 toast.update(toastId.current, {
                     type: toast.TYPE.SUCCESS,
                     render: notifications.mintingSuccess,
-                    autoClose: 10000,
+                    autoClose: 3000,
                     isLoading: false
                 });
                 break;
