@@ -7,12 +7,12 @@ import ItemCardContent from 'components/ItemCard/ItemCardContent';
 import { StyledCard, StyledCardMedia } from 'components/ItemCard/styled';
 import { getPrice, getIPFSImage } from 'utils/normalizers/nftItem';
 
-const ItemCard = ({ el, className }) => {
+const ItemCard = ({ el, className, hideContent }) => {
     return (
         <StyledCard className={cn({ [className]: !!className })}>
             <CardActionArea>
-                <StyledCardMedia alt={el.description} image={getIPFSImage(el?.image)} />
-                <ItemCardContent owner={el.owner} price={getPrice(el)} />
+                <StyledCardMedia alt={el?.description} image={getIPFSImage(el?.image)} />
+                {!hideContent && <ItemCardContent owner={el.owner} price={getPrice(el)} />}
             </CardActionArea>
         </StyledCard>
     );
@@ -21,11 +21,13 @@ const ItemCard = ({ el, className }) => {
 ItemCard.propTypes = {
     el: PropTypes.any,
     css: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    hideContent: PropTypes.bool
 };
 ItemCard.defaultProps = {
     css: '',
-    className: ''
+    className: '',
+    hideContent: false
 };
 
 export default ItemCard;

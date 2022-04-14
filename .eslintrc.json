@@ -14,36 +14,86 @@
     "jest": true
   },
   "rules": {
-    "semi": "error",
-    "quotes": ["error", "single"],
-    "jsx-quotes": ["error", "prefer-double"],
-    "react/jsx-indent" : ["error", 4],
-    "react/jsx-indent-props" : ["error", 4],
-    "max-len": ["error", {"code": 140}],
-    "react/prop-types": ["error"],
-    "prefer-promise-reject-errors": ["off"],
-    "react/jsx-filename-extension": ["off"],
-    "no-return-assign": ["off"],
+    "import/no-cycle": "warn",
+    "import/no-duplicates": [
+      "error", { "considerQueryString": true }],
+    "react/jsx-filename-extension": [1, { "extensions": [
+      ".js", ".jsx"
+    ] }],
     "import/no-unresolved": ["off"],
-    "import/extensions": ["off"],
-    "import/prefer-default-export": ["off"],
-    "no-param-reassign": ["off"],
-    "jsx-a11y/label-has-associated-control": ["off"],
-    "jsx-a11y/label-has-for": ["off"],
-    "jsx-a11y/no-static-element-interactions": ["off"],
-    "jsx-a11y/click-events-have-key-events": ["off"],
-    "prefer-destructuring": ["off"],
-    "react/jsx-props-no-spreading": ["off"],
-    "no-plusplus": ["off"],
-    "no-underscore-dangle": ["off"],
-    "no-nested-ternary": ["off"],
-    "jsx-a11y/anchor-is-valid": ["off"],
-    "react/destructuring-assignment": ["off"],
-    "jsx-a11y/media-has-caption": ["off"],
-    "for-direction": ["off"],
-    "no-shadow": ["off"],
-    "react/forbid-prop-types": ["off"],
-    "comma-dangle": ["error", "never"],
-    "react-hooks/exhaustive-deps": ["off"]
+    "import/extensions": 0,
+    "react/forbid-prop-types": 0,
+    "camelcase": 0,
+    "react/destructuring-assignment": [0, "always", { "ignoreClassFields": true }],
+    "jsx-a11y/anchor-is-valid": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "no-underscore-dangle": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "import/prefer-default-export": 0,
+    "react/no-access-state-in-setstate": 0,
+    "no-unused-expressions": [
+      "error", { "allowShortCircuit": true, "allowTernary": true }],
+    "react/jsx-props-no-spreading": 0,
+    "max-len": 0,
+    "no-param-reassign": 0,
+    "array-callback-return": 0,
+    "no-nested-ternary": 0,
+    "no-use-before-define": [
+      "error", "nofunc"
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "no-only-tests/no-only-tests": "off",
+    "curly": [
+      "warn", "all"
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ForInStatement",
+        "message": "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array."
+      },
+      {
+        "selector": "LabeledStatement",
+        "message": "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand."
+      },
+      {
+        "selector": "WithStatement",
+        "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
+      }
+    ],
+    "spaced-comment": [
+      "error",
+      "always",
+      {
+        "line": {
+          "exceptions": [
+            "-", "+"
+          ],
+          "markers": [
+            "=", "!"
+          ]
+        },
+        "block": {
+          "exceptions": [
+            "-", "+", "#__PURE__"
+          ],
+          "markers": [
+            "=", "!", ":", "::"
+          ],
+          "balanced": true
+        }
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 2,
+        "maxBOF": 1,
+        "maxEOF": 0
+      }
+    ]
   }
 }

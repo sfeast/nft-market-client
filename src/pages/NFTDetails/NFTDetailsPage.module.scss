@@ -1,0 +1,21 @@
+@import "src/styles/tokens";
+@import "src/styles/mixins";
+
+.NFTDetailsPage {
+  margin-top: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .details {
+    font-size: 20px;
+    justify-content: space-between;
+    .contractHash {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      svg {
+        margin-left: 5px;
+      }
+    }
+  }
+}
