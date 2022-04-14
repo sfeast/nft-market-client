@@ -114,9 +114,9 @@ function NFTDetailsPage() {
                     <Stack spacing={3}>
                         <MarketActions
                             tokenId={itemId}
-                            price={nft.price}
+                            price={nft.listing?.price}
                             owner={nft.owner}
-                            listed={nft.listed}
+                            listed={Boolean(nft.listing)}
                         />
                         <CollapsibleSection withoutPadding title="Price history">
                             <BasicTable rows={priceHistory.rows} headings={priceHistory.headings} />

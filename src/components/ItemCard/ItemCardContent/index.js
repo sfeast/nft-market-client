@@ -8,12 +8,12 @@ import ContentItem from 'components/shared/ContentItem';
 const ItemCardContent = ({ price, owner }) => {
     return (
         <StyledCardContent>
-            <ContentItem name="Author" flex="2">
+            <ContentItem name="Author" flex="3">
                 <Typography variant="subtitle1">{owner}</Typography>
             </ContentItem>
 
             {price && (
-                <ContentItem name="Price" flex="1">
+                <ContentItem name="Price" flex="2">
                     <Typography variant="h6">{price}</Typography>
                 </ContentItem>
             )}

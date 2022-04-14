@@ -67,7 +67,7 @@ export const extractDeployDetails = deploy => {
     try {
         return {
             token_id: deploy.session.StoredContractByHash.args.find(
-                item => item[0] === 'token_ids'
+                item => item[0] === 'token_ids' || item[0] === 'token_id'
             )[1].parsed[0],
             contract: deploy.session.StoredContractByHash.hash
         };

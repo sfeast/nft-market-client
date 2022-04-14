@@ -10,7 +10,7 @@ import BuyNow from 'components/NftMarketActions/BuyNow';
 import MakeOffer from 'components/NftMarketActions/MakeOffer';
 import ContentItem from 'components/shared/ContentItem';
 
-import { TICKERS } from 'constants/config';
+import { getPrice } from 'utils/normalizers/nftItem';
 
 const Actions = ({ walletKey, currentUserIsOwner, tokenId, listed, price }) => {
     if (!walletKey) {
@@ -23,9 +23,9 @@ const Actions = ({ walletKey, currentUserIsOwner, tokenId, listed, price }) => {
     // else
     if (Boolean(listed)) {
         return (
-            <div>
+            <div style={{ display: 'grid', rowGap: 15 }}>
                 <BuyNow tokenId={tokenId} price={price} fullWidth />
-                <MakeOffer tokenId={tokenId} fullWidth />
+                <MakeOffer tokenId={tokenId} fullWidth variant="outlined" />
             </div>
         );
     }
@@ -43,7 +43,7 @@ const MarketActions = ({ listed, owner, tokenId, price }) => {
             {!!price && (
                 <ContentItem name="Price" flex="2">
                     <Typography variant="h5" fontWeight="bold">
-                        {price} {TICKERS.cspr}
+                        {getPrice(price)}
                     </Typography>
                 </ContentItem>
             )}
