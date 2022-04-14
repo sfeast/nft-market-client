@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import ItemCard from 'components/ItemCard';
+import { Link } from 'react-router-dom';
 import { StyledItemsGrid } from 'components/ItemsGrid/styled';
 
 const ItemsGrid = ({ items }) => {
     return (
         <StyledItemsGrid>
             {items.map(el => (
-                <ItemCard key={el.id} el={el} />
+                <Link to={`/items/${el.contract}/${el.token_id}`}>
+                    <ItemCard key={el.id} el={el} />
+                </Link>
             ))}
         </StyledItemsGrid>
     );

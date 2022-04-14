@@ -29,14 +29,14 @@ export const MARKET_CONTRACT = {
 
 // export const NFT_CONTRACT = {
 // 	NAME: 'nft_contract_test_1',
-// 	HASH: 'hash-6539e9c16bbea881d2a9cc2183d72dca956c798a3fb838e5b9707fa938e06687',
-// 	PACKAGE_HASH: 'hash-a1f8c65b2f7776f314484433a43e9bd48e9bed423b022c21554f034d5ec92937'
+// 	HASH: 'hash-893df41fc9643fa47be74102f9b285b6b887dfeec39116fa83a66d1e51b822ec',
+// 	PACKAGE_HASH: 'hash-b56724868f78444699972ea0ec88a220909af2bc460af7916d0f1aed72d012e2'
 // };
 
 // export const MARKET_CONTRACT = {
 //     NAME: 'nft_contract_test_1',
-//     HASH: 'hash-34cfb79524146a9df2efb044a96479afd59688701f2c2aa09d856afad2ce7d22',
-//     PACKAGE_HASH: 'hash-3ff56d345cdc501971ff0ccb9946b57dc4974bdf15b83042c0def68cd90ec3bc'
+//     HASH: 'hash-e9ddf68fcf551da741d37cf3e5d229f4f48db8303d282278bcdf82d2469786cb',
+//     PACKAGE_HASH: 'hash-7ead7247e05f3f3922147c6545968c1ab1b48fd8e28a704e45ad8af0bc63d5fe'
 // };
 
 export const PAYMENT_AMOUNT = {

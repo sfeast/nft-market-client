@@ -1,0 +1,16 @@
+@import "src/styles/tokens";
+
+// [0 - 767]
+@mixin mobile-down {
+  @media (max-width: calc(#{$dimension-mobile} - 1px)) { @content; }
+}
+
+// [768 - ∞]
+@mixin mobile-up {
+  @media (min-width: $dimension-mobile) { @content; }
+}
+
+// [0 - 479]
+@mixin mobile-small-down {
+  @media (max-width: calc(#{$dimension-mobile-small} - 1px)) { @content; }
+}

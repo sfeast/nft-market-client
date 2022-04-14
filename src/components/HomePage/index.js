@@ -1,12 +1,15 @@
+import { useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 
 import ItemsGrid from 'components/ItemsGrid';
 import Banner from 'components/HomePage/Banner';
 import { StyledHomePage, StyledDivider } from 'components/HomePage/styled';
 
-import { items } from 'mock';
+import { nftSelectors } from 'store/selectors';
 
 const HomePage = () => {
+    const sliceResults = useSelector(nftSelectors.selectSliceResults);
+
     return (
         <StyledHomePage>
             <Banner />
@@ -15,7 +18,7 @@ const HomePage = () => {
                     Latest Drops
                 </Typography>
             </StyledDivider>
-            <ItemsGrid items={items} />
+            <ItemsGrid items={sliceResults} />
         </StyledHomePage>
     );
 };
