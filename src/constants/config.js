@@ -16,8 +16,8 @@ export const NFT_CONTRACT = {
 
 export const MARKET_CONTRACT = {
     NAME: 'market_contract',
-    HASH: 'hash-bc113a82c4afc00627c95518cdd584f144719d7906271ed8f8889611d1dc4312',
-    PACKAGE_HASH: 'hash-25700d96b1de45ab359736db3a3bfe84f442a67be1956d3d9e85428c70aa621e'
+    HASH: 'hash-ccdb2fab9f8cbb2416cb1227a7ffcbc35a33ae9f8059f5a637e4a2a92e766575',
+    PACKAGE_HASH: 'hash-bc6b9203fb9b07ff1e1e30b7eb2d870e39101feab82a6e4ff2e8f88bedf21a6d'
 };
 
 // for NCTL environment
@@ -29,19 +29,19 @@ export const MARKET_CONTRACT = {
 
 // export const NFT_CONTRACT = {
 // 	NAME: 'nft_contract_test_1',
-// 	HASH: 'hash-186cb857d6c9ce4d70cec17c4b4b750a8eeecd12975e48cd6767bacdffc36c37',
-// 	PACKAGE_HASH: 'hash-a20b78c921753fec3dcc74c07bf7e61f63bab31c86a1cc6fc3975d7ebf3b6d77'
+// 	HASH: 'hash-6539e9c16bbea881d2a9cc2183d72dca956c798a3fb838e5b9707fa938e06687',
+// 	PACKAGE_HASH: 'hash-a1f8c65b2f7776f314484433a43e9bd48e9bed423b022c21554f034d5ec92937'
 // };
 
 // export const MARKET_CONTRACT = {
 //     NAME: 'nft_contract_test_1',
-//     HASH: 'hash-8a58d027f071ca99446fd20ec97d75047315c245164401353127d52a457778ae',
-//     PACKAGE_HASH: 'hash-b93d5f2d2b1ab029cebb451810c8f6ac99a70ee5ce6ae11b3755cedc01ef2606'
+//     HASH: 'hash-34cfb79524146a9df2efb044a96479afd59688701f2c2aa09d856afad2ce7d22',
+//     PACKAGE_HASH: 'hash-3ff56d345cdc501971ff0ccb9946b57dc4974bdf15b83042c0def68cd90ec3bc'
 // };
 
 export const PAYMENT_AMOUNT = {
     DEPLOY: '7000000000',
-    INSTALL: '7000000000',
+    INSTALL: '10000000000',
     MINT_ONE: '2000000000',
     APPROVE: '2000000000'
 };
@@ -56,6 +56,9 @@ export const DEPLOY_STATE = {
     LIST: 'list',
     CANCEL_LISTING: 'cancel_listing',
     BUY_LISTING: 'buy_listing',
+    MAKE_OFFER: 'make_offer',
+    WITHDRAW_OFFER: 'withdraw_offer',
+    ACCEPT_OFFER: 'accept_offer',
     SUCCESS: 'success',
     ERROR: 'error',
     RESET: null
