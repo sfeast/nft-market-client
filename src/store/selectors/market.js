@@ -7,4 +7,7 @@ export const selectDeployState = createSelector(
     marketState => marketState.deploy
 );
 
-export const selectDeployHash = createSelector(selectMarketState, marketState => marketState.hash);
+export const selectDeployDetails = createSelector(
+    selectMarketState,
+    marketState => marketState.details
+);
