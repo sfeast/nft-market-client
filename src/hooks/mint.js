@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { marketSelectors } from 'store/selectors';
 
-import { DEPLOY_STATE } from 'constants/config';
+import { DEPLOY_STATE, NFT_CONTRACT } from 'constants/config';
 import { usePreviousState } from 'hooks/react';
 import { notifications } from 'utils/helpers/notifications';
 
@@ -28,10 +28,11 @@ export const useMint = () => {
             }
             case previousDeployState === DEPLOY_STATE.MINT &&
                 deployState === DEPLOY_STATE.SUCCESS: {
+                const contract = NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1]; // deployDetails.contract;
                 toast.update(toastId.current, {
                     type: toast.TYPE.SUCCESS,
                     render: notifications.mintingSuccess(
-                        `items/${deployDetails.contract}/${deployDetails.token_id}`
+                        `items/${contract}/${deployDetails.token_id}`
                     ),
                     autoClose: false,
                     isLoading: false,

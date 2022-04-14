@@ -128,11 +128,8 @@ export const list = (token_id, price) => async (dispatch, getState) => {
             PAYMENT_AMOUNT.DEPLOY
         );
 
-        dispatch(
-            executeDeploy(deploy, DEPLOY_STATE.LIST).then(() => {
-                nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id);
-            })
-        );
+        await dispatch(executeDeploy(deploy, DEPLOY_STATE.LIST));
+        dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
     } catch (error) {
         console.log(error);
         alert(error);
@@ -159,11 +156,8 @@ export const cancelListing = token_id => async (dispatch, getState) => {
             PAYMENT_AMOUNT.DEPLOY
         );
 
-        dispatch(
-            executeDeploy(deploy, DEPLOY_STATE.CANCEL_LISTING).then(() => {
-                nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id);
-            })
-        );
+        await dispatch(executeDeploy(deploy, DEPLOY_STATE.CANCEL_LISTING));
+        dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
     } catch (error) {
         console.log(error);
         alert(error);
@@ -200,11 +194,8 @@ export const buyListing = (token_id, price) => async (dispatch, getState) => {
             ENVIRONMENT.CHAIN_NAME
         );
 
-        dispatch(
-            executeDeploy(deploy, DEPLOY_STATE.BUY_LISTING).then(() => {
-                nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id);
-            })
-        );
+        await dispatch(executeDeploy(deploy, DEPLOY_STATE.BUY_LISTING));
+        dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
     } catch (error) {
         console.log(error);
         alert(error);
@@ -354,7 +345,7 @@ const executeDeploy = (deploy, type) => async (dispatch, getState) => {
 
     if (!signedDeploy) {
         dispatch(setDeployError());
-        return;
+        return Promise.reject();
     }
     const hash = await sendDeploy(signedDeploy);
 
