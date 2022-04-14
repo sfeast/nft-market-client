@@ -24,7 +24,6 @@ export const MARKET_ACTION_TYPES = {
     COMPLETED_DEPLOY: 'COMPLETED_DEPLOY'
 };
 
-// FIXME: make these globally accessible? Only if used elsewhere
 const cep47 = new CEP47Client(ENVIRONMENT.NODE_ADDRESS, ENVIRONMENT.CHAIN_NAME);
 cep47.setContractHash(NFT_CONTRACT.HASH, NFT_CONTRACT.PACKAGE_HASH);
 const casperClient = new CasperClient(ENVIRONMENT.NODE_ADDRESS);
@@ -163,11 +162,10 @@ export const cancelListing = token_id => async (dispatch, getState) => {
     }
 };
 
-export const buyListing = token_id => async (dispatch, getState) => {
+export const buyListing = (token_id, price) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
 
-    const price = 1;
     // TODO: implement server side token listing price lookup? (or I think we'll already have it locally with nft item data)
     // const price = await getListingPrice(token_id);
 
@@ -201,6 +199,95 @@ export const buyListing = token_id => async (dispatch, getState) => {
     }
 };
 
+export const makeOffer = (token_id, price) => async (dispatch, getState) => {
+    const store = getState();
+    const clPublicKey = walletSelectors.selectCLPublicKey(store);
+
+    try {
+        const runtimeArgs = RuntimeArgs.fromMap({
+            token_id: CLValueBuilder.string(token_id),
+            token_contract_hash: CLValueBuilder.string(
+                NFT_CONTRACT.HASH.replace('hash', 'contract')
+            ),
+            market_contract_hash: CLValueBuilder.string(
+                MARKET_CONTRACT.HASH.replace('hash', 'contract')
+            ),
+            entry_point_name: CLValueBuilder.string('make_offer'),
+            amount: CLValueBuilder.u512(toMotes(parseInt(price)))
+        });
+
+        const paymentBinary = await getPaymentBinary();
+
+        const deploy = await contract.install(
+            paymentBinary,
+            runtimeArgs,
+            PAYMENT_AMOUNT.INSTALL,
+            clPublicKey,
+            ENVIRONMENT.CHAIN_NAME
+        );
+
+        dispatch(executeDeploy(deploy, DEPLOY_STATE.MAKE_OFFER));
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+};
+
+export const withdrawOffer = token_id => async (dispatch, getState) => {
+    const store = getState();
+    const clPublicKey = walletSelectors.selectCLPublicKey(store);
+
+    try {
+        const runtimeArgs = RuntimeArgs.fromMap({
+            token_id: CLValueBuilder.string(token_id),
+            token_contract_hash: CLValueBuilder.string(
+                NFT_CONTRACT.HASH.replace('hash', 'contract')
+            )
+        });
+
+        const deploy = await contract.callEntrypoint(
+            'withdraw_offer',
+            runtimeArgs,
+            clPublicKey,
+            ENVIRONMENT.CHAIN_NAME,
+            PAYMENT_AMOUNT.DEPLOY
+        );
+
+        dispatch(executeDeploy(deploy, DEPLOY_STATE.WITHDRAW_OFFER));
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+};
+
+export const acceptOffer = (token_id, accepted_account) => async (dispatch, getState) => {
+    const store = getState();
+    const clPublicKey = walletSelectors.selectCLPublicKey(store);
+
+    try {
+        const runtimeArgs = RuntimeArgs.fromMap({
+            token_id: CLValueBuilder.string(token_id),
+            token_contract_hash: CLValueBuilder.string(
+                NFT_CONTRACT.HASH.replace('hash', 'contract')
+            ),
+            accepted_offer: CLValueBuilder.string(accepted_account)
+        });
+
+        const deploy = await contract.callEntrypoint(
+            'accept_offer',
+            runtimeArgs,
+            clPublicKey,
+            ENVIRONMENT.CHAIN_NAME,
+            PAYMENT_AMOUNT.DEPLOY
+        );
+
+        dispatch(executeDeploy(deploy, DEPLOY_STATE.ACCEPT_OFFER));
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+};
+
 const getPaymentBinary = async () => {
     return fetch(`${process.env.PUBLIC_URL}/contract.wasm`, {
         headers: {
@@ -214,17 +301,6 @@ const getPaymentBinary = async () => {
 const getNewMintId = async () => {
     const id = await getData(SERVER_ADDRESS + '/getMintId');
     return id;
-};
-
-const storeMetaData = async meta => {
-    return postData(SERVER_ADDRESS + '/storeMetaData', meta)
-        .then(response => {
-            return response;
-        })
-        .catch(error => {
-            alert(error);
-            throw Error('Deploy error: ' + error);
-        });
 };
 
 const resetDeployState = () => async dispatch => {

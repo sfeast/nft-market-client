@@ -16,8 +16,8 @@ export const NFT_CONTRACT = {
 
 export const MARKET_CONTRACT = {
     NAME: 'market_contract',
-    HASH: 'hash-bc113a82c4afc00627c95518cdd584f144719d7906271ed8f8889611d1dc4312',
-    PACKAGE_HASH: 'hash-25700d96b1de45ab359736db3a3bfe84f442a67be1956d3d9e85428c70aa621e'
+    HASH: 'hash-ccdb2fab9f8cbb2416cb1227a7ffcbc35a33ae9f8059f5a637e4a2a92e766575',
+    PACKAGE_HASH: 'hash-bc6b9203fb9b07ff1e1e30b7eb2d870e39101feab82a6e4ff2e8f88bedf21a6d'
 };
 
 // for NCTL environment
@@ -41,7 +41,7 @@ export const MARKET_CONTRACT = {
 
 export const PAYMENT_AMOUNT = {
     DEPLOY: '7000000000',
-    INSTALL: '7000000000',
+    INSTALL: '10000000000',
     MINT_ONE: '2000000000',
     APPROVE: '2000000000'
 };
@@ -56,6 +56,9 @@ export const DEPLOY_STATE = {
     LIST: 'list',
     CANCEL_LISTING: 'cancel_listing',
     BUY_LISTING: 'buy_listing',
+    MAKE_OFFER: 'make_offer',
+    WITHDRAW_OFFER: 'withdraw_offer',
+    ACCEPT_OFFER: 'accept_offer',
     SUCCESS: 'success',
     ERROR: 'error',
     RESET: null
