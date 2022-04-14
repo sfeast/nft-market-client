@@ -62,6 +62,10 @@ export const SCGlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.palette.text.main}
   }
   
+  a {
+    text-decoration: none;
+  }
+
   #root {
     display: flex;
     align-items: center;
