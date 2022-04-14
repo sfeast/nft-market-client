@@ -11,8 +11,54 @@ import ItemCard from 'components/ItemCard';
 import { truncate } from 'utils/helpers/string';
 import { nftActions } from 'store/actions';
 import TokenPropertyDetails from './TokenPropertyDetails';
+import BasicTable from 'components/shared/BasicTable';
 
 import styles from './NFTDetailsPage.module.scss';
+
+const createData = records => records.map(rowObj => Object.keys(rowObj).map(key => rowObj[key]));
+
+// hardcoded values for the table
+const listingsTableData = {
+    headings: ['From', 'Start Date', 'Expiration', 'Price'],
+    rows: createData([
+        {
+            from: '42988...700C3',
+            startDate: '14/04/2022, 14:21:55',
+            expiration: '29/04/2022, 14:11:14',
+            price: '10'
+        },
+        {
+            from: '42988...700C3',
+            startDate: '14/04/2022, 14:21:55',
+            expiration: '29/04/2022, 14:11:14',
+            price: '10'
+        },
+        {
+            from: '42988...700C3',
+            startDate: '14/04/2022, 14:21:55',
+            expiration: '29/04/2022, 14:11:14',
+            price: '10'
+        }
+    ])
+};
+
+const offersData = {
+    headings: ['Price', 'Expiration', 'From'],
+    rows: createData([
+        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: '22085...b0e1C' },
+        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: 'B6B65...14554' },
+        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: '27004...bCC1D' }
+    ])
+};
+
+const priceHistory = {
+    headings: ['Price', 'Expiration', 'From'],
+    rows: createData([
+        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: '22085...b0e1C' },
+        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: 'B6B65...14554' },
+        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: '27004...bCC1D' }
+    ])
+};
 
 function NFTDetailsPage() {
     const dispatch = useDispatch();
@@ -67,14 +113,17 @@ function NFTDetailsPage() {
                 </Grid>
                 <Grid item sm={12} xs={12} md={6} lg={6}>
                     <Stack spacing={3}>
-                        <CollapsibleSection title="Price history">
-                            This NFT has no description.
+                        <CollapsibleSection withoutPadding title="Price history">
+                            <BasicTable rows={priceHistory.rows} headings={priceHistory.headings} />
                         </CollapsibleSection>
-                        <CollapsibleSection title="Listings">
-                            This NFT has no description.
+                        <CollapsibleSection withoutPadding title="Listings">
+                            <BasicTable
+                                rows={listingsTableData.rows}
+                                headings={listingsTableData.headings}
+                            />
                         </CollapsibleSection>
-                        <CollapsibleSection title="Offers">
-                            This NFT has no description.
+                        <CollapsibleSection withoutPadding title="Offers">
+                            <BasicTable rows={offersData.rows} headings={offersData.headings} />
                         </CollapsibleSection>
                     </Stack>
                 </Grid>
