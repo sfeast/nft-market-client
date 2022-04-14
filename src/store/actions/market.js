@@ -1,11 +1,14 @@
 import { CEP47Client } from 'casper-cep47-js-client';
 import { CasperClient, Contracts, RuntimeArgs, CLValueBuilder, CLByteArray } from 'casper-js-sdk';
 import { Buffer } from 'buffer';
+import { toast } from 'react-toastify';
 
-import { getDeploy, sendDeploy, signDeploy, toMotes } from 'utils/casper';
+import { getDeploy, sendDeploy, signDeploy, toMotes, extractDeployDetails } from 'utils/casper';
 import { getData, postData } from 'utils/helpers/xchRequests';
+import { notifications } from 'utils/helpers/notifications';
 
 import { walletSelectors } from 'store/selectors';
+import { walletActions } from 'store/actions';
 
 import {
     SERVER_ADDRESS,
@@ -28,32 +31,45 @@ const casperClient = new CasperClient(ENVIRONMENT.NODE_ADDRESS);
 const contract = new Contracts.Contract(casperClient);
 contract.setContractHash(MARKET_CONTRACT.HASH, MARKET_CONTRACT.PACKAGE_HASH);
 
+const loadMetaDataToIPFS = async (metaData, ipfs) => {
+    try {
+        const { cid: imageCID } = await ipfs.add({
+            path: metaData.image.name,
+            content: metaData.image
+        });
+        const { cid: metadataCID } = await ipfs.add(
+            JSON.stringify({ ...metaData, image: `ipfs://${imageCID.toString()}` })
+        );
+
+        toast.info(notifications.saveToIpfsSuccess);
+
+        return {
+            imageCID,
+            metadataCID
+        };
+    } catch (err) {
+        toast.warning(
+            notifications.saveToIpfsFailed + notifications.wait + notifications.andTryAgain
+        );
+    }
+};
+
 export const mint = (metaData, ipfs) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
+    const key = walletSelectors.selectPublicKeyHash(store);
+
+    if (!key) {
+        dispatch(walletActions.connectionRequest());
+        const message = notifications.connectWallet + notifications.andTryAgain;
+        toast.warning(message, { toastId: message });
+        return;
+    }
 
     try {
-        if (!ipfs) {
-            throw new Error('IPFS service is not initialized');
-        }
-
         const id = await getNewMintId();
 
-        const { cid: imageCID } = await ipfs.add(
-            {
-                path: metaData.image.name,
-                content: metaData.image
-            },
-            {
-                progress: prog => console.log(`received: ${prog}`)
-            }
-        );
-        const { cid: metadataCID } = await ipfs.add(
-            JSON.stringify({ ...metaData, image: `ipfs://${imageCID.toString()}` }),
-            {
-                progress: prog => console.log(`received: ${prog}`)
-            }
-        );
+        const { metadataCID } = await loadMetaDataToIPFS(metaData, ipfs);
 
         const deploy = await cep47.mint(
             clPublicKey,
@@ -66,7 +82,6 @@ export const mint = (metaData, ipfs) => async (dispatch, getState) => {
         dispatch(executeDeploy(deploy, DEPLOY_STATE.MINT));
     } catch (error) {
         console.log(error);
-        alert(error);
     }
 };
 
@@ -216,7 +231,10 @@ const resetDeployState = () => async dispatch => {
     setTimeout(() => {
         dispatch({
             type: MARKET_ACTION_TYPES.COMPLETED_DEPLOY,
-            payload: DEPLOY_STATE.RESET
+            payload: {
+                type: DEPLOY_STATE.RESET,
+                details: null
+            }
         });
     }, 1000);
 };
@@ -224,15 +242,21 @@ const resetDeployState = () => async dispatch => {
 const setDeployError = () => async dispatch => {
     dispatch({
         type: MARKET_ACTION_TYPES.COMPLETED_DEPLOY,
-        payload: DEPLOY_STATE.ERROR
+        payload: {
+            type: DEPLOY_STATE.ERROR,
+            details: null
+        }
     });
     dispatch(resetDeployState());
 };
 
-const setDeploySuccess = () => async dispatch => {
+const setDeploySuccess = details => async dispatch => {
     dispatch({
         type: MARKET_ACTION_TYPES.COMPLETED_DEPLOY,
-        payload: DEPLOY_STATE.SUCCESS
+        payload: {
+            type: DEPLOY_STATE.SUCCESS,
+            details
+        }
     });
     dispatch(resetDeployState());
 };
@@ -248,13 +272,17 @@ const executeDeploy = (deploy, type) => async (dispatch, getState) => {
 
     dispatch({
         type: MARKET_ACTION_TYPES.DEPLOY,
-        payload: type
+        payload: {
+            type,
+            details: { hash }
+        }
     });
     console.log('Deployed: https://testnet.cspr.live/deploy/' + hash);
 
     getDeploy(hash)
-        .then(deploy => {
-            dispatch(setDeploySuccess());
+        .then(response => {
+            const details = extractDeployDetails(response.deploy);
+            dispatch(setDeploySuccess(details));
         })
         .catch(error => {
             dispatch(setDeployError());

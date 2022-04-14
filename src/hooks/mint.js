@@ -1,39 +1,58 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
-import { walletActions } from 'store/actions';
-import { marketSelectors, walletSelectors } from 'store/selectors';
+import { marketSelectors } from 'store/selectors';
 
 import { DEPLOY_STATE } from 'constants/config';
 import { usePreviousState } from 'hooks/react';
+import { notifications } from 'utils/helpers/notifications';
 
 export const useMint = () => {
-    const dispatch = useDispatch();
-    // using key because connected seems to be wrong a lot :( Or does it not mean what I think it means?
-    const key = useSelector(walletSelectors.selectPublicKeyHash);
     const deployState = useSelector(marketSelectors.selectDeployState);
+    const deployDetails = useSelector(marketSelectors.selectDeployDetails);
     const previousDeployState = usePreviousState(deployState);
+    const toastId = useRef();
+
+    const getItemPageRoute = useCallback(() => {
+        // TODO: replace with proper routing approach
+        return `https://localhost:3000/item_page/${deployDetails.contract}?id=${deployDetails.token_id}`;
+    }, [deployDetails]);
 
     useEffect(async () => {
         switch (true) {
-            // TODO: replace alerts with app UI
-            case !previousDeployState && deployState === DEPLOY_STATE.MINT:
-                alert('Minting');
+            case !previousDeployState && deployState === DEPLOY_STATE.MINT: {
+                toastId.current = toast(notifications.mintingStarted(deployDetails.hash), {
+                    render: notifications.mintingStarted(deployDetails.hash),
+                    type: toast.TYPE.INFO,
+                    autoClose: false,
+                    closeOnClick: false,
+                    isLoading: true
+                });
                 break;
-            case previousDeployState === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.SUCCESS:
-                alert('Minting Success');
+            }
+            case previousDeployState === DEPLOY_STATE.MINT &&
+                deployState === DEPLOY_STATE.SUCCESS: {
+                toast.update(toastId.current, {
+                    type: toast.TYPE.SUCCESS,
+                    render: notifications.mintingSuccess(getItemPageRoute()),
+                    autoClose: false,
+                    isLoading: false
+                });
                 break;
-            case previousDeployState === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.ERROR:
-                alert('Minting Failed');
+            }
+
+            case previousDeployState === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.ERROR: {
+                toast.update(toastId.current, {
+                    type: toast.TYPE.ERROR,
+                    render: notifications.mintingFailed + notifications.tryAgain,
+                    autoClose: 3000,
+                    isLoading: false
+                });
                 break;
+            }
             default:
                 break;
         }
-    }, [deployState]);
-
-    useEffect(() => {
-        if (!key) {
-            dispatch(walletActions.connectionRequest());
-        }
-    }, [dispatch, key]);
+    }, [deployState, deployDetails]);
 };

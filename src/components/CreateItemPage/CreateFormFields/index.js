@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useField, useForm } from 'react-final-form';
 
@@ -18,12 +19,16 @@ import {
 
 import { getFieldError, validators } from 'utils/helpers/form';
 import { getBytes } from 'utils/helpers/calculations';
-import { ACCEPTED_MIME_TYPES } from 'constants/config';
+import { useIpfsContext } from 'context/ipfs';
+import { marketSelectors } from 'store/selectors';
+import { ACCEPTED_MIME_TYPES, DEPLOY_STATE } from 'constants/config';
 
 const ACCEPTED_MIME_TYPES_ARRAY = Object.values(ACCEPTED_MIME_TYPES);
 
 const CreateFormFields = ({ handleSubmit }) => {
     const form = useForm();
+    const ipfs = useIpfsContext();
+    const deployState = useSelector(marketSelectors.selectDeployState);
 
     // fields
     const imageField = useField('image', { validate: validators.required });
@@ -53,11 +58,27 @@ const CreateFormFields = ({ handleSubmit }) => {
     }, [form]);
 
     const submitButtonIsDisabled =
+        deployState === DEPLOY_STATE.MINT ||
+        !ipfs ||
         !nameField.input.value ||
         !imageField.input.value ||
         !!externalLinkFieldError ||
         !!nameFieldError ||
         !!imageFieldError;
+
+    const getButtonTitle = () => {
+        switch (true) {
+            case !ipfs: {
+                return 'Please, wait..';
+            }
+            case deployState === DEPLOY_STATE.MINT: {
+                return 'Your NFT item is minting. Please wait..';
+            }
+            default: {
+                return 'Create';
+            }
+        }
+    };
 
     return (
         <StyledCreateFormFields>
@@ -105,7 +126,7 @@ const CreateFormFields = ({ handleSubmit }) => {
                 onClick={handleSubmit}
                 disabled={submitButtonIsDisabled}
             >
-                Apply
+                {getButtonTitle()}
             </Button>
         </StyledCreateFormFields>
     );

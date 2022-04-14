@@ -1,9 +1,25 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+
 import Page from 'components/shared/Page';
 import CreateItemPageComponent from 'components/CreateItemPage';
-import { useMint } from 'hooks/mint';
+
+import { walletActions } from 'store/actions';
+import { walletSelectors } from 'store/selectors';
+import { notifications } from 'utils/helpers/notifications';
 
 const CreateItemPage = () => {
-    useMint();
+    const dispatch = useDispatch();
+    const key = useSelector(walletSelectors.selectPublicKeyHash);
+
+    useEffect(() => {
+        if (!key) {
+            const message = notifications.connectWallet;
+            toast.warning(message, { toastId: message });
+            dispatch(walletActions.connectionRequest());
+        }
+    }, [dispatch, key]);
 
     return (
         <Page>

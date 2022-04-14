@@ -1,13 +1,15 @@
 import { Signer } from 'casper-js-sdk';
+import { toast } from 'react-toastify';
+
 import { getData } from 'utils/helpers/xchRequests';
 import { fromMotes } from 'utils/casper';
 
 import { walletSelectors } from 'store/selectors';
 import { SERVER_ADDRESS } from 'constants/config';
+import { notifications } from 'utils/helpers/notifications';
 
 export const WALLET_ACTION_TYPES = {
     SET_KEY: 'SET_KEY',
-    SET_CONNECTED: 'SET_CONNECTED',
     SET_BALANCE: 'SET_BALANCE'
 };
 
@@ -15,27 +17,31 @@ export const connectionRequest = () => async () => {
     Signer.sendConnectionRequest();
 };
 
-const setConnected = connected => async dispatch => {
-    dispatch({
-        type: WALLET_ACTION_TYPES.SET_CONNECTED,
-        payload: connected
-    });
-};
+export const updateKey = () => async (dispatch, getState) => {
+    const store = getState();
+    const storedKey = walletSelectors.selectPublicKeyHash(store);
 
-const setKey = key => async dispatch => {
-    dispatch({
-        type: WALLET_ACTION_TYPES.SET_KEY,
-        payload: key
-    });
-};
-
-// can we integrate this with setConnected? ex: key || activePublicKey
-export const updateKey = () => async dispatch => {
     try {
-        const activePublicKey = await Signer.getActivePublicKey();
-        dispatch(setKey(activePublicKey));
+        const key = await Signer.getActivePublicKey();
+        if (storedKey !== key) {
+            const message = notifications.walletConnected(key);
+            toast.success(message, { toastId: message });
+
+            dispatch({
+                type: WALLET_ACTION_TYPES.SET_KEY,
+                payload: key
+            });
+        }
     } catch (error) {
-        console.log(error);
+        if (storedKey !== null) {
+            const message = notifications.walletDisconnected;
+            toast.warning(message, { toastId: message });
+
+            dispatch({
+                type: WALLET_ACTION_TYPES.SET_KEY,
+                payload: null
+            });
+        }
     }
 };
 
@@ -53,31 +59,25 @@ export const updateBalance = () => async (dispatch, getState) => {
 };
 
 export const initialize = () => async dispatch => {
-    const isConnected = await Signer.isConnected();
-    dispatch(setConnected(isConnected));
+    dispatch(updateKey());
 
-    window.addEventListener('signer:locked', msg => {
-        dispatch(setKey(null));
-        dispatch(setConnected(false));
+    window.addEventListener('signer:locked', () => {
+        dispatch(updateKey());
     });
     window.addEventListener('signer:unlocked', msg => {
         if (msg.detail.isConnected) {
-            dispatch(setKey(msg.detail.activeKey));
-            dispatch(setConnected(true));
+            dispatch(updateKey());
         }
     });
     window.addEventListener('signer:activeKeyChanged', msg => {
         if (msg.detail.isConnected) {
-            dispatch(setKey(msg.detail.activeKey));
-            dispatch(setConnected(true));
+            dispatch(updateKey());
         }
     });
     window.addEventListener('signer:connected', msg => {
-        dispatch(setKey(msg.detail.activeKey));
-        dispatch(setConnected(true));
+        dispatch(updateKey());
     });
-    window.addEventListener('signer:disconnected', msg => {
-        dispatch(setKey(null));
-        dispatch(setConnected(false));
+    window.addEventListener('signer:disconnected', () => {
+        dispatch(updateKey());
     });
 };
