@@ -12,7 +12,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import styles from './CollapsibleSection.module.scss';
 
-function CollapsibleSection({ className, title, children, ...restProps }) {
+function CollapsibleSection({ className, title, children, withoutPadding, ...restProps }) {
     const [expanded, setExpanded] = useState(true);
 
     const toggleExpanded = useCallback(
@@ -38,7 +38,11 @@ function CollapsibleSection({ className, title, children, ...restProps }) {
             >
                 <Typography>{title}</Typography>
             </AccordionSummary>
-            <AccordionDetails className={styles.details}>{children}</AccordionDetails>
+            <AccordionDetails
+                className={cn(styles.details, { [styles.withoutPadding]: withoutPadding })}
+            >
+                {children}
+            </AccordionDetails>
         </Accordion>
     );
 }
