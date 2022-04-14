@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { truncate } from 'utils/helpers/string';
 
 export const notifications = {
@@ -5,7 +6,7 @@ export const notifications = {
     connectWallet: 'Please, connect your wallet',
     mintingStarted: hash => (
         <div>
-            Your NFT item is minting. Please wait.. 😴 <br />
+            Your NFT item is minting.. 😴 <br />
             You may explore it{' '}
             <a href={`https://testnet.cspr.live/deploy/${hash}`} target="_blank">
                 here
@@ -15,7 +16,7 @@ export const notifications = {
     mintingSuccess: route => (
         <div>
             Your NFT has been minted 👌 <br />
-            See it <a href={route}>here</a>
+            See it <Link to={route}>here</Link>
         </div>
     ),
     mintingFailed: 'Minting failed 🤯',

@@ -8,7 +8,7 @@ import { getData, postData } from 'utils/helpers/xchRequests';
 import { notifications } from 'utils/helpers/notifications';
 
 import { walletSelectors } from 'store/selectors';
-import { walletActions } from 'store/actions';
+import { walletActions, nftActions } from 'store/actions';
 
 import {
     SERVER_ADDRESS,
@@ -128,7 +128,11 @@ export const list = (token_id, price) => async (dispatch, getState) => {
             PAYMENT_AMOUNT.DEPLOY
         );
 
-        dispatch(executeDeploy(deploy, DEPLOY_STATE.LIST));
+        dispatch(
+            executeDeploy(deploy, DEPLOY_STATE.LIST).then(() => {
+                nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id);
+            })
+        );
     } catch (error) {
         console.log(error);
         alert(error);
@@ -155,7 +159,11 @@ export const cancelListing = token_id => async (dispatch, getState) => {
             PAYMENT_AMOUNT.DEPLOY
         );
 
-        dispatch(executeDeploy(deploy, DEPLOY_STATE.CANCEL_LISTING));
+        dispatch(
+            executeDeploy(deploy, DEPLOY_STATE.CANCEL_LISTING).then(() => {
+                nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id);
+            })
+        );
     } catch (error) {
         console.log(error);
         alert(error);
@@ -192,7 +200,11 @@ export const buyListing = (token_id, price) => async (dispatch, getState) => {
             ENVIRONMENT.CHAIN_NAME
         );
 
-        dispatch(executeDeploy(deploy, DEPLOY_STATE.BUY_LISTING));
+        dispatch(
+            executeDeploy(deploy, DEPLOY_STATE.BUY_LISTING).then(() => {
+                nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id);
+            })
+        );
     } catch (error) {
         console.log(error);
         alert(error);
@@ -355,7 +367,7 @@ const executeDeploy = (deploy, type) => async (dispatch, getState) => {
     });
     console.log('Deployed: https://testnet.cspr.live/deploy/' + hash);
 
-    getDeploy(hash)
+    return getDeploy(hash)
         .then(response => {
             const details = extractDeployDetails(response.deploy);
             dispatch(setDeploySuccess(details));

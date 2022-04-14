@@ -1,8 +1,19 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import Page from 'components/shared/Page';
-import NFTDetailsPage from './NFTDetailsPage';
+
+import NFTDetailsPage from 'pages/NFTDetails/NFTDetailsPage';
+import { nftActions } from 'store/actions';
 
 const NFTDetails = () => {
-    // load & prepare data for Item Page
+    const dispatch = useDispatch();
+    const { contract, itemId } = useParams();
+
+    useEffect(() => {
+        dispatch(nftActions.loadNft(contract, itemId));
+    }, [contract, itemId]);
 
     return (
         <Page>

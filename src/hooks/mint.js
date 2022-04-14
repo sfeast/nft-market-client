@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -14,12 +14,7 @@ export const useMint = () => {
     const previousDeployState = usePreviousState(deployState);
     const toastId = useRef();
 
-    const getItemPageRoute = useCallback(() => {
-        // TODO: replace with proper routing approach
-        return `https://localhost:3000/item_page/${deployDetails.contract}?id=${deployDetails.token_id}`;
-    }, [deployDetails]);
-
-    useEffect(async () => {
+    useEffect(() => {
         switch (true) {
             case !previousDeployState && deployState === DEPLOY_STATE.MINT: {
                 toastId.current = toast(notifications.mintingStarted(deployDetails.hash), {
@@ -35,9 +30,12 @@ export const useMint = () => {
                 deployState === DEPLOY_STATE.SUCCESS: {
                 toast.update(toastId.current, {
                     type: toast.TYPE.SUCCESS,
-                    render: notifications.mintingSuccess(getItemPageRoute()),
+                    render: notifications.mintingSuccess(
+                        `items/${deployDetails.contract}/${deployDetails.token_id}`
+                    ),
                     autoClose: false,
-                    isLoading: false
+                    isLoading: false,
+                    closeOnClick: true
                 });
                 break;
             }

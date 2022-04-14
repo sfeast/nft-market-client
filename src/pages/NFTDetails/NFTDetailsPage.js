@@ -1,19 +1,23 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { nftSelectors } from 'store/selectors';
+
 import Typography from '@mui/material/Typography';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+
 import CollapsibleSection from 'components/shared/CollapsibleSection';
 import ItemCard from 'components/ItemCard';
-import { truncate } from 'utils/helpers/string';
-import { nftActions } from 'store/actions';
-import TokenPropertyDetails from './TokenPropertyDetails';
+import TokenPropertyDetails from 'pages/NFTDetails/TokenPropertyDetails';
+import MarketActions from 'components/NFTDetails/MarketActions';
 import BasicTable from 'components/shared/BasicTable';
 
-import styles from './NFTDetailsPage.module.scss';
+import { truncate } from 'utils/helpers/string';
+import { nftActions } from 'store/actions';
+import { nftSelectors } from 'store/selectors';
+
+import styles from 'pages/NFTDetails/NFTDetailsPage.module.scss';
 
 const createData = records => records.map(rowObj => Object.keys(rowObj).map(key => rowObj[key]));
 
@@ -61,13 +65,8 @@ const priceHistory = {
 };
 
 function NFTDetailsPage() {
-    const dispatch = useDispatch();
     const { contract, itemId } = useParams();
     const nft = useSelector(nftSelectors.selectCurrentItem);
-
-    useEffect(() => {
-        dispatch(nftActions.loadNft(contract, itemId));
-    }, [contract, itemId]);
 
     return (
         <Grid className={styles.NFTDetailsPage} container>
@@ -113,6 +112,12 @@ function NFTDetailsPage() {
                 </Grid>
                 <Grid item sm={12} xs={12} md={6} lg={6}>
                     <Stack spacing={3}>
+                        <MarketActions
+                            tokenId={itemId}
+                            price={nft.price}
+                            owner={nft.owner}
+                            listed={nft.listed}
+                        />
                         <CollapsibleSection withoutPadding title="Price history">
                             <BasicTable rows={priceHistory.rows} headings={priceHistory.headings} />
                         </CollapsibleSection>

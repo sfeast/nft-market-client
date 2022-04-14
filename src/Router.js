@@ -4,6 +4,7 @@ import { Route, Routes, Navigate, BrowserRouter } from 'react-router-dom';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import ErrorBoundary from 'components/ErrorBoundary';
+import ToastContainer from 'components/ToastContainer';
 
 const ItemsPageLazy = lazy(() => import('pages/ItemsPage'));
 const NFTDetailsLazy = lazy(() => import('pages/NFTDetails'));
@@ -26,6 +27,7 @@ const Router = () => {
                 </Suspense>
             </ErrorBoundary>
             <Footer />
+            <ToastContainer />
         </BrowserRouter>
     );
 };

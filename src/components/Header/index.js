@@ -12,7 +12,7 @@ import {
     StyledButtonsWrapper,
     StyledLinkButton
 } from 'components/Header/styled';
-import WalletConnect from 'components/WalletConnect';
+import WalletConnect from 'components/NftMarketActions/WalletConnect';
 import HomeButton from 'components/Header/HomeButton';
 import Search from 'components/shared/Search';
 import HeaderMenuDrawer from 'components/Header/HeaderMenuDrawer';

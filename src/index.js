@@ -12,7 +12,6 @@ import store from 'services/redux';
 
 import App from 'App';
 import IpfsProvider from 'context/ipfs';
-import ToastContainer from 'components/ToastContainer';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -24,7 +23,6 @@ ReactDOM.render(
                     <Provider store={store}>
                         <IpfsProvider>
                             <App />
-                            <ToastContainer />
                         </IpfsProvider>
                     </Provider>
                 </SCThemeProvider>
