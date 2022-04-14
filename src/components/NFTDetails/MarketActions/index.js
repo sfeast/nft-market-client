@@ -25,7 +25,7 @@ const Actions = ({ walletKey, currentUserIsOwner, tokenId, listed, price }) => {
         return (
             <div style={{ display: 'grid', rowGap: 15 }}>
                 <BuyNow tokenId={tokenId} price={price} fullWidth />
-                <MakeOffer tokenId={tokenId} fullWidth variant="outlined" />
+                <MakeOffer tokenId={tokenId} fullWidth />
             </div>
         );
     }
