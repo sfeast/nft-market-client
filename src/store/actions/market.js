@@ -33,8 +33,6 @@ contract.setContractHash(MARKET_CONTRACT.HASH, MARKET_CONTRACT.PACKAGE_HASH);
 
 const loadMetaDataToIPFS = async (metaData, ipfs) => {
     try {
-        // toast.info(notifications.saveToIpfsStarted);
-
         const { cid: imageCID } = await ipfs.add({
             path: metaData.image.name,
             content: metaData.image
@@ -265,7 +263,10 @@ const executeDeploy = (deploy, type) => async (dispatch, getState) => {
 
     dispatch({
         type: MARKET_ACTION_TYPES.DEPLOY,
-        payload: type
+        payload: {
+            type,
+            hash
+        }
     });
     console.log('Deployed: https://testnet.cspr.live/deploy/' + hash);
 

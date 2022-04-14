@@ -3,7 +3,15 @@ import { truncate } from 'utils/helpers/string';
 export const notifications = {
     walletDisconnected: 'Wallet is disconnected.',
     connectWallet: 'Please, connect your wallet',
-    mintingStarted: 'Minting your NFT 😴',
+    mintingStarted: hash => (
+        <div>
+            Your NFT item is minting. Please wait.. 😴 <br />
+            You may explore it{' '}
+            <a href={`https://testnet.cspr.live/deploy/${hash}`} target="_blank">
+                here
+            </a>
+        </div>
+    ),
     mintingSuccess: 'Your NFT has been minted 👌',
     mintingFailed: 'Minting failed 🤯',
     saveToIpfsStarted: 'Metadata is saving to IPFS storage 😴',
