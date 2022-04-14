@@ -26,7 +26,7 @@ function NFTDetailsPage() {
     return (
         <Grid className={styles.NFTDetailsPage} container>
             <Grid container columnGap={5} rowGap={3}>
-                <Grid item sm={12} xs={12} md={12} lg={5}>
+                <Grid item sm={12} xs={12} md={5} lg={5}>
                     <Stack spacing={3}>
                         <ItemCard el={nft?.metadata} hideContent />
                         <CollapsibleSection title="Description">
@@ -65,7 +65,7 @@ function NFTDetailsPage() {
                         </CollapsibleSection>
                     </Stack>
                 </Grid>
-                <Grid item sm={12} xs={12} md={12} lg={6}>
+                <Grid item sm={12} xs={12} md={6} lg={6}>
                     <Stack spacing={3}>
                         <CollapsibleSection title="Price history">
                             This NFT has no description.
