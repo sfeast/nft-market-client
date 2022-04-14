@@ -12,7 +12,12 @@ export const notifications = {
             </a>
         </div>
     ),
-    mintingSuccess: 'Your NFT has been minted 👌',
+    mintingSuccess: route => (
+        <div>
+            Your NFT has been minted 👌 <br />
+            See it <a href={route}>here</a>
+        </div>
+    ),
     mintingFailed: 'Minting failed 🤯',
     saveToIpfsStarted: 'Metadata is saving to IPFS storage 😴',
     saveToIpfsSuccess: 'Metadata has been saved 👌',

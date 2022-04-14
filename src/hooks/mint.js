@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -10,15 +10,20 @@ import { notifications } from 'utils/helpers/notifications';
 
 export const useMint = () => {
     const deployState = useSelector(marketSelectors.selectDeployState);
-    const deployHash = useSelector(marketSelectors.selectDeployHash);
+    const deployDetails = useSelector(marketSelectors.selectDeployDetails);
     const previousDeployState = usePreviousState(deployState);
     const toastId = useRef();
+
+    const getItemPageRoute = useCallback(() => {
+        // TODO: replace with proper routing approach
+        return `https://localhost:3000/item_page/${deployDetails.contract}?id=${deployDetails.token_id}`;
+    }, [deployDetails]);
 
     useEffect(async () => {
         switch (true) {
             case !previousDeployState && deployState === DEPLOY_STATE.MINT: {
-                toastId.current = toast(notifications.mintingStarted(deployHash), {
-                    render: notifications.mintingStarted(deployHash),
+                toastId.current = toast(notifications.mintingStarted(deployDetails.hash), {
+                    render: notifications.mintingStarted(deployDetails.hash),
                     type: toast.TYPE.INFO,
                     autoClose: false,
                     closeOnClick: false,
@@ -30,12 +35,13 @@ export const useMint = () => {
                 deployState === DEPLOY_STATE.SUCCESS: {
                 toast.update(toastId.current, {
                     type: toast.TYPE.SUCCESS,
-                    render: notifications.mintingSuccess,
-                    autoClose: 3000,
+                    render: notifications.mintingSuccess(getItemPageRoute()),
+                    autoClose: false,
                     isLoading: false
                 });
                 break;
             }
+
             case previousDeployState === DEPLOY_STATE.MINT && deployState === DEPLOY_STATE.ERROR: {
                 toast.update(toastId.current, {
                     type: toast.TYPE.ERROR,
@@ -48,5 +54,5 @@ export const useMint = () => {
             default:
                 break;
         }
-    }, [deployState, deployHash]);
+    }, [deployState, deployDetails]);
 };

@@ -50,7 +50,7 @@ export const getDeploy = async (deployHash /*string*/) => {
         const [deploy, raw] = await getData(SERVER_ADDRESS + '/getDeploy', { hash: deployHash });
         if (raw.execution_results.length !== 0) {
             if (raw.execution_results[0].result.Success) {
-                return deploy;
+                return raw;
             } else {
                 const error = raw.execution_results[0].result.Failure.error_message;
                 throw Error('Contract execution: ' + error);
@@ -62,4 +62,18 @@ export const getDeploy = async (deployHash /*string*/) => {
         }
     }
     throw Error('Timeout after ' + i + "s. Something's wrong");
+};
+export const extractDeployDetails = deploy => {
+    try {
+        return {
+            token_id: deploy.session.StoredContractByHash.args.find(
+                item => item[0] === 'token_ids'
+            )[1].parsed[0],
+            contract: deploy.session.StoredContractByHash.hash
+        };
+    } catch (e) {
+        console.log('deploy details not found: ', e);
+        return null;
+    }
+    return null;
 };
