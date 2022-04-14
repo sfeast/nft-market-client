@@ -7,7 +7,6 @@ import ItemsGrid from 'components/ItemsGrid';
 import ItemsAside from 'components/ItemsPage/ItemsAside';
 import ItemsSort from 'components/ItemsPage/ItemsSort';
 import { StyledItemsPage } from 'components/ItemsPage/styled';
-import { items } from 'mock';
 import { nftActions } from 'store/actions';
 import { nftSelectors } from 'store/selectors';
 

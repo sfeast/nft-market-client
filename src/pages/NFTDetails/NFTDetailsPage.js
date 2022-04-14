@@ -10,7 +10,7 @@ import CollapsibleSection from 'components/shared/CollapsibleSection';
 import ItemCard from 'components/ItemCard';
 import { truncate } from 'utils/helpers/string';
 import { nftActions } from 'store/actions';
-import { items } from 'mock';
+import TokenPropertyDetails from './TokenPropertyDetails';
 
 import styles from './NFTDetailsPage.module.scss';
 
@@ -30,7 +30,7 @@ function NFTDetailsPage() {
                     <Stack spacing={3}>
                         <ItemCard el={nft?.metadata} hideContent />
                         <CollapsibleSection title="Description">
-                            <Typography>
+                            <Typography textAlign="center">
                                 {nft?.metadata?.description || 'This NFT has no description.'}
                             </Typography>
                         </CollapsibleSection>
@@ -42,7 +42,7 @@ function NFTDetailsPage() {
                                         <Typography fontSize={20}>Token ID</Typography>
                                     </Stack>
                                 </Grid>
-                                <Grid xs={5}>
+                                <Grid xs={5} display="flex" justifyContent="flex-end">
                                     <Stack spacing={1}>
                                         <div
                                             className={styles.contractHash}
@@ -61,7 +61,7 @@ function NFTDetailsPage() {
                             </Grid>
                         </CollapsibleSection>
                         <CollapsibleSection title="Properties">
-                            This NFT has no description.
+                            <TokenPropertyDetails tokenProps={nft?.metadata?.properties} />
                         </CollapsibleSection>
                     </Stack>
                 </Grid>
