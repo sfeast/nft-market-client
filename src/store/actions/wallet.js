@@ -20,7 +20,6 @@ export const connectionRequest = () => async () => {
 export const updateKey = () => async (dispatch, getState) => {
     const store = getState();
     const storedKey = walletSelectors.selectPublicKeyHash(store);
-
     try {
         const key = await Signer.getActivePublicKey();
         if (storedKey !== key) {
@@ -50,12 +49,10 @@ export const updateBalance = () => async (dispatch, getState) => {
     const publicKeyHash = walletSelectors.selectPublicKeyHash(store);
     const balance = await getData(SERVER_ADDRESS + '/getAccountBalance', { publicKeyHash });
 
-    if (balance) {
-        dispatch({
-            type: WALLET_ACTION_TYPES.SET_BALANCE,
-            payload: fromMotes(balance)
-        });
-    }
+    dispatch({
+        type: WALLET_ACTION_TYPES.SET_BALANCE,
+        payload: fromMotes(balance || 0) || 0
+    });
 };
 
 export const initialize = () => async dispatch => {

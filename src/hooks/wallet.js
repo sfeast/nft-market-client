@@ -16,8 +16,6 @@ export const useWallet = () => {
     }, []);
 
     useEffect(() => {
-        if (key) {
-            dispatch(walletActions.updateBalance());
-        }
+        dispatch(walletActions.updateBalance());
     }, [key]);
 };
