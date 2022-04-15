@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { CEP47Client } from 'casper-cep47-js-client';
 import { CasperClient, Contracts, RuntimeArgs, CLValueBuilder, CLByteArray } from 'casper-js-sdk';
 import { Buffer } from 'buffer';
