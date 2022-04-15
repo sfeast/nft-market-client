@@ -16,7 +16,6 @@ const Banner = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const featured = useSelector(nftSelectors.selectFeaturedResults)[0];
-    console.log(featured, 'featured');
 
     const onClickExplore = () => {
         navigate('/items');
