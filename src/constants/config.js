@@ -1,9 +1,7 @@
 import { inProduction } from 'utils/helpers/xchRequests';
 
 // TODO: move these values to .env files
-export const SERVER_ADDRESS = inProduction()
-    ? 'https://casper-nft-market.herokuapp.com'
-    : 'http://localhost:5000';
+export const SERVER_ADDRESS = inProduction() ? process.env.SERVER_ADDRESS : 'http://localhost:5000';
 
 export const ENVIRONMENT = {
     NODE_ADDRESS: 'http://95.216.67.162:7777/rpc',
@@ -11,19 +9,19 @@ export const ENVIRONMENT = {
 };
 
 export const NFT_CONTRACT = {
-    NAME: 'hackathon_nft_test_contract',
-    HASH: 'hash-9de2e5785c920c139d66bf6db7198b48019ddb6973dc3d13e61b9c12a76d45a1',
-    PACKAGE_HASH: 'hash-e38adbdaca505cbe435ede201f64771350d6f5a282510bd49df56c8424e946f3'
+    NAME: 'hackathon_nft_contract',
+    HASH: 'hash-b82baff7badcbd0066aaf84006a5b5c6159a81ca2f0daf937f5894739a3d6863',
+    PACKAGE_HASH: 'hash-fb1b716196827c6f6ffe76e1dd4d11dee2595436ae443ef6bf889f7c2c27d8ca'
 };
 
 export const MARKET_CONTRACT = {
     NAME: 'market_contract',
-    HASH: 'hash-ccdb2fab9f8cbb2416cb1227a7ffcbc35a33ae9f8059f5a637e4a2a92e766575',
-    PACKAGE_HASH: 'hash-bc6b9203fb9b07ff1e1e30b7eb2d870e39101feab82a6e4ff2e8f88bedf21a6d'
+    HASH: 'hash-02067ab5ddf5d5cace04fb622994ff562343bc27eb5d03c9ae3a951c018a55ed',
+    PACKAGE_HASH: 'hash-d0f060ce28fde52b867ed75700bd500de5396a4578e82aa324c16290ca1c6522'
 };
 
 // for NCTL environment
-// !!!!!!!!!Remember you must use a current key in signer for this to work (often clear nctl keys & settings)
+// !!!!!!!!!Remember you must use a current key in signer for this to work (often nctl keys & settings get cleared)
 // export const ENVIRONMENT = {
 // 	NODE_ADDRESS: 'http://localhost:11101/rpc',
 // 	CHAIN_NAME: 'casper-net-1'
