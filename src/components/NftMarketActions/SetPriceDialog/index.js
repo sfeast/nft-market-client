@@ -37,7 +37,7 @@ const SetPriceDialog = ({ open, onClose, onSubmit, onChange, max, value, title }
                 {max && (
                     <ContentItem name="Your balance" flex="2">
                         <Typography variant="subtitle2" fontWeight="bold">
-                            {getPrice(max)}
+                            {getPrice(max, 2)}
                         </Typography>
                     </ContentItem>
                 )}

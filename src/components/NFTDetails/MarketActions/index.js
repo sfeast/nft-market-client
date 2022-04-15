@@ -43,7 +43,7 @@ const MarketActions = ({ listed, owner, tokenId, price }) => {
             {!!price && (
                 <ContentItem name="Price" flex="2">
                     <Typography variant="h5" fontWeight="bold">
-                        {getPrice(price)}
+                        {getPrice(price, 2)}
                     </Typography>
                 </ContentItem>
             )}
