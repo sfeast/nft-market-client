@@ -17,8 +17,8 @@ export const useMarket = () => {
     useEffect(() => {
         switch (true) {
             case !previousDeployState && deployState === DEPLOY_STATE.APPROVE: {
-                toastId.current = toast(notifications.approvalStarted, {
-                    render: notifications.approvalStarted,
+                toastId.current = toast(notifications.approvalStarted(deployDetails.hash), {
+                    render: notifications.approvalStarted(deployDetails.hash),
                     type: toast.TYPE.INFO,
                     autoClose: false,
                     closeOnClick: false,
@@ -50,8 +50,8 @@ export const useMarket = () => {
             }
 
             case !previousDeployState && deployState === DEPLOY_STATE.LIST: {
-                toastId.current = toast(notifications.createListingStarted, {
-                    render: notifications.createListingStarted,
+                toastId.current = toast(notifications.createListingStarted(deployDetails.hash), {
+                    render: notifications.createListingStarted(deployDetails.hash),
                     type: toast.TYPE.INFO,
                     autoClose: false,
                     closeOnClick: false,
@@ -81,8 +81,8 @@ export const useMarket = () => {
             }
 
             case !previousDeployState && deployState === DEPLOY_STATE.CANCEL_LISTING: {
-                toastId.current = toast(notifications.cancelListingStarted, {
-                    render: notifications.cancelListingStarted,
+                toastId.current = toast(notifications.cancelListingStarted(deployDetails.hash), {
+                    render: notifications.cancelListingStarted(deployDetails.hash),
                     type: toast.TYPE.INFO,
                     autoClose: false,
                     closeOnClick: false,
@@ -114,8 +114,8 @@ export const useMarket = () => {
             }
 
             case !previousDeployState && deployState === DEPLOY_STATE.BUY_LISTING: {
-                toastId.current = toast(notifications.buyListingStarted, {
-                    render: notifications.buyListingStarted,
+                toastId.current = toast(notifications.buyListingStarted(deployDetails.hash), {
+                    render: notifications.buyListingStarted(deployDetails.hash),
                     type: toast.TYPE.INFO,
                     autoClose: false,
                     closeOnClick: false,
@@ -146,8 +146,8 @@ export const useMarket = () => {
             }
 
             case !previousDeployState && deployState === DEPLOY_STATE.MAKE_OFFER: {
-                toastId.current = toast(notifications.makeOfferStarted, {
-                    render: notifications.makeOfferStarted,
+                toastId.current = toast(notifications.makeOfferStarted(deployDetails.hash), {
+                    render: notifications.makeOfferStarted(deployDetails.hash),
                     type: toast.TYPE.INFO,
                     autoClose: false,
                     closeOnClick: false,
@@ -179,8 +179,8 @@ export const useMarket = () => {
             }
 
             case !previousDeployState && deployState === DEPLOY_STATE.WITHDRAW_OFFER: {
-                toastId.current = toast(notifications.withdrawOfferStarted, {
-                    render: notifications.withdrawOfferStarted,
+                toastId.current = toast(notifications.withdrawOfferStarted(deployDetails.hash), {
+                    render: notifications.withdrawOfferStarted(deployDetails.hash),
                     type: toast.TYPE.INFO,
                     autoClose: false,
                     closeOnClick: false,
@@ -211,8 +211,8 @@ export const useMarket = () => {
             }
 
             case !previousDeployState && deployState === DEPLOY_STATE.ACCEPT_OFFER: {
-                toastId.current = toast(notifications.acceptOfferStarted, {
-                    render: notifications.acceptOfferStarted,
+                toastId.current = toast(notifications.acceptOfferStarted(deployDetails.hash), {
+                    render: notifications.acceptOfferStarted(deployDetails.hash),
                     type: toast.TYPE.INFO,
                     autoClose: false,
                     closeOnClick: false,

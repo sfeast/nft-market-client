@@ -44,7 +44,7 @@ export const sendDeploy = async json => {
         });
 };
 
-export const getDeploy = async (deployHash /*string*/) => {
+export const getDeploy = async deployHash => {
     let i = 300;
     while (i != 0) {
         const [deploy, raw] = await getData(SERVER_ADDRESS + '/getDeploy', { hash: deployHash });

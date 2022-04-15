@@ -80,5 +80,6 @@
     "prettier": "^2.6.0",
     "prop-types": "^15.8.1",
     "redux-devtools-extension": "^2.13.9"
-  }
+  },
+  "homepage": "./"
 }
