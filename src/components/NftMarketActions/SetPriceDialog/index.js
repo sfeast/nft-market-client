@@ -14,7 +14,16 @@ import ContentItem from 'components/shared/ContentItem';
 import { TICKERS } from 'constants/config';
 import { getPrice } from 'utils/normalizers/nftItem';
 
-const SetPriceDialog = ({ open, onClose, onSubmit, onChange, max, value, title }) => {
+const SetPriceDialog = ({
+    open,
+    onClose,
+    onSubmit,
+    onChange,
+    max,
+    value,
+    title,
+    submitButtonTitle
+}) => {
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>{title}</DialogTitle>
@@ -49,7 +58,7 @@ const SetPriceDialog = ({ open, onClose, onSubmit, onChange, max, value, title }
                     variant="contained"
                     disabled={max ? Number(max) < Number(value) : false}
                 >
-                    List
+                    {submitButtonTitle}
                 </Button>
             </DialogActions>
         </Dialog>
@@ -62,7 +71,8 @@ SetPriceDialog.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     max: PropTypes.number,
-    value: PropTypes.number.isRequired
+    value: PropTypes.number.isRequired,
+    submitButtonTitle: PropTypes.string.isRequired
 };
 
 export default SetPriceDialog;

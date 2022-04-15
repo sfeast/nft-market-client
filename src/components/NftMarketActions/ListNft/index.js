@@ -64,6 +64,7 @@ const ListNft = ({ title, tokenId, listed, ...props }) => {
                 value={price}
                 onSubmit={onList}
                 title="List for sale"
+                submitButtonTitle="List"
             />
         </>
     );

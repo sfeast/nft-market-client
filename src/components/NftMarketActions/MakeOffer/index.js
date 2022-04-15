@@ -46,9 +46,9 @@ const MakeOffer = ({ tokenId, ...props }) => {
         <>
             <Button
                 onClick={onOpen}
-                variant="contained"
+                variant="outlined"
                 color="secondary"
-                sx={{ color: 'text.light', fontWeight: 'bold' }}
+                sx={{ fontWeight: 'bold' }}
                 {...props}
             >
                 Make offer
@@ -62,6 +62,7 @@ const MakeOffer = ({ tokenId, ...props }) => {
                 onSubmit={onMakeOffer}
                 max={balance}
                 title="Make you offer"
+                submitButtonTitle="Submit"
             />
         </>
     );
