@@ -118,6 +118,7 @@ function NFTDetailsPage() {
                 </Grid>
                 <Grid item sm={12} xs={12} md={6} lg={6}>
                     <Stack spacing={3}>
+                        {<Typography fontSize={32}>{nft?.metadata?.name}</Typography>}
                         {nft && (
                             <MarketActions
                                 tokenId={itemId}
