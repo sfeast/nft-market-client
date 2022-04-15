@@ -23,14 +23,14 @@ export const MARKET_CONTRACT = {
 // for NCTL environment
 // !!!!!!!!!Remember you must use a current key in signer for this to work (often clear nctl keys & settings)
 // export const ENVIRONMENT = {
-// 	NODE_ADDRESS: 'http://localhost:11101/rpc',
-// 	CHAIN_NAME: 'casper-net-1'
+//     NODE_ADDRESS: 'http://localhost:11101/rpc',
+//     CHAIN_NAME: 'casper-net-1'
 // };
 
 // export const NFT_CONTRACT = {
-// 	NAME: 'nft_contract_test_1',
-// 	HASH: 'hash-893df41fc9643fa47be74102f9b285b6b887dfeec39116fa83a66d1e51b822ec',
-// 	PACKAGE_HASH: 'hash-b56724868f78444699972ea0ec88a220909af2bc460af7916d0f1aed72d012e2'
+//     NAME: 'nft_contract_test_1',
+//     HASH: 'hash-893df41fc9643fa47be74102f9b285b6b887dfeec39116fa83a66d1e51b822ec',
+//     PACKAGE_HASH: 'hash-b56724868f78444699972ea0ec88a220909af2bc460af7916d0f1aed72d012e2'
 // };
 
 // export const MARKET_CONTRACT = {

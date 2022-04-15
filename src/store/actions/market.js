@@ -84,32 +84,13 @@ export const mint = (metaData, ipfs) => async (dispatch, getState) => {
     }
 };
 
-export const approveTransfer = token_id => async (dispatch, getState) => {
-    const store = getState();
-    const clPublicKey = walletSelectors.selectCLPublicKey(store);
-    const hex = Uint8Array.from(
-        Buffer.from(MARKET_CONTRACT.PACKAGE_HASH.replace('hash-', ''), 'hex')
-    );
-    const package_hash = new CLByteArray(hex);
-
-    try {
-        const deploy = await cep47.approve(
-            package_hash,
-            [token_id],
-            PAYMENT_AMOUNT.APPROVE,
-            clPublicKey
-        );
-
-        dispatch(executeDeploy(deploy, DEPLOY_STATE.APPROVE));
-    } catch (error) {
-        console.log(error);
-        alert(error);
-    }
-};
-
 export const list = (token_id, price) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
+
+    if (!(await dispatch(verifyTransferApproval(token_id)))) {
+        return;
+    }
 
     try {
         const runtimeArgs = RuntimeArgs.fromMap({
@@ -132,7 +113,6 @@ export const list = (token_id, price) => async (dispatch, getState) => {
         dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
     } catch (error) {
         console.log(error);
-        alert(error);
     }
 };
 
@@ -160,16 +140,12 @@ export const cancelListing = token_id => async (dispatch, getState) => {
         dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
     } catch (error) {
         console.log(error);
-        alert(error);
     }
 };
 
 export const buyListing = (token_id, price) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
-
-    // TODO: implement server side token listing price lookup? (or I think we'll already have it locally with nft item data)
-    // const price = await getListingPrice(token_id);
 
     try {
         const runtimeArgs = RuntimeArgs.fromMap({
@@ -196,9 +172,9 @@ export const buyListing = (token_id, price) => async (dispatch, getState) => {
 
         await dispatch(executeDeploy(deploy, DEPLOY_STATE.BUY_LISTING));
         dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
+        dispatch(walletActions.updateBalance());
     } catch (error) {
         console.log(error);
-        alert(error);
     }
 };
 
@@ -230,9 +206,9 @@ export const makeOffer = (token_id, price) => async (dispatch, getState) => {
         );
 
         dispatch(executeDeploy(deploy, DEPLOY_STATE.MAKE_OFFER));
+        dispatch(walletActions.updateBalance());
     } catch (error) {
         console.log(error);
-        alert(error);
     }
 };
 
@@ -257,15 +233,19 @@ export const withdrawOffer = token_id => async (dispatch, getState) => {
         );
 
         dispatch(executeDeploy(deploy, DEPLOY_STATE.WITHDRAW_OFFER));
+        dispatch(walletActions.updateBalance());
     } catch (error) {
         console.log(error);
-        alert(error);
     }
 };
 
 export const acceptOffer = (token_id, accepted_account) => async (dispatch, getState) => {
     const store = getState();
     const clPublicKey = walletSelectors.selectCLPublicKey(store);
+
+    if (!(await dispatch(verifyTransferApproval(token_id)))) {
+        return;
+    }
 
     try {
         const runtimeArgs = RuntimeArgs.fromMap({
@@ -285,10 +265,48 @@ export const acceptOffer = (token_id, accepted_account) => async (dispatch, getS
         );
 
         dispatch(executeDeploy(deploy, DEPLOY_STATE.ACCEPT_OFFER));
+        dispatch(walletActions.updateBalance());
     } catch (error) {
         console.log(error);
-        alert(error);
     }
+};
+
+export const approveTransfer = token_id => async (dispatch, getState) => {
+    const store = getState();
+    const clPublicKey = walletSelectors.selectCLPublicKey(store);
+    const hex = Uint8Array.from(
+        Buffer.from(MARKET_CONTRACT.PACKAGE_HASH.replace('hash-', ''), 'hex')
+    );
+    const package_hash = new CLByteArray(hex);
+
+    try {
+        const deploy = await cep47.approve(
+            package_hash,
+            [token_id],
+            PAYMENT_AMOUNT.APPROVE,
+            clPublicKey
+        );
+
+        await dispatch(executeDeploy(deploy, DEPLOY_STATE.APPROVE));
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const verifyTransferApproval = token_id => async dispatch => {
+    if (!(await dispatch(hasTransferApproval(token_id)))) {
+        await dispatch(approveTransfer(token_id));
+        return await dispatch(hasTransferApproval(token_id));
+    }
+    return true;
+};
+
+export const hasTransferApproval = token_id => async (dispatch, getState) => {
+    const store = getState();
+    const clPublicKey = walletSelectors.selectCLPublicKey(store);
+    const publicKeyHash = walletSelectors.selectPublicKeyHash(store);
+    const allowance = await getData(SERVER_ADDRESS + '/getAllowance', { publicKeyHash, token_id });
+    return allowance.replace('account-', '') === MARKET_CONTRACT.PACKAGE_HASH;
 };
 
 const getPaymentBinary = async () => {
