@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useMatch } from 'react-router';
+import { useMatch, useNavigate } from 'react-router';
 import cn from 'classnames';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
@@ -43,7 +43,9 @@ const resolutionStylesParams = {
 
 const Header = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const homePageMatch = useMatch('');
+    const itemPageMatch = useMatch('items');
     const { isSmallResolution } = useResolutionStyles(resolutionStylesParams);
 
     const scrolled = useScrollTrigger({
@@ -55,7 +57,15 @@ const Header = () => {
     const debouncedOnSearch = useCallbackDebounced(
         e => {
             const value = e.target.value;
-            dispatch(nftActions.textSearch(value));
+
+            if (itemPageMatch) {
+                dispatch(nftActions.textSearch(value));
+            } else {
+                navigate('/items');
+                setTimeout(() => {
+                    dispatch(nftActions.textSearch(value));
+                }, 500);
+            }
         },
         [dispatch],
         500
