@@ -8,7 +8,7 @@ ___
 3. `yarn` should be installed globally: `npm i yarn -g`.
 4. From the project root run `yarn` to install local dependencies 
 
-### Run the scripts
+### Run the project
 
 * Run `yarn start` to start dev. server
 * Check the http://localhost:3000
