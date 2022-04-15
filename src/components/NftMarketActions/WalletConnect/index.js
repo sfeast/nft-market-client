@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { StyledButton } from 'components/WalletConnect/styled';
+import Button from '@mui/material/Button';
+
 import { truncate } from 'utils/helpers/string';
 
 import { walletActions } from 'store/actions';
 import { walletSelectors } from 'store/selectors';
 
-const WalletConnect = () => {
+const WalletConnect = ({ title, ...props }) => {
     const dispatch = useDispatch();
     const key = useSelector(walletSelectors.selectPublicKeyHash);
-    const balance = useSelector(walletSelectors.selectBalance);
 
     const connect = e => {
         if (!key) {
@@ -18,15 +19,23 @@ const WalletConnect = () => {
     };
 
     return (
-        <StyledButton
+        <Button
             onClick={connect}
             variant="contained"
             color="secondary"
-            sx={{ color: 'text.light' }}
+            sx={{ color: 'text.light', fontWeight: 'bold' }}
+            {...props}
         >
-            {key ? truncate(key, 14) : 'Connect'}
-        </StyledButton>
+            {key ? truncate(key, 14) : title}
+        </Button>
     );
+};
+
+WalletConnect.propTypes = {
+    title: PropTypes.string
+};
+WalletConnect.defaultProps = {
+    title: 'Connect'
 };
 
 export default WalletConnect;

@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { marketSelectors } from 'store/selectors';
 
-import { DEPLOY_STATE } from 'constants/config';
+import { DEPLOY_STATE, NFT_CONTRACT } from 'constants/config';
 import { usePreviousState } from 'hooks/react';
 import { notifications } from 'utils/helpers/notifications';
 
@@ -14,12 +14,7 @@ export const useMint = () => {
     const previousDeployState = usePreviousState(deployState);
     const toastId = useRef();
 
-    const getItemPageRoute = useCallback(() => {
-        // TODO: replace with proper routing approach
-        return `https://localhost:3000/item_page/${deployDetails.contract}?id=${deployDetails.token_id}`;
-    }, [deployDetails]);
-
-    useEffect(async () => {
+    useEffect(() => {
         switch (true) {
             case !previousDeployState && deployState === DEPLOY_STATE.MINT: {
                 toastId.current = toast(notifications.mintingStarted(deployDetails.hash), {
@@ -33,11 +28,15 @@ export const useMint = () => {
             }
             case previousDeployState === DEPLOY_STATE.MINT &&
                 deployState === DEPLOY_STATE.SUCCESS: {
+                const contract = NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1]; // deployDetails.contract;
                 toast.update(toastId.current, {
                     type: toast.TYPE.SUCCESS,
-                    render: notifications.mintingSuccess(getItemPageRoute()),
+                    render: notifications.mintingSuccess(
+                        `items/${contract}/${deployDetails.token_id}`
+                    ),
                     autoClose: false,
-                    isLoading: false
+                    isLoading: false,
+                    closeOnClick: true
                 });
                 break;
             }

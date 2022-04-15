@@ -29,11 +29,9 @@ const Dropzone = ({ dropzoneOptions, onRemove, className, onChange, width, hintM
     );
 
     const onDropAccepted = useCallback(() => {
-        console.log('accepted');
         dropzoneOptions.onDropAccepted();
     }, []);
     const onDropRejected = useCallback((...args) => {
-        console.log('rejected');
         dropzoneOptions.onDropRejected(...args);
     }, []);
 

@@ -4,28 +4,27 @@ import { Route, Routes, Navigate, BrowserRouter } from 'react-router-dom';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import ErrorBoundary from 'components/ErrorBoundary';
-
-const ItemsPageLazy = lazy(() => import('pages/ItemsPage'));
-const NFTDetailsLazy = lazy(() => import('pages/NFTDetails'));
-const HomePageLazy = lazy(() => import('pages/HomePage'));
-const CreateItemPageLazy = lazy(() => import('pages/CreateItemPage'));
+import ToastContainer from 'components/ToastContainer';
+import NFTDetails from 'pages/NFTDetails';
+import ItemsPage from 'pages/ItemsPage';
+import HomePage from 'pages/HomePage';
+import CreateItemPage from 'pages/CreateItemPage';
 
 const Router = () => {
     return (
         <BrowserRouter>
             <Header />
             <ErrorBoundary>
-                <Suspense fallback={<div />}>
-                    <Routes>
-                        <Route path="/" element={<HomePageLazy />} />
-                        <Route path="items" element={<ItemsPageLazy />} />
-                        <Route path="items/:contract/:itemId" element={<NFTDetailsLazy />} />
-                        <Route path="create" element={<CreateItemPageLazy />} />
-                        <Route path="*" element={<Navigate to="/" replace />} />
-                    </Routes>
-                </Suspense>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="items" element={<ItemsPage />} />
+                    <Route path="items/:contract/:itemId" element={<NFTDetails />} />
+                    <Route path="create" element={<CreateItemPage />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
             </ErrorBoundary>
             <Footer />
+            <ToastContainer />
         </BrowserRouter>
     );
 };

@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start-build": "serve -s build",
-    "build": "rm -rf node_modules && rm -rf yarn.lock && yarn && yarn run prepare && yarn run prettify && react-scripts build",
+    "build": "rm -rf node_modules && rm -rf yarn.lock && yarn && yarn prepare && yarn prettify && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
@@ -54,9 +54,9 @@
     "casper-js-sdk": "^2.9.1",
     "classnames": "^2.3.1",
     "final-form": "^4.20.6",
-    "firebase": "^9.6.9",
     "ipfs-core": "^0.14.2",
     "lodash": "^4.17.21",
+    "moment": "^2.29.2",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -83,5 +83,6 @@
     "prettier": "^2.6.0",
     "prop-types": "^15.8.1",
     "redux-devtools-extension": "^2.13.9"
-  }
+  },
+  "homepage": "./"
 }

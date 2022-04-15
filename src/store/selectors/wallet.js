@@ -13,4 +13,9 @@ export const selectCLPublicKey = createSelector(
     key => key && CLPublicKey.fromHex(key)
 );
 
+export const selectAccountHash = createSelector(
+    selectCLPublicKey,
+    clPublicKey => clPublicKey?.toAccountHashStr().match(/account-hash-(.*)/)?.[1]
+);
+
 export const selectBalance = createSelector(selectWalletState, walletState => walletState.balance);

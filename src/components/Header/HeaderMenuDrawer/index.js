@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import { StyledSwipeableDrawer } from 'components/Header/HeaderMenuDrawer/styled';
 
-import WalletConnect from 'components/WalletConnect';
+import WalletConnect from 'components/NftMarketActions/WalletConnect';
 import LinkButton from 'components/shared/LinkButton';
 
 const HeaderMenuDrawer = () => {

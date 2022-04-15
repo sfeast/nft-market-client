@@ -16,7 +16,7 @@ export default function BasicTable({ headings, rows }) {
                 <TableHead>
                     <TableRow>
                         {headings.map(value => {
-                            return <TableCell align="center">{value}</TableCell>;
+                            return <TableCell>{value}</TableCell>;
                         })}
                     </TableRow>
                 </TableHead>
@@ -27,7 +27,7 @@ export default function BasicTable({ headings, rows }) {
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             {row.map(value => {
-                                return <TableCell align="center">{value}</TableCell>;
+                                return <TableCell>{value}</TableCell>;
                             })}
                         </TableRow>
                     ))}

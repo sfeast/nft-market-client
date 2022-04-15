@@ -2,7 +2,7 @@ import { WALLET_ACTION_TYPES } from 'store/actions/wallet';
 
 const initialState = {
     key: null,
-    balance: null
+    balance: 0
 };
 
 const WalletReducer = (state = initialState, action) => {
