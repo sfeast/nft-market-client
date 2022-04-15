@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
@@ -21,6 +21,7 @@ import { nftSelectors, walletSelectors } from 'store/selectors';
 
 import styles from 'pages/NFTDetails/NFTDetailsPage.module.scss';
 import { toast } from 'react-toastify';
+import { parseActivity } from 'utils/helpers/activity';
 
 const createData = records =>
     records.map(rowObj =>
@@ -60,6 +61,13 @@ function NFTDetailsPage() {
             rows: createData(data)
         };
     }, [nft?.offers, accountHash]);
+
+    const activityData = useMemo(() => {
+        if (nft?.activity) {
+            return parseActivity(nft?.activity);
+        }
+        return [];
+    }, [nft?.activity]);
 
     return (
         <Grid className={styles.NFTDetailsPage} container>
@@ -129,6 +137,14 @@ function NFTDetailsPage() {
                                 <Typography p={1} textAlign="center">
                                     This NFT has no offers.
                                 </Typography>
+                            )}
+                        </CollapsibleSection>
+                        <CollapsibleSection withoutPadding title="Activity">
+                            {!!activityData?.rows?.length && (
+                                <BasicTable
+                                    rows={activityData.rows}
+                                    headings={activityData.headings}
+                                />
                             )}
                         </CollapsibleSection>
                     </Stack>
