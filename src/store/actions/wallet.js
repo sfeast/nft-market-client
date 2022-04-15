@@ -47,6 +47,8 @@ export const updateKey = () => async (dispatch, getState) => {
 export const updateBalance = () => async (dispatch, getState) => {
     const store = getState();
     const publicKeyHash = walletSelectors.selectPublicKeyHash(store);
+    const publicKey = walletSelectors.selectCLPublicKey(store);
+
     const balance = await getData(SERVER_ADDRESS + '/getAccountBalance', { publicKeyHash });
 
     dispatch({

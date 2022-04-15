@@ -8,6 +8,11 @@ export const selectSearchResults = createSelector(selectNftState, nftState => nf
 
 export const selectSliceResults = createSelector(selectNftState, nftState => nftState.sliceResults);
 
+export const selectFeaturedResults = createSelector(
+    selectNftState,
+    nftState => nftState.featuredResults
+);
+
 export const selectSearchParameters = createSelector(
     selectNftState,
     nftState => nftState.searchParams
