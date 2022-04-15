@@ -152,11 +152,9 @@ export const applyFilters = filter => async (dispatch, getState) => {
     const params = {
         text: searchParams?.text ? searchParams.text : null,
         buyNow: filter.byNowStatus ? filter.byNowStatus : null, // seller listed
+        hasOffers: filter.hasOffersStatus ? filter.hasOffersStatus : null,
         age: filter.newStatus ? 7 : null, //# of days since creation
         price: getPriceRange(parseInt(filter.priceRangeFrom), parseInt(filter.priceRangeTo))
-
-        // these params not yet available
-        // hasOffers: hasOffersStatus,
         // liveAuction: liveAuctionStatus,
     };
     dispatch(search(emptyObject(params) ? null : params));
