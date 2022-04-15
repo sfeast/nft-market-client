@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start-build": "serve -s build",
-    "build": "rm -rf node_modules && rm -rf yarn.lock && yarn && yarn run prepare && yarn run prettify && react-scripts build",
+    "build": "rm -rf node_modules && rm -rf yarn.lock && yarn && yarn prepare && yarn prettify && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
