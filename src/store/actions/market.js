@@ -256,7 +256,7 @@ export const acceptOffer = (token_id, accepted_account) => async (dispatch, getS
             token_contract_hash: CLValueBuilder.string(
                 NFT_CONTRACT.HASH.replace('hash', 'contract')
             ),
-            accepted_offer: CLValueBuilder.string(accepted_account)
+            accepted_offer: CLValueBuilder.string(`account-hash-${accepted_account}`)
         });
 
         const deploy = await contract.callEntrypoint(

@@ -20,6 +20,7 @@ import { marketActions } from 'store/actions';
 import { nftSelectors, walletSelectors } from 'store/selectors';
 
 import styles from 'pages/NFTDetails/NFTDetailsPage.module.scss';
+import { toast } from 'react-toastify';
 
 const createData = records =>
     records.map(rowObj =>
@@ -83,7 +84,12 @@ function NFTDetailsPage() {
                                     <Stack spacing={1}>
                                         <div
                                             className={styles.contractHash}
-                                            onClick={() => navigator.clipboard.writeText(contract)}
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(contract);
+                                                toast.success('Copied to clipboard', {
+                                                    toastId: 'Copied to clipboard'
+                                                });
+                                            }}
                                         >
                                             <Typography fontSize={20} fontWeight="bold">
                                                 {truncate(contract, 10)}
@@ -114,7 +120,16 @@ function NFTDetailsPage() {
                             />
                         )}
                         <CollapsibleSection withoutPadding title="Offers">
-                            <BasicTable rows={offersData?.rows} headings={offersData?.headings} />
+                            {(offersData?.rows?.length && (
+                                <BasicTable
+                                    rows={offersData?.rows}
+                                    headings={offersData?.headings}
+                                />
+                            )) || (
+                                <Typography p={1} textAlign="center">
+                                    This NFT has no offers.
+                                </Typography>
+                            )}
                         </CollapsibleSection>
                     </Stack>
                 </Grid>
