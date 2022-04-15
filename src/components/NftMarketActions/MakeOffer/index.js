@@ -3,24 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputAdornment from '@mui/material/InputAdornment';
 
-import NumericInput from 'components/shared/NumericInput';
+import SetPriceDialog from 'components/NftMarketActions/SetPriceDialog';
 
 import { marketActions } from 'store/actions';
 import { walletSelectors } from 'store/selectors';
-import { TICKERS } from 'constants/config';
 
 const MakeOffer = ({ tokenId, ...props }) => {
     const dispatch = useDispatch();
     const key = useSelector(walletSelectors.selectPublicKeyHash);
+    const balance = useSelector(walletSelectors.selectBalance);
 
     const [isOpen, setIsOpen] = useState(false);
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState();
 
     useEffect(() => {
         if (isOpen && !key) {
@@ -28,17 +23,23 @@ const MakeOffer = ({ tokenId, ...props }) => {
         }
     }, [key, isOpen]);
 
-    const onOpen = e => {
+    const onOpen = () => {
         setIsOpen(true);
     };
 
     const onClose = () => {
         setIsOpen(false);
+        setPrice();
     };
 
     const onMakeOffer = () => {
         dispatch(marketActions.makeOffer(tokenId, price));
         setIsOpen(false);
+        setPrice();
+    };
+
+    const onChange = e => {
+        setPrice(e.target.value);
     };
 
     return (
@@ -53,31 +54,15 @@ const MakeOffer = ({ tokenId, ...props }) => {
                 Make offer
             </Button>
 
-            <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth="sm">
-                <DialogTitle>Make you offer</DialogTitle>
-                <DialogContent>
-                    <NumericInput
-                        autoFocus
-                        fullWidth
-                        type="number"
-                        margin="dense"
-                        id="name"
-                        label="Price"
-                        onChange={e => setPrice(e.target.value)}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">{TICKERS.cspr}</InputAdornment>
-                            )
-                        }}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={onMakeOffer} variant="contained">
-                        Submit
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <SetPriceDialog
+                open={isOpen}
+                onClose={onClose}
+                onChange={onChange}
+                value={price}
+                onSubmit={onMakeOffer}
+                max={balance}
+                title="Make you offer"
+            />
         </>
     );
 };

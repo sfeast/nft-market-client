@@ -1,7 +1,7 @@
 import { TICKERS } from 'constants/config';
 
 export const getPrice = price => {
-    return price ? `${price} ${TICKERS.cspr}` : '';
+    return price ? `${price.toFixed(2)} ${TICKERS.cspr}` : '';
 };
 
 export const getIPFSImage = uri => {
