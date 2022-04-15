@@ -1,7 +1,9 @@
 import { inProduction } from 'utils/helpers/xchRequests';
 
 // TODO: move these values to .env files
-export const SERVER_ADDRESS = inProduction() ? '' : 'http://localhost:5000';
+export const SERVER_ADDRESS = inProduction()
+    ? 'https://casper-nft-market.herokuapp.com'
+    : 'http://localhost:5000';
 
 export const ENVIRONMENT = {
     NODE_ADDRESS: 'http://95.216.67.162:7777/rpc',

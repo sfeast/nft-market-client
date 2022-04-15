@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { getData, postData } from 'utils/helpers/xchRequests';
 import { SERVER_ADDRESS, NFT_CONTRACT, SORT_OPTIONS } from 'constants/config';
 import { nftSelectors } from 'store/selectors';
@@ -152,11 +153,9 @@ export const applyFilters = filter => async (dispatch, getState) => {
     const params = {
         text: searchParams?.text ? searchParams.text : null,
         buyNow: filter.byNowStatus ? filter.byNowStatus : null, // seller listed
-        age: filter.newStatus ? 7 : null, //# of days since creation
+        hasOffers: filter.hasOffersStatus ? filter.hasOffersStatus : null,
+        age: filter.newStatus ? 7 : null, // # of days since creation
         price: getPriceRange(parseInt(filter.priceRangeFrom), parseInt(filter.priceRangeTo))
-
-        // these params not yet available
-        // hasOffers: hasOffersStatus,
         // liveAuction: liveAuctionStatus,
     };
     dispatch(search(emptyObject(params) ? null : params));
