@@ -7,7 +7,7 @@ const EVENT_TYPES_MESSAGES = {
     market_listing_purchased: event => `Listing purchased by ${truncate(event?.buyer, 10)}`,
     market_offer_created: event =>
         `Market offer created by ${truncate(event?.buyer, 10)} with a price ${event?.price} CSPR`,
-    market_offer_withdraw: event => `Offer withdraw`,
+    market_offer_withdraw: event => `Offer withdraw by ${truncate(event?.buyer, 10)}`,
     market_offer_accepted: event =>
         `Offer accepted by ${truncate(event?.seller, 10)} from ${truncate(
             event?.buyer,
