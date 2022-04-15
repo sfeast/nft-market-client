@@ -112,6 +112,6 @@ export const notifications = {
             </a>
         </div>
     ),
-    makeOfferSuccess: 'The offer has been accepted 💰',
-    makeOfferFailed: 'Accepting the offer failed 💣'
+    acceptOfferSuccess: 'The offer has been accepted 💰',
+    acceptOfferFailed: 'Accepting the offer failed 💣'
 };

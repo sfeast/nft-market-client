@@ -224,7 +224,7 @@ export const useMarket = () => {
                 deployState === DEPLOY_STATE.SUCCESS: {
                 toast.update(toastId.current, {
                     type: toast.TYPE.SUCCESS,
-                    render: notifications.makeOfferSuccess,
+                    render: notifications.acceptOfferSuccess,
                     autoClose: false,
                     isLoading: false,
                     closeOnClick: true
@@ -235,7 +235,7 @@ export const useMarket = () => {
                 deployState === DEPLOY_STATE.ERROR: {
                 toast.update(toastId.current, {
                     type: toast.TYPE.ERROR,
-                    render: notifications.makeOfferFailed,
+                    render: notifications.acceptOfferFailed,
                     autoClose: 3000,
                     isLoading: false
                 });

@@ -65,12 +65,25 @@ export const getDeploy = async (deployHash /*string*/) => {
 };
 export const extractDeployDetails = deploy => {
     try {
-        return {
-            token_id: deploy.session.StoredContractByHash.args.find(
-                item => item[0] === 'token_ids' || item[0] === 'token_id'
-            )[1].parsed[0],
-            contract: deploy.session.StoredContractByHash.hash
-        };
+        if (!deploy.session.StoredContractByHash) {
+            // contract install
+            return {
+                token_id: deploy.session.ModuleBytes.args.find(item => item[0] == 'token_id')[1]
+                    .parsed,
+                contract: deploy.session.ModuleBytes.args
+                    .find(item => item[0] == 'token_contract_hash')[1]
+                    .parsed.replace('contract-', '')
+            };
+        } else {
+            // contract deploy
+            return {
+                token_id: deploy.session.StoredContractByHash.args.find(
+                    item => item[0] === 'token_ids' || item[0] === 'token_id'
+                )[1].parsed[0],
+                contract: deploy.session.StoredContractByHash.hash
+            };
+        }
+        return null;
     } catch (e) {
         console.log('deploy details not found: ', e);
         return null;
