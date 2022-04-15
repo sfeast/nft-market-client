@@ -12,7 +12,14 @@ import ContentItem from 'components/shared/ContentItem';
 
 import { getPrice } from 'utils/normalizers/nftItem';
 
-const Actions = ({ walletKey, currentUserIsOwner, tokenId, listed, price }) => {
+const Actions = ({
+    walletKey,
+    currentUserIsOwner,
+    currentUserOfferPrice,
+    tokenId,
+    listed,
+    price
+}) => {
     if (!walletKey) {
         return <WalletConnect fullWidth title="Connect your wallet" />;
     }
@@ -25,15 +32,20 @@ const Actions = ({ walletKey, currentUserIsOwner, tokenId, listed, price }) => {
         return (
             <div style={{ display: 'grid', rowGap: 15 }}>
                 <BuyNow tokenId={tokenId} price={price} fullWidth />
-                <MakeOffer tokenId={tokenId} fullWidth variant="outlined" />
+                <MakeOffer
+                    tokenId={tokenId}
+                    fullWidth
+                    variant="outlined"
+                    currentUserOfferPrice={currentUserOfferPrice}
+                />
             </div>
         );
     }
     // else
-    return <MakeOffer tokenId={tokenId} fullWidth />;
+    return <MakeOffer tokenId={tokenId} fullWidth currentUserOfferPrice={currentUserOfferPrice} />;
 };
 
-const MarketActions = ({ listed, owner, tokenId, price }) => {
+const MarketActions = ({ listed, owner, tokenId, price, currentUserOfferPrice }) => {
     const key = useSelector(walletSelectors.selectPublicKeyHash);
     const accountHash = useSelector(walletSelectors.selectAccountHash);
     const currentUserIsOwner = accountHash === owner;
@@ -53,6 +65,7 @@ const MarketActions = ({ listed, owner, tokenId, price }) => {
                 listed={listed}
                 tokenId={tokenId}
                 price={price}
+                currentUserOfferPrice={currentUserOfferPrice}
             />
         </StyledMarketActions>
     );

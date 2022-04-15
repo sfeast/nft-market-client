@@ -206,7 +206,8 @@ export const makeOffer = (token_id, price) => async (dispatch, getState) => {
             ENVIRONMENT.CHAIN_NAME
         );
 
-        dispatch(executeDeploy(deploy, DEPLOY_STATE.MAKE_OFFER));
+        await dispatch(executeDeploy(deploy, DEPLOY_STATE.MAKE_OFFER));
+        dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
         dispatch(walletActions.updateBalance());
     } catch (error) {
         console.log(error);
@@ -233,7 +234,8 @@ export const withdrawOffer = token_id => async (dispatch, getState) => {
             PAYMENT_AMOUNT.DEPLOY
         );
 
-        dispatch(executeDeploy(deploy, DEPLOY_STATE.WITHDRAW_OFFER));
+        await dispatch(executeDeploy(deploy, DEPLOY_STATE.WITHDRAW_OFFER));
+        dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
         dispatch(walletActions.updateBalance());
     } catch (error) {
         console.log(error);
@@ -265,7 +267,8 @@ export const acceptOffer = (token_id, accepted_account) => async (dispatch, getS
             PAYMENT_AMOUNT.DEPLOY
         );
 
-        dispatch(executeDeploy(deploy, DEPLOY_STATE.ACCEPT_OFFER));
+        await dispatch(executeDeploy(deploy, DEPLOY_STATE.ACCEPT_OFFER));
+        dispatch(nftActions.loadNft(NFT_CONTRACT.PACKAGE_HASH.match(/hash-(.*)/)[1], token_id));
         dispatch(walletActions.updateBalance());
     } catch (error) {
         console.log(error);

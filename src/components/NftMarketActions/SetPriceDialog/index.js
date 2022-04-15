@@ -22,7 +22,8 @@ const SetPriceDialog = ({
     max,
     value,
     title,
-    submitButtonTitle
+    submitButtonTitle,
+    disabledInput
 }) => {
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -42,6 +43,7 @@ const SetPriceDialog = ({
                     error={max ? max < 0 || max < value : max < 0}
                     value={value}
                     max={max || undefined}
+                    disabled={disabledInput}
                 />
                 {max && (
                     <ContentItem name="Your balance" flex="2">
@@ -70,9 +72,14 @@ SetPriceDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    max: PropTypes.number,
     value: PropTypes.number.isRequired,
-    submitButtonTitle: PropTypes.string.isRequired
+    submitButtonTitle: PropTypes.string.isRequired,
+    max: PropTypes.number,
+    disabledInput: PropTypes.bool
+};
+SetPriceDialog.defaultProps = {
+    max: undefined,
+    disabledInput: false
 };
 
 export default SetPriceDialog;

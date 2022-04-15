@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
 
 import Typography from '@mui/material/Typography';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 import CollapsibleSection from 'components/shared/CollapsibleSection';
 import ItemCard from 'components/ItemCard';
@@ -14,59 +16,49 @@ import MarketActions from 'components/NFTDetails/MarketActions';
 import BasicTable from 'components/shared/BasicTable';
 
 import { truncate } from 'utils/helpers/string';
-import { nftActions } from 'store/actions';
-import { nftSelectors } from 'store/selectors';
+import { marketActions } from 'store/actions';
+import { nftSelectors, walletSelectors } from 'store/selectors';
 
 import styles from 'pages/NFTDetails/NFTDetailsPage.module.scss';
 
-const createData = records => records.map(rowObj => Object.keys(rowObj).map(key => rowObj[key]));
-
-// hardcoded values for the table
-const listingsTableData = {
-    headings: ['From', 'Start Date', 'Expiration', 'Price'],
-    rows: createData([
-        {
-            from: '42988...700C3',
-            startDate: '14/04/2022, 14:21:55',
-            expiration: '29/04/2022, 14:11:14',
-            price: '10'
-        },
-        {
-            from: '42988...700C3',
-            startDate: '14/04/2022, 14:21:55',
-            expiration: '29/04/2022, 14:11:14',
-            price: '10'
-        },
-        {
-            from: '42988...700C3',
-            startDate: '14/04/2022, 14:21:55',
-            expiration: '29/04/2022, 14:11:14',
-            price: '10'
-        }
-    ])
-};
-
-const offersData = {
-    headings: ['Price', 'Expiration', 'From'],
-    rows: createData([
-        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: '22085...b0e1C' },
-        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: 'B6B65...14554' },
-        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: '27004...bCC1D' }
-    ])
-};
-
-const priceHistory = {
-    headings: ['Price', 'Expiration', 'From'],
-    rows: createData([
-        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: '22085...b0e1C' },
-        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: 'B6B65...14554' },
-        { price: '42988...700C3', expiration: '29/04/2022, 14:11:14', from: '27004...bCC1D' }
-    ])
-};
+const createData = records =>
+    records.map(rowObj =>
+        Object.keys(rowObj)
+            .filter(key => !!key)
+            .map(key => rowObj[key])
+    );
 
 function NFTDetailsPage() {
     const { contract, itemId } = useParams();
+    const dispatch = useDispatch();
     const nft = useSelector(nftSelectors.selectCurrentItem);
+    const accountHash = useSelector(walletSelectors.selectAccountHash);
+    const currentUserIsOwner = accountHash === nft?.owner;
+
+    const handleAcceptOffer = useCallback(
+        (tokenId, accepted_account) => {
+            dispatch(marketActions.acceptOffer(tokenId, accepted_account));
+        },
+        [dispatch, marketActions.acceptOffer]
+    );
+
+    const offersData = useMemo(() => {
+        const data = Object.keys(nft?.offers || {}).map(key => ({
+            ...nft?.offers[key],
+            timestamp: moment(nft?.offers[key]?.timestamp).format('MMMM Do YYYY, h:mm:ss a'),
+            from: truncate(key, 10),
+            renderOffer: currentUserIsOwner && (
+                <Button variant="outlined" onClick={() => handleAcceptOffer(nft?.token_id, key)}>
+                    Accept
+                </Button>
+            )
+        }));
+
+        return {
+            headings: ['Price', 'Offer date', 'From', ' '],
+            rows: createData(data)
+        };
+    }, [nft?.offers, accountHash]);
 
     return (
         <Grid className={styles.NFTDetailsPage} container>
@@ -112,23 +104,17 @@ function NFTDetailsPage() {
                 </Grid>
                 <Grid item sm={12} xs={12} md={6} lg={6}>
                     <Stack spacing={3}>
-                        <MarketActions
-                            tokenId={itemId}
-                            price={nft.listing?.price}
-                            owner={nft.owner}
-                            listed={Boolean(nft.listing)}
-                        />
-                        <CollapsibleSection withoutPadding title="Price history">
-                            <BasicTable rows={priceHistory.rows} headings={priceHistory.headings} />
-                        </CollapsibleSection>
-                        <CollapsibleSection withoutPadding title="Listings">
-                            <BasicTable
-                                rows={listingsTableData.rows}
-                                headings={listingsTableData.headings}
+                        {nft && (
+                            <MarketActions
+                                tokenId={itemId}
+                                price={nft.listing?.price}
+                                owner={nft.owner}
+                                listed={Boolean(nft.listing)}
+                                currentUserOfferPrice={nft.offers?.[accountHash]?.price}
                             />
-                        </CollapsibleSection>
+                        )}
                         <CollapsibleSection withoutPadding title="Offers">
-                            <BasicTable rows={offersData.rows} headings={offersData.headings} />
+                            <BasicTable rows={offersData?.rows} headings={offersData?.headings} />
                         </CollapsibleSection>
                     </Stack>
                 </Grid>

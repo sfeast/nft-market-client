@@ -9,7 +9,7 @@ import SetPriceDialog from 'components/NftMarketActions/SetPriceDialog';
 import { marketActions } from 'store/actions';
 import { walletSelectors } from 'store/selectors';
 
-const MakeOffer = ({ tokenId, ...props }) => {
+const MakeOffer = ({ tokenId, currentUserOfferPrice, ...props }) => {
     const dispatch = useDispatch();
     const key = useSelector(walletSelectors.selectPublicKeyHash);
     const balance = useSelector(walletSelectors.selectBalance);
@@ -38,6 +38,12 @@ const MakeOffer = ({ tokenId, ...props }) => {
         setPrice();
     };
 
+    const onWithdrawOffer = () => {
+        dispatch(marketActions.withdrawOffer(tokenId));
+        setIsOpen(false);
+        setPrice();
+    };
+
     const onChange = e => {
         setPrice(e.target.value);
     };
@@ -51,25 +57,30 @@ const MakeOffer = ({ tokenId, ...props }) => {
                 sx={{ fontWeight: 'bold' }}
                 {...props}
             >
-                Make offer
+                {currentUserOfferPrice ? 'Withdraw offer' : 'Make offer'}
             </Button>
 
             <SetPriceDialog
                 open={isOpen}
                 onClose={onClose}
                 onChange={onChange}
-                value={price}
-                onSubmit={onMakeOffer}
-                max={balance}
-                title="Make you offer"
-                submitButtonTitle="Submit"
+                value={currentUserOfferPrice || price}
+                onSubmit={currentUserOfferPrice ? onWithdrawOffer : onMakeOffer}
+                max={currentUserOfferPrice ? undefined : balance}
+                disabledInput={Boolean(currentUserOfferPrice)}
+                title={currentUserOfferPrice ? 'Withdraw my offer' : 'Make my offer'}
+                submitButtonTitle={currentUserOfferPrice ? 'Withdraw' : 'Submit'}
             />
         </>
     );
 };
 
 MakeOffer.propTypes = {
-    tokenId: PropTypes.number.isRequired
+    tokenId: PropTypes.number.isRequired,
+    currentUserOfferPrice: PropTypes.number
+};
+MakeOffer.propTypes = {
+    currentUserOfferPrice: undefined
 };
 
 export default MakeOffer;
