@@ -51,7 +51,6 @@
     "casper-js-sdk": "^2.9.1",
     "classnames": "^2.3.1",
     "final-form": "^4.20.6",
-    "firebase": "^9.6.9",
     "ipfs-core": "^0.14.2",
     "lodash": "^4.17.21",
     "node-polyfill-webpack-plugin": "^1.1.4",
