@@ -14,3 +14,8 @@
 @mixin mobile-small-down {
   @media (max-width: calc(#{$dimension-mobile-small} - 1px)) { @content; }
 }
+
+// [0 - 1023]
+@mixin desktop-down {
+  @media (max-width: calc(#{$breakpoint-desktop-medium} - 1px)) { @content; }
+}

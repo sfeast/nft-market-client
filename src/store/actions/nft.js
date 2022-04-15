@@ -12,7 +12,8 @@ export const NFT_ACTION_TYPES = {
     UPDATE_SORT_ORDER: 'UPDATE_SORT_ORDER',
     SLICE_SEARCH_STARTED: 'SLICE_SEARCH_STARTED',
     SLICE_SEARCH_SUCCESS: 'SLICE_SEARCH_SUCCESS',
-    SLICE_SEARCH_FAILED: 'SLICE_SEARCH_FAILED'
+    FEATURED_SEARCH_STARTED: 'FEATURED_SEARCH_STARTED',
+    FEATURED_SEARCH_SUCCESS: 'FEATURED_SEARCH_SUCCESS'
 };
 
 export const loadNft = (contract, token_id) => async dispatch => {
@@ -63,6 +64,25 @@ export const getSliceResults = length => async dispatch => {
 
         dispatch({
             type: NFT_ACTION_TYPES.SLICE_SEARCH_SUCCESS,
+            payload: Array.isArray(results) ? results : []
+        });
+    } catch (err) {
+        dispatch({
+            type: NFT_ACTION_TYPES.SEARCH_FAILED
+        });
+    }
+};
+
+export const getFeaturedResult = () => async dispatch => {
+    dispatch({
+        type: NFT_ACTION_TYPES.FEATURED_SEARCH_STARTED
+    });
+
+    try {
+        const results = await postData(SERVER_ADDRESS + '/search', { featured: true });
+
+        dispatch({
+            type: NFT_ACTION_TYPES.FEATURED_SEARCH_SUCCESS,
             payload: Array.isArray(results) ? results : []
         });
     } catch (err) {

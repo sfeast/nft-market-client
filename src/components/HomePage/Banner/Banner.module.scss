@@ -1,0 +1,28 @@
+@import "src/styles/mixins";
+@import "src/styles/tokens";
+
+.card {
+  max-width: 600px;
+  @include desktop-down {
+    max-width: 500px;
+  }
+  @include mobile-down {
+    max-width: 360px;
+  }
+  @include mobile-small-down {
+    max-width: 300px;
+  }
+}
+
+.title {
+  font-size: 34px;
+  @include desktop-down {
+    font-size: 32px;
+  }
+  @include mobile-down {
+    font-size: 30px;
+  }
+  @include mobile-small-down {
+    font-size: 28px;
+  }
+}

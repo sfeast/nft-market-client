@@ -5,6 +5,7 @@ const initialState = {
     item: false,
     results: [],
     sliceResults: [],
+    featuredResults: [],
     searchParams: null,
     loading: false,
     sortOrder: SORT_OPTIONS.NEW_TO_OLD
@@ -52,6 +53,7 @@ const NFTReducer = (state = initialState, action) => {
                 ...action.payload
             };
         }
+        case NFT_ACTION_TYPES.FEATURED_SEARCH_STARTED:
         case NFT_ACTION_TYPES.SLICE_SEARCH_STARTED: {
             return {
                 ...state,
@@ -68,6 +70,13 @@ const NFTReducer = (state = initialState, action) => {
         case NFT_ACTION_TYPES.SLICE_SEARCH_FAILED: {
             return {
                 ...state,
+                loading: false
+            };
+        }
+        case NFT_ACTION_TYPES.FEATURED_SEARCH_SUCCESS: {
+            return {
+                ...state,
+                featuredResults: action.payload,
                 loading: false
             };
         }
