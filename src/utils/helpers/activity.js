@@ -21,7 +21,7 @@ const EVENT_TYPES_MESSAGES = {
 
 export const parseActivity = data => {
     const sortedKeys = Object.keys(data).sort(
-        (a, b) => moment(data[a].timestamp).valueOf() - moment(data[b].timestamp).valueOf()
+        (a, b) => moment(data[b].timestamp).valueOf() - moment(data[a].timestamp).valueOf()
     );
     const rows = sortedKeys.map(key => {
         return [
