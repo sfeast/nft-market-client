@@ -43,8 +43,12 @@ const Banner = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <StyledText className={styles.title} variant="h4" sx={{ color: 'text.light' }}>
-                        An NFT happy place 🌈
+                    <StyledText
+                        className={styles.title}
+                        variant="h4"
+                        sx={{ color: 'text.light', textAlign: 'center', lineHeight: '1.3em' }}
+                    >
+                        The NFT happy place 🌈
                     </StyledText>
                     <StyledBannerButtons>
                         <Button variant="contained" color="primary" onClick={onClickExplore}>

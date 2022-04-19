@@ -1,44 +1,20 @@
-import { inProduction } from 'utils/helpers/xchRequests';
-
-// TODO: move these values to .env files
-export const SERVER_ADDRESS = inProduction() ? process.env.SERVER_ADDRESS : 'http://localhost:5000';
+export const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
 export const ENVIRONMENT = {
-    NODE_ADDRESS: 'http://95.216.67.162:7777/rpc',
-    CHAIN_NAME: 'casper-test'
+    NODE_ADDRESS: process.env.REACT_APP_CASPER_NODE_ADDRESS,
+    CHAIN_NAME: process.env.REACT_APP_CASPER_CHAIN_NAME
 };
 
 export const NFT_CONTRACT = {
-    NAME: 'hackathon_nft_contract',
-    HASH: 'hash-b82baff7badcbd0066aaf84006a5b5c6159a81ca2f0daf937f5894739a3d6863',
-    PACKAGE_HASH: 'hash-fb1b716196827c6f6ffe76e1dd4d11dee2595436ae443ef6bf889f7c2c27d8ca'
+    HASH: process.env.REACT_APP_NFT_CONTRACT_HASH,
+    PACKAGE_HASH: process.env.REACT_APP_NFT_CONTRACT_PACKAGE_HASH
 };
 
 export const MARKET_CONTRACT = {
-    NAME: 'market_contract',
-    HASH: 'hash-02067ab5ddf5d5cace04fb622994ff562343bc27eb5d03c9ae3a951c018a55ed',
-    PACKAGE_HASH: 'hash-d0f060ce28fde52b867ed75700bd500de5396a4578e82aa324c16290ca1c6522'
+    HASH: process.env.REACT_APP_MARKET_CONTRACT_HASH,
+    PACKAGE_HASH: process.env.REACT_APP_MARKET_CONTRACT_PACKAGE_HASH
 };
-
-// for NCTL environment
-// !!!!!!!!!Remember you must use a current key in signer for this to work (often nctl keys & settings get cleared)
-// export const ENVIRONMENT = {
-// 	NODE_ADDRESS: 'http://localhost:11101/rpc',
-// 	CHAIN_NAME: 'casper-net-1'
-// };
-
-// export const NFT_CONTRACT = {
-// 	NAME: 'nft_contract_test_1',
-// 	HASH: 'hash-893df41fc9643fa47be74102f9b285b6b887dfeec39116fa83a66d1e51b822ec',
-// 	PACKAGE_HASH: 'hash-b56724868f78444699972ea0ec88a220909af2bc460af7916d0f1aed72d012e2'
-// };
-
-// export const MARKET_CONTRACT = {
-//     NAME: 'nft_contract_test_1',
-//     HASH: 'hash-e9ddf68fcf551da741d37cf3e5d229f4f48db8303d282278bcdf82d2469786cb',
-//     PACKAGE_HASH: 'hash-7ead7247e05f3f3922147c6545968c1ab1b48fd8e28a704e45ad8af0bc63d5fe'
-// };
-
+debugger;
 export const PAYMENT_AMOUNT = {
     DEPLOY: '7000000000',
     INSTALL: '9000000000',
