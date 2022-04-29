@@ -14,7 +14,7 @@ export const MARKET_CONTRACT = {
     HASH: process.env.REACT_APP_MARKET_CONTRACT_HASH,
     PACKAGE_HASH: process.env.REACT_APP_MARKET_CONTRACT_PACKAGE_HASH
 };
-debugger;
+
 export const PAYMENT_AMOUNT = {
     DEPLOY: '7000000000',
     INSTALL: '9000000000',

@@ -31,20 +31,40 @@ const casperClient = new CasperClient(ENVIRONMENT.NODE_ADDRESS);
 const contract = new Contracts.Contract(casperClient);
 contract.setContractHash(MARKET_CONTRACT.HASH, MARKET_CONTRACT.PACKAGE_HASH);
 
-const loadMetaDataToIPFS = async (metaData, ipfs) => {
+const loadMetaDataToIPFS = async metaData => {
     try {
-        const { cid: imageCID } = await ipfs.add({
-            path: metaData.image.name,
-            content: metaData.image
-        });
-        const { cid: metadataCID } = await ipfs.add(
-            JSON.stringify({ ...metaData, image: `ipfs://${imageCID.toString()}` })
-        );
+        const formData = new FormData();
+        formData.append('file', metaData.image);
+        const { IpfsHash: imageCID } = await fetch(
+            'https://api.pinata.cloud/pinning/pinFileToIPFS',
+            {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    pinata_api_key: '13bc2790bd7fd6eca42b',
+                    pinata_secret_api_key:
+                        '7d3dcd42e2f38b333ce82308262fdb94678f20e4680980d87c0cd70a45d639bf'
+                }
+            }
+        ).then(res => res.json());
+
+        const { IpfsHash: metadataCID } = await fetch(
+            'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+            {
+                method: 'POST',
+                body: JSON.stringify({ ...metaData, image: `ipfs://${imageCID}` }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    pinata_api_key: '13bc2790bd7fd6eca42b',
+                    pinata_secret_api_key:
+                        '7d3dcd42e2f38b333ce82308262fdb94678f20e4680980d87c0cd70a45d639bf'
+                }
+            }
+        ).then(res => res.json());
 
         toast.info(notifications.saveToIpfsSuccess);
 
         return {
-            imageCID,
             metadataCID
         };
     } catch (err) {

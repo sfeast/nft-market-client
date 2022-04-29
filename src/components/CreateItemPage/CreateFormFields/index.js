@@ -19,7 +19,6 @@ import {
 
 import { getFieldError, validators } from 'utils/helpers/form';
 import { getBytes } from 'utils/helpers/calculations';
-import { useIpfsContext } from 'context/ipfs';
 import { marketSelectors } from 'store/selectors';
 import { ACCEPTED_MIME_TYPES, DEPLOY_STATE } from 'constants/config';
 
@@ -27,7 +26,6 @@ const ACCEPTED_MIME_TYPES_ARRAY = Object.values(ACCEPTED_MIME_TYPES);
 
 const CreateFormFields = ({ handleSubmit }) => {
     const form = useForm();
-    const ipfs = useIpfsContext();
     const deployState = useSelector(marketSelectors.selectDeployState);
 
     // fields
@@ -59,7 +57,6 @@ const CreateFormFields = ({ handleSubmit }) => {
 
     const submitButtonIsDisabled =
         deployState === DEPLOY_STATE.MINT ||
-        !ipfs ||
         !nameField.input.value ||
         !imageField.input.value ||
         !!externalLinkFieldError ||
@@ -68,9 +65,6 @@ const CreateFormFields = ({ handleSubmit }) => {
 
     const getButtonTitle = () => {
         switch (true) {
-            case !ipfs: {
-                return 'Please, wait..';
-            }
             case deployState === DEPLOY_STATE.MINT: {
                 return 'Your NFT item is minting. Please wait..';
             }

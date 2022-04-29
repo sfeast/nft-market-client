@@ -9,7 +9,6 @@ import Divider from 'components/shared/Divider';
 import { StyledCreateItemPage } from 'components/CreateItemPage/styled';
 
 import { marketActions } from 'store/actions';
-import { useIpfsContext } from 'context/ipfs';
 
 const initialValues = {
     image: '',
@@ -21,13 +20,12 @@ const initialValues = {
 
 const CreateItemPage = props => {
     const dispatch = useDispatch();
-    const ipfs = useIpfsContext();
 
     const onSubmit = useCallback(
         metaData => {
-            dispatch(marketActions.mint(metaData, ipfs));
+            dispatch(marketActions.mint(metaData));
         },
-        [dispatch, ipfs]
+        [dispatch]
     );
 
     return (
