@@ -33,6 +33,14 @@ contract.setContractHash(MARKET_CONTRACT.HASH, MARKET_CONTRACT.PACKAGE_HASH);
 
 const loadMetaDataToIPFS = async metaData => {
     try {
+        const metaDataProcessToast = toast.info(notifications.saveToIpfsStarted, {
+            render: notifications.saveToIpfsStarted,
+            type: toast.TYPE.INFO,
+            autoClose: false,
+            closeOnClick: false,
+            isLoading: true
+        });
+
         const formData = new FormData();
         formData.append('file', metaData.image);
         const { IpfsHash: imageCID } = await fetch(
@@ -62,7 +70,13 @@ const loadMetaDataToIPFS = async metaData => {
             }
         ).then(res => res.json());
 
-        toast.info(notifications.saveToIpfsSuccess);
+        toast.update(metaDataProcessToast, {
+            type: toast.TYPE.SUCCESS,
+            render: notifications.saveToIpfsSuccess,
+            autoClose: true,
+            closeOnClick: true,
+            isLoading: false
+        });
 
         return {
             metadataCID
